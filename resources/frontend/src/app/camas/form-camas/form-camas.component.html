@@ -1,0 +1,110 @@
+<h1 mat-dialog-title><span *ngIf="camas.id">Editar</span> <span *ngIf="!camas.id">Nueva</span> Cama</h1>
+<div mat-dialog-content>
+    <div class="form-container" [formGroup]="camaForm">
+        <div class="form-loading-shade" *ngIf="isLoading"><mat-spinner *ngIf="isLoading"></mat-spinner></div>
+
+        <div class="form-loading-shade" *ngIf="!isLoading && !camas">No se encontraron los datos de las camas</div>
+        <br>
+
+        <div fxLayout.gt-sm="row" fxLayout="column" fxLayoutGap.gt-sm="10px">
+
+            <!-- (keypress)="numberOnly($event)" -->
+
+            <mat-form-field appearance="fill" fxFlex>
+                <input matInput (keypress)="numberOnly($event)" id="numero_cama" placeholder="Numero/Descripción de Cama" formControlName="numero">
+                <mat-error *ngIf="camaForm.get('numero').invalid && (camaForm.get('numero').dirty || camaForm.get('numero').touched)">
+                    <span *ngIf="camaForm.get('numero').errors.required">El nombre es obligatorio</span>
+                </mat-error>
+            </mat-form-field>
+
+            
+            <mat-form-field appearance="fill" fxFlex="80%">
+                <input matInput id="folio" formControlName="folio" placeholder="Folio de la Cama" required>
+                <mat-error *ngIf="camaForm.get('folio').invalid && (camaForm.get('folio').dirty || camaForm.get('folio').touched)">
+                    <span *ngIf="camaForm.get('folio').errors.required">El nombre es obligatorio</span>
+                </mat-error>
+            </mat-form-field>
+
+        </div>
+
+        <div fxLayout.gt-sm="row" fxLayout="column" fxLayoutGap.gt-sm="10px">
+
+            <mat-form-field appearance="fill" fxFlex>
+                <textarea matInput id="descripcion" formControlName="descripcion" placeholder="Descripción" required></textarea>
+                <mat-error *ngIf="camaForm.get('descripcion').invalid && (camaForm.get('descripcion').dirty || camaForm.get('descripcion').touched)">
+                    <span *ngIf="camaForm.get('descripcion').errors.required">El nombre es obligatorio</span>
+                </mat-error>
+            </mat-form-field>
+
+        </div>
+
+        <div fxLayout.gt-sm="row" fxLayout="column" fxLayoutGap.gt-sm="10px">
+
+            <mat-form-field appearance="fill" fxFlex>
+                <mat-label>Tipo de Cama: </mat-label>
+                <mat-select formControlName="tipo_cama">
+                    <mat-option value="Censable">CENSABLE</mat-option>
+                    <mat-option value="No Censable">NO CENSABLE</mat-option>
+                </mat-select>
+            </mat-form-field>
+
+        </div>
+
+        <div fxLayout.gt-sm="row" fxLayout="column" fxLayoutGap.gt-sm="10px">
+
+            <mat-form-field appearance="fill" fxFlex *ngIf="!catalogos['servicios']">
+                <mat-label>Servicio: </mat-label>
+                <input matInput formControlName="servicio_id">
+                <mat-hint>Escribe el nombre del Servicio</mat-hint>
+                <mat-error *ngIf="camaForm.get('servicio_id').hasError('required')">Este campo es obligatorio</mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="fill" fxFlex *ngIf="catalogos['servicios']">
+                <mat-label>Servicio: </mat-label>
+                <input type="text" aria-label="servicio" matInput formControlName="servicio_id" [matAutocomplete]="servicioAutocomplete" required>
+                <mat-autocomplete #servicioAutocomplete="matAutocomplete" [displayWith]="getDisplayFn('nombre')" >
+                    <mat-option *ngFor="let item of filteredCatalogs['servicios'] | async" [value]="item">
+                        {{item.nombre}}
+                    </mat-option>
+                </mat-autocomplete>
+                <mat-hint *ngIf="!camaForm.get('servicio_id').value">Selecciona un Servicio de la lista</mat-hint>
+                <!-- <mat-hint align="end" *ngIf="camaForm.get('servicio_id').value">Servicio: [{{camaForm.get('servicio_id').value}}]</mat-hint> -->
+                <mat-error *ngIf="camaForm.get('servicio_id').hasError('required')">Este campo es obligatorio</mat-error>
+            </mat-form-field>
+
+        </div>
+
+        <div fxLayout.gt-sm="row" fxLayout="column" fxLayoutGap.gt-sm="10px">
+
+            <mat-form-field appearance="fill" fxFlex *ngIf="!catalogos['estatus_cama']">
+                <mat-label>Estatus de la cama: </mat-label>
+                <input matInput formControlName="estatus_cama_id">
+                <mat-hint>Escribe el nombre del Servicio</mat-hint>
+                <mat-error *ngIf="camaForm.get('estatus_cama_id').hasError('required')">Este campo es obligatorio</mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="fill" fxFlex *ngIf="catalogos['estatus_cama']">
+                <mat-label>Estatus de la cama: </mat-label>
+                <input type="text" aria-label="servicio" matInput formControlName="estatus_cama_id" [matAutocomplete]="estatusCamasAutocomplete" required>
+                <mat-autocomplete #estatusCamasAutocomplete="matAutocomplete" [displayWith]="getDisplayFn('nombre')" >
+                    <mat-option *ngFor="let item of filteredCatalogs['estatus_cama'] | async" [value]="item">
+                        {{item.nombre}}
+                    </mat-option>
+                </mat-autocomplete>
+                <mat-hint *ngIf="!camaForm.get('estatus_cama_id').value">Selecciona un Servicio de la lista</mat-hint>
+                <!-- <mat-hint align="end" *ngIf="camaForm.get('estatus_cama_id').value">Descripción: [{{camaForm.get('estatus_cama_id').value}}]</mat-hint> -->
+                <mat-error *ngIf="camaForm.get('estatus_cama_id').hasError('required')">Este campo es obligatorio</mat-error>
+            </mat-form-field>
+
+        </div>
+
+
+
+    </div>
+</div>
+<mat-divider></mat-divider>
+<div mat-dialog-actions>
+    <span fxFlex></span>
+    <button mat-button (click)='onNoClick()'>Cancelar</button>
+    <button mat-raised-button (click)="saveServicio()" color="primary" [disabled]="camaForm.invalid || isLoading"><mat-icon>save</mat-icon> Guardar</button>
+</div>

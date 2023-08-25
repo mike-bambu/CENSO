@@ -1,0 +1,136 @@
+<mat-progress-bar color="accent" mode="indeterminate" style="margin-bottom: 1em;" *ngIf="isLoading"></mat-progress-bar>
+
+<mat-card>
+    <mat-card-title fxLayout="column" fxLayoutAlign="space-evenly center">
+        <h2>
+            <mat-icon>assignment</mat-icon>&nbsp;
+            Ocupación de Camas por Servicio:
+        </h2>
+        
+        <div fxLayout="row">
+            <a mat-raised-button color="primary" routerLink="/camas" matTooltip="Consultas, Filtros y Listado de Camas por Servicio" *ngIf="!isLoading">&nbsp;<mat-icon>receipt_long</mat-icon> Ir a Consultas y Reportes</a>
+        </div>
+    </mat-card-title>
+    <br>
+    <h1 class="hospitalizacion">
+        <mat-icon>hotel</mat-icon>&nbsp;
+        Servicios de Hospitalización:
+    </h1>
+
+    <mat-grid-list [cols]="breakpoint" #grid rowHeight="315px" gutterSize="15px" (window:resize)="onResize($event)">
+        <mat-grid-tile *ngFor="let servicios of TotalServiciosCamas; let i = index">
+            <mat-card class="settings-card">
+                <mat-card-title>
+                    {{ servicios.nombre_servicio }}
+                </mat-card-title>
+                <mat-card-content>
+                    <div>
+                        <span class="cardLabel">Total de Camas Activadas por Servicio:</span>
+                        <span class="padRight"> {{ servicios.total_camas }}</span>
+                    </div>
+
+                    <div *ngFor="let estatus_servicio of TotalCamasPorEstatus; let j = index">
+                        <div *ngIf="servicios.servicio_id == estatus_servicio.servicio_id">
+                            <span class="cardLabel">Total por Estatus:</span>
+                            <span class="padRight"> {{ estatus_servicio.nombre_estatus }} : {{ estatus_servicio.total_camas_por_estaus }}</span>
+                        </div>
+                    </div>
+
+                    <div *ngFor="let disponibilidad of camas_servicio_disponibles; let i = index">
+
+                        <div *ngFor="let ocupadas of camas_servicio_ocupadas; let j = index">
+
+                            <div *ngIf="disponibilidad.servicio_id == ocupadas.servicio_id && servicios.servicio_id == ocupadas.servicio_id">
+
+                                <mat-progress-bar
+                                    class="progress"
+                                    style="width: 75%;"
+                                    mode="determinate"
+                                    value="{{ ocupadas.total_camas_por_estaus * 100 / servicios.total_camas }}"
+                                ></mat-progress-bar>
+                                <div class="barText">{{ decimalNumber(this.ocupadas.total_camas_por_estaus * 100 / servicios.total_camas) }}%</div>
+                                <span class="barStatus">Ocupación</span>
+
+                            </div>
+
+
+
+                        </div>
+
+                    </div>
+
+                    <!-- <div *ngFor="let disponibilidad of camas_servicio_disponibles; let j = index">
+                        <div *ngIf="servicios.servicio_id == disponibilidad.servicio_id && disponibilidad.nombre_estatus == 'Ocupada' ">
+                            <mat-progress-bar
+                                class="progress"
+                                style="width: 75%;"
+                                mode="determinate"
+                                value="{{ (servicios.servicio_id == disponibilidad.servicio_id) ? disponibilidad.total_camas_por_estaus * 100 / servicios.total_camas : '' }}"
+                            ></mat-progress-bar>
+                            <div class="barText">{{ (servicios.servicio_id == disponibilidad.servicio_id) ? (disponibilidad.total_camas_por_estaus * 100 / servicios.total_camas | number : '1.0-1') : ''}}%</div>
+                            <span class="barStatus">Ocupación</span>
+                        </div>
+                    </div> -->
+
+                </mat-card-content>
+            </mat-card>
+        </mat-grid-tile>
+    </mat-grid-list>
+    <br>
+    <h1 class="emergencia">
+        <mat-icon>local_hospital</mat-icon>&nbsp;
+        Servicios Ambulatorios:
+    </h1>
+    <mat-grid-list [cols]="breakpoint" #grid rowHeight="315px" gutterSize="15px" (window:resize)="onResize($event)">
+        <mat-grid-tile *ngFor="let servicios of TotalServiciosCamasAmbulatorios; let i = index">
+            <mat-card class="settings-card">
+                <mat-card-title>
+                    {{ servicios.nombre_servicio }}
+                </mat-card-title>
+                <mat-card-content>
+                    <div>
+                        <span class="cardLabel">Total de Camas Activadas por Servicio:</span>
+                        <!-- <span class="padRight"> {{ servicios.total_camas }}</span> -->
+                        <span class="padRight"> {{ servicios.total_camas }}</span>
+                    </div>
+
+                    <div *ngFor="let estatus_servicio of TotalCamasPorEstatusAmbulatorios; let j = index">
+                        <div *ngIf="servicios.servicio_id == estatus_servicio.servicio_id">
+                            <span class="cardLabel">Total por Estatus:</span>
+                            <span class="padRight"> {{ estatus_servicio.nombre_estatus }} : {{ estatus_servicio.total_camas_por_estatus }}</span>
+                        </div>
+                    </div>
+
+                </mat-card-content>
+                <div *ngFor="let estatus_servicio of TotalCamasPorEstatusAmbulatorios; let j = index">
+
+                    <div *ngFor="let disponibilidad of TotalAmbulatorias; let x = index">
+                        <div *ngIf="disponibilidad.nombre_servicio == servicios.nombre_servicio && estatus_servicio.servicio_id == disponibilidad.servicio_id">
+
+                            <mat-progress-bar
+                                class="progress"
+                                style="width: 75%;"
+                                mode="determinate"
+                                value="{{ estatus_servicio.total_camas_por_estatus * 100 / servicios.total_camas }}"
+                            ></mat-progress-bar>
+                            <div class="barText">{{ decimalNumber(this.estatus_servicio.total_camas_por_estatus * 100 / servicios.total_camas) }}%</div>
+                            <span class="barStatus">Ocupación</span>
+
+                        </div>
+                    </div>
+
+                </div>
+
+
+            </mat-card>
+        </mat-grid-tile>
+    </mat-grid-list>
+
+
+
+</mat-card>
+
+
+
+
+

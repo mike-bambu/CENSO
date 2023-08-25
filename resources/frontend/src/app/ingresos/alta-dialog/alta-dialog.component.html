@@ -1,0 +1,218 @@
+<div class="form-loading-shade" *ngIf="isLoading"><mat-spinner *ngIf="isLoading"></mat-spinner></div>
+<div class="form-loading-shade" *ngIf="!isLoading && !paciente">No se encontraron los datos del Paciente</div>
+
+<!-- <div fxLayout.gt-sm="row" fxLayout="column" fxLayoutGap.gt-sm="10px">
+    <h2 fxFlex><mat-icon>assignment_ind</mat-icon> Información del Paciente: </h2>
+</div> -->
+
+<div>
+
+    <div class="form-container">
+
+        <!-- <div fxLayout.gt-sm="row" fxLayout="column" fxLayoutGap.gt-sm="10px">
+            
+            <mat-form-field fxFlex appearance="fill">
+                <mat-label>Folio del Paciente: </mat-label>
+                <input matInput value="{{paciente.folio_paciente}}" placeholder="Folio del Paciente" readonly>
+            </mat-form-field>
+    
+            <mat-form-field fxFlex appearance="fill">
+                <mat-label>N° Expediente: </mat-label>
+                <input matInput value="{{paciente.numero_expediente}}" placeholder="N° de Expediente" readonly>
+    
+            </mat-form-field>
+    
+        </div>
+
+        <div *ngIf="paciente.esDesconocido == 1" fxLayout.gt-sm="row" fxLayout="column" fxLayoutGap.gt-sm="10px">
+
+            <mat-form-field appearance="fill" fxFlex>
+                <mat-label>Alias: </mat-label>
+                <input matInput id="nombre"  value="{{paciente.alias}}" placeholder="Alias" readonly>
+            </mat-form-field>
+
+            <mat-form-field fxFlex appearance="fill">
+                <mat-label>Identidad: </mat-label>
+                <input matInput value="{{(paciente.esDesconocido == 1) ? 'DESCONOCIDA' :'N/A'}}" readonly>
+            </mat-form-field>
+    
+            <mat-form-field fxFlex appearance="fill">
+                <mat-label>Sexo: </mat-label>
+                <input matInput value="{{ paciente.sexo }} " readonly>
+            </mat-form-field>
+
+        </div>
+
+        <div *ngIf="paciente.esDesconocido == 0" fxLayout.gt-sm="row" fxLayout="column" fxLayoutGap.gt-sm="10px">
+
+            <mat-form-field fxFlex="75%" appearance="fill">
+                <mat-label>Nombre: </mat-label>
+                <input matInput value="{{ paciente.nombre }} {{ paciente.paterno }} {{ paciente.materno }}" readonly>
+            </mat-form-field>
+    
+            <mat-form-field fxFlex appearance="fill">
+                <mat-label>Edad: </mat-label>
+                <input matInput value="{{ paciente.edad }} Años" readonly>
+            </mat-form-field>
+    
+            <mat-form-field fxFlex appearance="fill">
+                <mat-label>Fecha de Nacimiento: </mat-label>
+                <input matInput value="{{ paciente.fecha_nacimiento | date: 'dd/MM/yyyy' }}" readonly>
+            </mat-form-field>
+    
+        </div>
+
+        <div *ngIf="paciente.esExtranjero == 0" fxLayout.gt-sm="row" fxLayout="column" fxLayoutGap.gt-sm="10px">
+
+            <mat-form-field fxFlex appearance="fill">
+                <mat-label>CURP: </mat-label>
+                <input matInput value="{{(paciente.curp != null) ? paciente.curp : 'NO ASIGNADO'}}" readonly>
+            </mat-form-field>
+    
+        </div> -->
+
+        <div [formGroup]="pacienteForm">
+        <!-- <div [formGroup]="pacienteForm" *ngIf="this.pacienteForm.controls['ultima_atencion'].get('esAmbulatoria').value == 1"> -->
+
+            <!-- <div fxLayout.gt-sm="row" fxLayout="column" fxLayoutGap.gt-sm="10px">
+                <h2 fxFlex><mat-icon>local_hospital</mat-icon>&nbsp;Atención Ambulatoria:
+                </h2>
+            </div>
+
+
+            <div fxLayout.gt-sm="row" fxLayout="column" fxLayoutGap.gt-sm="10px" formGroupName="ultima_atencion">
+
+                <mat-form-field fxFlex="45%" appearance="fill">
+                    <mat-label>Folio de la Atención: </mat-label>
+                    <input matInput  formControlName="folio_atencion" readonly>
+                </mat-form-field>
+
+                <mat-form-field fxFlex appearance="fill">
+                    <mat-label>Fecha de la Atención: </mat-label>
+                    <input matInput [value]="this.pacienteForm.controls['ultima_atencion'].get('fecha_inicio_atencion').value | date: 'dd/MM/yyyy'" readonly>
+                </mat-form-field>
+
+                <mat-form-field fxFlex appearance="fill">
+                    <mat-label>Hora de la Atención: </mat-label>
+                    <input matInput  formControlName="hora" readonly>
+                </mat-form-field>
+        
+            </div>
+
+            <div fxLayout.gt-sm="row" fxLayout="column" fxLayoutGap.gt-sm="10px" formGroupName="ultima_atencion">
+
+
+                <mat-form-field fxFlex appearance="fill">
+                    <mat-label>Motivo de la Atención: </mat-label>
+                    <textarea matInput id="indicaciones" formControlName="motivo_atencion" placeholder="Motivo de la Atencion" readonly></textarea>
+                </mat-form-field>
+
+
+                <mat-form-field fxFlex appearance="fill">
+                    <mat-label>Observaciones: </mat-label>
+                    <textarea matInput id="indicaciones" formControlName="indicaciones" placeholder="Observaciones" readonly></textarea>
+                </mat-form-field>             
+
+            </div> -->
+
+            <div  formGroupName="alta">
+
+                <div fxLayout.gt-sm="row" fxLayout="column" fxLayoutGap.gt-sm="10px">
+                    <h2 fxFlex><mat-icon>accessible_forward</mat-icon>&nbsp;Alta/Egreso Ambulatorio:
+                    </h2>
+                </div>
+
+                <div fxLayout.gt-sm="row" fxLayout="column" fxLayoutGap.gt-sm="10px">
+                    
+                    <mat-form-field fxFlex appearance="fill">
+                        <mat-label>Folio del Alta/Egreso: </mat-label>
+                        <input matInput  formControlName="folio_alta" readonly>
+                    </mat-form-field>
+
+                    
+                    <mat-form-field appearance="fill" fxFlex>
+
+                        <mat-label>Fecha del Alta/Egreso: </mat-label>
+                        <input matInput [min]="minDate" [max]="maxDate" [matDatepicker]="picker2" formControlName="fecha_alta" placeholder="Fecha de Nacimiento" readonly>
+                        <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                        <mat-datepicker #picker2></mat-datepicker>
+
+                        <mat-error *ngIf="pacienteForm.controls['alta'].get('fecha_alta').invalid && (pacienteForm.controls['alta'].get('fecha_alta').dirty || pacienteForm.controls['alta'].get('fecha_alta').touched)">
+                            <span *ngIf="pacienteForm.controls['alta'].get('fecha_alta').errors.required">La Fecha del Alta/Egreso es obligatoria</span>
+                        </mat-error>
+
+                    </mat-form-field>
+
+                </div>
+
+
+                <div fxLayout.gt-sm="row" fxLayout="column" fxLayoutGap.gt-sm="10px">
+
+                    <mat-form-field fxFlex appearance="fill"  *ngIf="!catalogos['estados_actuales']">
+                        <mat-label>Estado de Salud Actual:</mat-label>
+                        <input matInput formControlName="estado_actual_id">
+                        <mat-hint>Escribe el nombre del Estado de Salud Actual</mat-hint>
+                        <mat-error *ngIf="pacienteForm.controls['alta'].get('estado_actual_id').hasError('required')">Este campo es obligatorio</mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field fxFlex appearance="fill" *ngIf="catalogos['estados_actuales']">
+                        <mat-label>Estado de Salud Actual:</mat-label>
+                        <input type="text" aria-label="estado_actual_id" matInput formControlName="estado_actual_id" [matAutocomplete]="estadoActualAutocomplete" required >
+                        <mat-autocomplete #estadoActualAutocomplete="matAutocomplete" [displayWith]="getDisplayFn('nombre')">
+                            <mat-option *ngFor="let item of filteredCatalogs['estados_actuales'] | async" [value]="item">
+                                {{item.nombre}}
+                            </mat-option>
+                        </mat-autocomplete>
+                        <mat-hint *ngIf="!pacienteForm.controls['alta'].get('estado_actual_id').value">Selecciona un Estado de Salud Actual de la lista</mat-hint>
+                        <mat-hint align="end" *ngIf="pacienteForm.controls['alta'].get('estado_actual_id').value">Nombre: [{{pacienteForm.controls['alta'].get('estado_actual_id').value.nombre}}]</mat-hint>
+                        <mat-error *ngIf="pacienteForm.controls['alta'].get('estado_actual_id').hasError('required')">Este campo es obligatorio</mat-error>
+                    </mat-form-field>
+
+
+                    <mat-form-field fxFlex appearance="fill"  *ngIf="!catalogos['motivos_egresos']">
+                        <mat-label>Motivo del Alta/Egreso:</mat-label>
+                        <input matInput formControlName="motivo_egreso_id">
+                        <mat-hint>Escribe el nombre del Motivo del Alta/Egreso</mat-hint>
+                        <mat-error *ngIf="pacienteForm.controls['alta'].get('motivo_egreso_id').hasError('required')">Este campo es obligatorio</mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field fxFlex appearance="fill" *ngIf="catalogos['motivos_egresos']">
+                        <mat-label>Motivo del Alta/Egreso:</mat-label>
+                        <input type="text" aria-label="motivo_egreso_id" matInput formControlName="motivo_egreso_id" [matAutocomplete]="estadoActualAutocomplete" required >
+                        <mat-autocomplete #estadoActualAutocomplete="matAutocomplete" [displayWith]="getDisplayFn('nombre')">
+                            <mat-option *ngFor="let item of filteredCatalogs['motivos_egresos'] | async" [value]="item">
+                                {{item.nombre}}
+                            </mat-option>
+                        </mat-autocomplete>
+                        <mat-hint *ngIf="!pacienteForm.controls['alta'].get('motivo_egreso_id').value">Selecciona un Motivo del Alta/Egreso de la lista</mat-hint>
+                        <mat-hint align="end" *ngIf="pacienteForm.controls['alta'].get('motivo_egreso_id').value">Nombre: [{{pacienteForm.controls['alta'].get('motivo_egreso_id').value.nombre}}]</mat-hint>
+                        <mat-error *ngIf="pacienteForm.controls['alta'].get('motivo_egreso_id').hasError('required')">Este campo es obligatorio</mat-error>
+                    </mat-form-field>
+
+
+                </div>
+
+                <div fxLayout.gt-sm="row" fxLayout="column" fxLayoutGap.gt-sm="10px">
+
+                    <mat-form-field fxFlex appearance="fill">
+                        <mat-label>Observaciones del Alta/Egreso: </mat-label>
+                        <textarea matInput id="indicaciones" formControlName="observaciones" placeholder="Observaciones"></textarea>
+                    </mat-form-field> 
+
+
+                </div>
+
+
+
+            </div>
+
+        </div>
+        
+    </div>
+</div>
+<mat-divider></mat-divider>
+<div mat-dialog-actions>
+    <span fxFlex></span>
+    <button mat-button (click)='onNoClick()'>Cancelar</button>
+    <button mat-raised-button (click)="savePaciente()" color="primary" [disabled]="pacienteForm.invalid || isLoading"><mat-icon>save</mat-icon> Guardar</button>
+</div>

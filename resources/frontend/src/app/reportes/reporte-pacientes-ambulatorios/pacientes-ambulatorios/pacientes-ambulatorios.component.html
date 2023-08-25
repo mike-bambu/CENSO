@@ -1,0 +1,288 @@
+<br>
+<section class="profile" >
+    <div fxLayout="row" fxLayoutAlign="space-evenly center">
+        <section fxFlex="95" fxLayout="column" fxLayoutAlign="center">
+            <div class="data-loading-shade" *ngIf="isLoading"><mat-spinner></mat-spinner></div>
+            <mat-card fxFlex.xs="100%" fxFlex="90%">
+                <div fxLayout="row" fxLayout.xs="column">
+                    <div fxFlex fxLayout="row wrap">
+                        <mat-form-field fxFill appearance="outline">
+                            <mat-label>Buscar por: Nombre, Alias, N° de Expediente, Celular, Teléfono... </mat-label>
+                            <input matInput class="uppercase" [(ngModel)]="searchQuery" (keyup.escape)="cleanSearch()" (keyup.enter)="applyFilter()" placeholder="Buscar por: Nombre, Alias, N° de Expediente, Celular, Teléfono...">
+                            <button matSuffix *ngIf="searchQuery" mat-icon-button (click)="cleanSearch()" [attr.aria-label]="'Clean Query'" [attr.aria-pressed]="'cleanQuery'">
+                                <mat-icon>close</mat-icon>
+                            </button>
+                            <mat-hint><mat-slide-toggle #showAdvancedFilter (change)="toggleAdvancedFilter(showAdvancedFilter.checked)">Filtro Avanzado</mat-slide-toggle></mat-hint>
+                        </mat-form-field>
+                    </div>
+                    <div fxFlex="none" fxFlex.xs="100" *ngIf="!showAdvancedFilter.checked" [@buttonInOut]>
+                        <div fxFlex></div>
+                        <section class="search-button">
+                            <button mat-raised-button color="accent" (click)="applyFilter()">
+                                <mat-icon>search</mat-icon> Buscar
+                            </button>
+                        </section>
+                    </div>
+                </div>
+            </mat-card>
+            <mat-divider [inset]="true"></mat-divider>
+            <mat-accordion class="advanced-filter-container">
+                <mat-expansion-panel #advancedFilter  class="advanced-filter" [formGroup]="filterForm">
+                    <br>
+
+                    <div fxLayout.gt-sm="row" fxLayout="column" fxLayoutGap.gt-sm="10px">
+                        <mat-form-field appearance="fill" fxFlex>
+                            <mat-label>N° de Expediente: </mat-label>
+                            <input matInput id="numero_expediente" placeholder="N° de Expediente" formControlName="numero_expediente">
+                            <mat-error>Campo Requerido</mat-error>
+                        </mat-form-field>
+                    </div>
+
+                    <div fxLayout.gt-sm="row" fxLayout="column" fxLayoutGap.gt-sm="10px">
+    
+                        <mat-form-field appearance="fill" fxFlex>
+                            <mat-label>Fecha de Ingreso (Desde): </mat-label>
+                            <input matInput [min]="minDate" [max]="maxDate" [matDatepicker]="picker1" formControlName="fecha_inicio" placeholder="Fecha de Ingreso (Desde)" readonly>
+                            <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                            <mat-datepicker #picker1></mat-datepicker>
+                        </mat-form-field>
+
+                        <mat-form-field appearance="fill" fxFlex>
+                            <mat-label>Fecha de Ingreso (Hasta): </mat-label>
+                            <input matInput [min]="minDate" [max]="maxDate" [matDatepicker]="picker2" formControlName="fecha_fin" placeholder="Fecha de Ingreso (Hasta)" readonly>
+                            <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                            <mat-datepicker #picker2></mat-datepicker>
+                        </mat-form-field>
+
+                    </div>
+
+                    <div fxLayout.gt-sm="row" fxLayout="column" fxLayoutGap.gt-sm="10px">
+    
+                        <!-- <mat-form-field appearance="fill" fxFlex  *ngIf="!catalogos['servicios']">
+                            <mat-label>Servicio: </mat-label>
+                            <input #serv matInput formControlName="servicio_id">
+                            <mat-hint>Escribe el nombre del Servicio</mat-hint>
+                        </mat-form-field>
+    
+                        <mat-form-field appearance="fill" fxFlex *ngIf="catalogos['servicios']">
+                            <mat-label>Servicio: </mat-label>
+                            <input type="text" aria-label="servicio_id" matInput formControlName="servicio_id" [matAutocomplete]="servicioAutocomplete">
+                            <mat-autocomplete #servicioAutocomplete="matAutocomplete" [displayWith]="getDisplayFn('nombre')" [panelWidth]="'auto'" (optionSelected)="agregarServicio($event);">
+                                <mat-option *ngFor="let item of filteredCatalogs['servicios'] | async" [value]="item">
+                                    <mat-checkbox color="primary"></mat-checkbox>
+                                    {{item.nombre}}
+                                </mat-option>
+                            </mat-autocomplete>
+
+                            <mat-hint *ngIf="!filterForm.get('servicio_id').value">Selecciona un Servicio de la lista </mat-hint>
+                            <mat-hint align="end" *ngIf="filterForm.get('servicio_id').value">({{filterForm.get('servicio_id').value.nombre}}).</mat-hint>
+                        </mat-form-field> -->
+
+                        <mat-form-field appearance="fill" fxFlex  *ngIf="!catalogos['servicios']">
+                            <mat-label>Servicio: </mat-label>
+                            <input matInput formControlName="servicio_id">
+                            <mat-hint>Escribe el nombre del Servicio</mat-hint>
+                        </mat-form-field>
+
+                        <mat-form-field appearance="fill" fxFlex *ngIf="catalogos['servicios']">
+
+                            <mat-label>Servicio: </mat-label>
+                            <input 
+                                matInput
+                                #servicioInput
+                                formControlName="servicio_id"
+                                [matAutocomplete]="servicioAutocomplete"
+                                [matChipInputFor]="chipListServicios"
+                                [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                                [matChipInputAddOnBlur]="addOnBlur"
+                                (matChipInputTokenEnd)="addServicio($event)"
+                            >
+
+                            <mat-autocomplete #servicioAutocomplete="matAutocomplete" [displayWith]="getDisplayFn('nombre')" [panelWidth]="'auto'" (optionSelected)="selectedServicio($event)">
+                                <mat-option *ngFor="let item of filteredCatalogs['servicios'] | async" [value]="item">
+                                    {{item.nombre}}
+                                </mat-option>
+                            </mat-autocomplete>
+
+                            <mat-hint *ngIf="!filterForm.get('servicio_id').value">Selecciona un Servicio de la lista </mat-hint>
+                            <!-- <mat-hint align="end" *ngIf="filterForm.get('servicio_id').value">({{filterForm.get('servicio_id').value.nombre}}).</mat-hint> -->
+
+                        </mat-form-field>
+
+                        <mat-form-field appearance="fill" fxFlex>
+                            <mat-label>N° ó Descripción de la Cama: </mat-label>
+                            <input matInput id="numero_cama" placeholder="Número de Cama ó Descripción" formControlName="numero_cama">
+                            <mat-error>Campo Requerido</mat-error>
+                        </mat-form-field>
+
+                    </div>
+
+                    <div fxLayout.gt-sm="row" fxLayout="column" fxLayoutGap.gt-sm="10px">
+
+                        <mat-form-field appearance="fill" fxFlex  *ngIf="!catalogos['estados_actuales']">
+                            <mat-label>Estado Actual de Salud: </mat-label>
+                            <input matInput formControlName="estado_actual_id">
+                            <mat-hint>Escribe el nombre del Estado Actual de Salud</mat-hint>
+                        </mat-form-field>
+    
+                        <mat-form-field appearance="fill" fxFlex *ngIf="catalogos['estados_actuales']">
+                            <mat-label>Estado Actual de Salud: </mat-label>
+                            <input type="text" aria-label="municipio" matInput formControlName="estado_actual_id" [matAutocomplete]="servicioAutocomplete">
+                            <mat-autocomplete #servicioAutocomplete="matAutocomplete" [displayWith]="getDisplayFn('nombre')">
+                                <mat-option *ngFor="let item of filteredCatalogs['estados_actuales'] | async" [value]="item">
+                                    {{item.nombre}}
+                                </mat-option>
+                            </mat-autocomplete>
+                            <mat-hint *ngIf="!filterForm.get('estado_actual_id').value">Selecciona un Estado Actual de Salud de la lista </mat-hint>
+                            <mat-hint align="end" *ngIf="filterForm.get('estado_actual_id').value">({{filterForm.get('estado_actual_id').value.nombre}}).</mat-hint>
+                        </mat-form-field>
+
+                    </div>
+
+
+
+                    
+                    <div fxLayout="row wrap">
+                        <div fxFlex></div>
+                        <div fxFlex="none">
+                            <button mat-flat-button (click)="filterForm.reset(); clearServicios();">
+                                Limpiar
+                            </button>
+                        </div>
+                        <div fxFlex="none">
+                            <button mat-raised-button color="accent" (click)="applyFilter()">
+                                <mat-icon>search</mat-icon> Aplicar
+                            </button>
+                        </div>
+                    </div>
+                </mat-expansion-panel>
+            </mat-accordion>
+            
+            <mat-card fxFlex.xs="100%" fxFlex="90%">
+
+                <div fxLayout="row" fxLayout.xs="column" style="padding-bottom:10px;">
+
+                    <div fxFlex>
+                        <mat-chip-list aria-label="Fish selection">
+                            <mat-chip *ngFor="let item of filterChips; let i = index" [disabled]="!item.active" [removable]="true" (removed)="removeFilterChip(item,i)" matTooltip="{{item.tooltip}}" [matTooltipPosition]="'above'">
+                                {{item.tag}}
+                                <mat-icon matChipRemove>cancel</mat-icon>
+                            </mat-chip>
+                        </mat-chip-list>
+
+                        <mat-chip-list aria-label="Fish selection" #chipListServicios>
+
+                            <mat-chip *ngFor="let servicio of servicios" selectable="selectable" [removable]="removable" matTooltip="{{(servicio.es_ambulatorio == 0 ? 'Servicio en Piso' : 'Servicio Ambulatorio')}}" (removed)="removeServicio(servicio)">
+                                {{servicio.nombre}}
+                                <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+                            </mat-chip>
+
+                        </mat-chip-list>
+                    </div>
+                    <!-- <button mat-raised-button color="primary" routerLink="/pacientes/nuevo"><mat-icon>add_circle</mat-icon> Agregar Paciente</button> (click)="showAddPacienteDialog()" -->
+                    <!-- &nbsp;
+                    <button mat-raised-button color="primary" routerLink="/atencion-pacientes/nuevo" ><mat-icon>add_circle</mat-icon> Agregar Paciente</button> -->
+
+                </div>
+                <section fxLayout="column" fxLayoutAlign="center stretch">
+                    <button mat-stroked-button (click)="toggleReportPanel()" [class.button-spinner]="isLoadingPDF" [disabled]="isLoadingPDF">
+                        <mat-icon>{{(showReportForm)?'unfold_more':'insert_drive_file'}}</mat-icon> Generar Reporte
+                    </button>
+                </section>
+                <br>
+                <div *ngIf="showReportForm || showMyStepper">
+                    <div *ngIf="showReportForm">
+                        <section fxLayout="column" fxLayoutAlign="center stretch">
+                            <button mat-raised-button (click)="reportePrimerContacto()" color="accent"><mat-icon class="material-icons-outlined">picture_as_pdf</mat-icon> Descargar Archivo PDF</button>
+                        </section>
+                    </div>
+                    &nbsp;
+                    <div class="my-stepper" *ngIf="showMyStepper">
+                        <ng-container *ngFor="let step of stepperConfig.steps; let i = index">
+                            <div class="my-step" [class.my-step-active]="step.status == 2" [class.my-step-done]="step.status == 3" [class.my-step-error]="step.status == 0">
+                                <mat-icon>{{step.icon}}</mat-icon>
+                                <div class="my-step-label">
+                                    {{(step.status < 2)?step.label.standBy:((step.status == 2)?step.label.active:step.label.done)}} <mat-progress-bar *ngIf="step.status == 2" mode="indeterminate"></mat-progress-bar>
+                                    <small *ngIf="step.status == 0" class="my-step-error-message">{{step.errorMessage}}</small>
+                                </div>
+                                <mat-icon *ngIf="step.status == 3">done</mat-icon>
+                                <mat-icon *ngIf="step.status == 0">error</mat-icon>
+                            </div>
+                            <div *ngIf="(i+1) < stepperConfig.steps.length" class="my-step-separator"></div>
+                        </ng-container>
+                    </div>
+                    
+                </div>
+
+                <mat-divider [inset]="true"></mat-divider>
+
+                <div class="data-container">
+                    <div class="data-table-container">
+                        <table mat-table [dataSource]="dataSource" class="data-table" multiTemplateDataRows matSort>
+                            <!-- ID Column
+                            <ng-container matColumnDef="clues">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header fxHide.xs="xs"> Unidad Medica </th>
+                                <td mat-cell *matCellDef="let row" fxHide.xs="xs"> ({{row.clues.id}}) - {{row.clues.nombre}} </td>
+                            </ng-container> -->
+                    
+                            <!-- nombre completo Column -->
+                            <ng-container matColumnDef="nombre">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header> Nombre ó Alias </th>
+                                <td mat-cell *matCellDef="let row"> {{(row.esDesconocido == 0)?row.nombre+' '+row.paterno+' '+row.materno:row.alias}}</td>
+                            </ng-container>
+
+                    
+                            <!-- edad column -->
+                            <ng-container matColumnDef="edad">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header fxHide.xs="xs"> Edad </th>
+                                <td mat-cell *matCellDef="let row" fxHide.xs="xs"> {{(row.esDesconocido == 0) ? row.edad+' '+row.tipo_edad : row.edad_aparente+' '+'AÑOS'}} </td>
+                            </ng-container>
+
+                            <!-- procedencia column -->
+                            <ng-container matColumnDef="procedencia">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header fxHide.xs="xs"> Procedencia </th>
+                                <td mat-cell *matCellDef="let row" fxHide.xs="xs"> {{(row.esDesconocido == 0 && row.municipio != null) ? row.municipio.nombre : row.estado_republica != null ? row.estado_republica.nombre : 'NO IDENTIFICADO' | uppercase}} </td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="details">
+                                <th mat-header-cell *matHeaderCellDef style="width: 115px;">Detalles</th>
+                                <td mat-cell *matCellDef="let row; let i = index">
+                                    <button mat-stroked-button color="primary" (click)="verPaciente(row.id,i)" matTooltip="Ver Detalles del Paciente"><mat-icon>remove_red_eye</mat-icon></button>
+                                    <!-- <button mat-icon-button color="primary" (click)="generatePdf(row)"><mat-icon>print</mat-icon></button> -->
+                                </td>
+                            </ng-container>
+
+                            <!-- <ng-container matColumnDef="tarjeta">
+                                <th mat-header-cell *matHeaderCellDef style="width: 115px;">Tarjeta Informativa</th>
+                                <td mat-cell *matCellDef="let row">
+                                    <button mat-stroked-button color="primary" (click)="tarjetaInformativa(row)"  matTooltip="Generar Tarjeta Informativa de la Paciente"><mat-icon>picture_as_pdf</mat-icon></button>
+                                </td>
+                            </ng-container> -->
+
+                            <!-- <ng-container matColumnDef="actions">
+                                <th mat-header-cell *matHeaderCellDef style="width: 115px;">Acciones</th>
+                                <td mat-cell *matCellDef="let row">
+                                    <button mat-stroked-button color="primary" routerLink = "/atencion-pacientes/editar/{{row.id}}" matTooltip="Editar Datos"><mat-icon>edit</mat-icon></button> &nbsp;
+                                    <button mat-icon-button color="warn"    (click)="confirmDeletePaciente(row.id)"  fxHide.xs="xs" fxHide.sm="true"><mat-icon>delete</mat-icon></button>
+
+                                </td>
+                            </ng-container> -->
+
+                            <ng-container matColumnDef="noResultsFound">
+                                <td mat-footer-cell *matFooterCellDef [attr.colspan]="displayedColumns.length">
+                                    No se encontraron registros
+                                </td>
+                            </ng-container>
+
+                            <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+                            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+                            <tr mat-footer-row *matFooterRowDef="['noResultsFound']" class="no-results-found" [ngClass]="{'hide':!(dataSource!=null && dataSource.length==0)}"></tr>
+                        </table>
+                    </div>
+                    <mat-paginator #paginator pageSize="20" [pageIndex]="currentPage" [length]="resultsLength" [pageSizeOptions]="[5, 10, 20, 50]" showFirstLastButtons (page)="pageEvent = loadPacientesData($event)"></mat-paginator>
+                </div>
+            </mat-card>
+        </section>
+    </div>
+</section>

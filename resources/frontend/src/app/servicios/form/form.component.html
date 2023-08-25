@@ -1,0 +1,33 @@
+<h1 mat-dialog-title><span *ngIf="servicios.id">Editar</span> <span *ngIf="!servicios.id">Nuevo</span> Servicio</h1>
+<div mat-dialog-content>
+    <div class="form-container" [formGroup]="servicioForm">
+        <div class="form-loading-shade" *ngIf="isLoading"><mat-spinner *ngIf="isLoading"></mat-spinner></div>
+
+        <div class="form-loading-shade" *ngIf="!isLoading && !servicios">No se encontraron los datos del servicio</div>
+        <br>
+
+        <mat-form-field>
+            <input matInput id="nombre" formControlName="nombre" placeholder="Nombre" required>
+            <mat-error *ngIf="servicioForm.get('nombre').invalid && (servicioForm.get('nombre').dirty || servicioForm.get('nombre').touched)">
+                <span *ngIf="servicioForm.get('nombre').errors.required">El nombre es obligatorio</span>
+            </mat-error>
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-select id="es_ambulatorio" formControlName="es_ambulatorio" placeholder="¿Es Ambulatorio?" required>
+                <mat-option [value]="1">Si</mat-option>
+                <mat-option [value]="0">No</mat-option>
+            </mat-select>
+            <mat-error *ngIf="servicioForm.get('es_ambulatorio').invalid && (servicioForm.get('es_ambulatorio').dirty || servicioForm.get('es_ambulatorio').touched)">
+                <span *ngIf="servicioForm.get('es_ambulatorio').errors.required">El tipo de servicio es obligatorio</span>
+            </mat-error>
+        </mat-form-field>
+
+    </div>
+</div>
+<mat-divider></mat-divider>
+<div mat-dialog-actions>
+    <span fxFlex></span>
+    <button mat-button (click)='onNoClick()'>Cancelar</button>
+    <button mat-raised-button (click)="saveServicio()" color="primary" [disabled]="servicioForm.invalid || isLoading"><mat-icon>save</mat-icon> Guardar</button>
+</div>

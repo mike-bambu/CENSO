@@ -1,0 +1,110 @@
+.example-card {
+    max-width: 500px;
+  }
+  
+.container {
+    position: relative;
+    min-height: 400px;
+    display: flex;
+    flex-direction: column;
+    padding:5px;
+}
+
+/** No CSS for this example */
+.settings-card {
+    height: 270px;
+    width: 500px;
+    box-shadow: 0px 0px 10px 0px #dedede,
+    0 1px 1px 0 #ededed,
+    0 1px 3px 0 #ededed;
+    border-radius: 10px;
+}
+
+.mat-card {
+    padding: 16px;
+    padding-top: 12px;
+}
+
+.padRight {
+    display: grid;
+    float: right;
+    text-align: right;
+}
+
+.cardTitle {
+    color: #1f54a6;
+    height: 27px;
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: 0.25px;
+}
+
+.productIcon {
+    float: right;
+}
+
+.product {
+    height: 16px;
+    color: rgba(0, 0, 0, 0.6);
+    font-size: 13px;
+    font-weight: 700;
+    line-height: 16px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.progress {
+    padding-top: 15px;
+    height: 24px;
+}
+
+.mat-progress-bar-fill::after {
+    background-color: #d0021b;
+}
+
+.mat-progress-bar-buffer {
+    fill: #d8d8d8;
+    background-color: #d8d8d8
+}
+
+.barStatus {
+    position: relative;
+    top: -22px;
+    left: 5px;
+    height: 20px;
+    color: #ffffff;
+    font-size: 15px;
+    font-weight: 700;
+    line-height: 20px;
+    text-transform: uppercase;
+    letter-spacing: 0.25px;
+}
+
+.barText {
+    position: relative;
+    top: -26px;
+    color: #d0021b;
+    /* font-family: Lekton; */
+    font-family: 'Open Sans', sans-serif;
+    font-size: 22px;
+    font-weight: 700;
+    padding-left: 2px;
+    width: 25%;
+    text-align: right;
+    display: grid;
+    float: right;
+}
+.cardLabel {
+    color: rgba(0, 0, 0, 0.6);
+    font-size: 15px;
+    font-weight: 400;
+    line-height: 20px;
+}
+
+.hospitalizacion{
+    color: #3951da;
+}
+
+.emergencia{
+    color: #cb7c06;
+}

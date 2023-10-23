@@ -42,6 +42,7 @@ import { ReportesModule } from './reportes/reportes.module';
 
 import { VisitaPuerperalModule } from './visita-puerperal/visita-puerperal.module';
 import { EmbarazosModule } from './embarazos/embarazos.module';
+import { CalidadModule } from './calidad/calidad.module';
 
 
 @NgModule({
@@ -72,9 +73,11 @@ import { EmbarazosModule } from './embarazos/embarazos.module';
     ServiciosModule,
     ReportesModule,
     EmbarazosModule,
+    CalidadModule,
     AppRoutingModule,
     WildcardRoutingModule,
     StoreModule.forRoot({}, {}),
+    
   ],
   providers: [
     AuthService,

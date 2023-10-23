@@ -61,6 +61,8 @@ export const APPS:App [] = [
       ],
     },
 
+    { name:'Medición de la calidad',  route: "calidad",        icon: "assets/icons/settings.svg",               permission:"5gdB4ltPL60KEtdUYuicIcHWSYo5XU8G" },
+
 
 
 //   { name:'PADRE HUB',   route: "ruta-padre",       icon: "", 

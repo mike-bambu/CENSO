@@ -21,3 +21,13 @@ Homestead.yaml
 Homestead.json
 /.vagrant
 .phpunit.result.cache
+.editorconfig
+.env.example
+.gitattributes
+.styleci.yml
+app/.DS_Store
+.DS_Store
+.editorconfig
+.env.example
+.gitattributes
+.styleci.yml

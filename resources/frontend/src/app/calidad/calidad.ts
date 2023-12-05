@@ -11,7 +11,7 @@ export class Calidad {
   
 export const CALIDADAPPS:Calidad [] = [
     
-    { name:'Atención de partos',          route: "vista-partos",            icon: "assets/icons/quality-births.png",       permission:"5nk8JKI05ZTkJ5m4nyigUbhXdj1dfPRK" },
+    { name:'Atención de partos',          route: "calidad/vista-partos",            icon: "assets/icons/quality-births.png",       permission:"5nk8JKI05ZTkJ5m4nyigUbhXdj1dfPRK" },
     { name:'Complicaciones obstétricas',          route: "vista-complicaciones",            icon: "assets/icons/quality-obstetric.png",       permission:"Gd48WHVrVKUZsD10xPc1jDRv7KdLUYPw" },
     { name:'Recién nacidos prematuros',          route: "vista-recien-nacidos",            icon: "assets/icons/quality-premature.png",       permission:"qf6YTqckJSFAqBQcNXfs6ZLeyQXmqB9T" },
     { name:'Complicaciones neonatales',          route: "vista-complicaciones-neonatales",            icon: "assets/icons/quality-complications.png",       permission:"f5qlK1VSzhwKpARNr247Rsklnnx9Hsfw" },

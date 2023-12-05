@@ -1,0 +1,52 @@
+<div class="form-loading-shade" *ngIf="isLoading"><mat-spinner *ngIf="isLoading"></mat-spinner></div>
+
+<div>
+    <div class="form-container">
+        <div [formGroup]="quizPartosForm">
+            
+            <div  formGroupName="initParto">
+
+                <div fxLayout.gt-sm="row" fxLayout="column" fxLayoutGap.gt-sm="10px">
+                    <h2 fxFlex><mat-icon>trending_up</mat-icon>&nbsp;Selección de muestras:
+                    </h2>
+                </div>
+                
+                <div fxLayout.gt-sm="row" fxLayout="column" fxLayoutGap.gt-sm="10px">
+                    <mat-form-field appearance="fill" fxFlex>
+                        <mat-label>Fecha de medición: </mat-label>
+                        <input matInput [min]="minDate" [max]="maxDate" [matDatepicker]="picker2" formControlName="fecha_init_quiz" placeholder="Fecha de inicio de medición" readonly>
+                        <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                        <mat-datepicker #picker2></mat-datepicker>
+
+                        <mat-error *ngIf="quizPartosForm.controls['initParto'].get('fecha_init_quiz').invalid && (quizPartosForm.controls['initParto'].get('fecha_init_quiz').dirty || quizPartosForm.controls['initParto'].get('fecha_init_quiz').touched)">
+                            <span *ngIf="quizPartosForm.controls['initParto'].get('fecha_init_quiz').errors.required">La Fecha del Alta/Egreso es obligatoria</span>
+                        </mat-error>
+
+                    </mat-form-field>
+
+                </div>
+                <div fxLayout.gt-sm="row" fxLayout="column" fxLayoutGap.gt-sm="10px">
+                    <mat-form-field fxFlex appearance="fill">
+                        <mat-label>Número de muestra</mat-label>
+                        <input type="number" matInput formControlName="iterations_quiz">
+                        <mat-hint>Escribe el número de muestra para esta medición</mat-hint>
+                        <mat-error *ngIf="quizPartosForm.controls['initParto'].get('iterations_quiz').hasError('required')">Este campo es obligatorio</mat-error>
+                    </mat-form-field>
+
+                </div>
+
+            </div>
+
+        </div>
+        
+
+    </div>
+
+</div>
+
+<mat-divider></mat-divider>
+<div mat-dialog-actions>
+    <span fxFlex></span>
+    <button mat-button (click)='onNoClick()'>Cancelar</button>
+    <button mat-raised-button  color="primary" [disabled]="quizPartosForm.invalid || isLoading"><mat-icon>save</mat-icon> Guardar</button>
+</div>

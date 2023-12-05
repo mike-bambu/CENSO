@@ -1,0 +1,276 @@
+<br>
+<section class="profile">
+    <div fxFill>
+        <section fxLayout fxLayoutAlign="center">
+            <div class="data-loading-shade" *ngIf="isLoading"><mat-spinner></mat-spinner></div>
+            <mat-card fxFlex.xs="100%" fxFlex="95%">
+
+                <div fxLayout="row" fxLayout.xs="column">
+                    <div fxFlex fxLayout="row wrap">
+                        <mat-form-field fxFill appearance="outline">
+                            <mat-label>Buscar por: Nombre, Alias, N° de Expediente, Celular, Teléfono... </mat-label>
+                            <input matInput class="uppercase" [(ngModel)]="searchQuery" (keyup.escape)="cleanSearch()" (keyup.enter)="applyFilter()" placeholder="Buscar por: Nombre, Alias, N° de Expediente, Celular, Teléfono...">
+                            <button matSuffix *ngIf="searchQuery" mat-icon-button (click)="cleanSearch()" [attr.aria-label]="'Clean Query'" [attr.aria-pressed]="'cleanQuery'">
+                                <mat-icon>close</mat-icon>
+                            </button>
+                            <mat-hint><mat-slide-toggle #showAdvancedFilter (change)="toggleAdvancedFilter(showAdvancedFilter.checked)">Filtro Avanzado</mat-slide-toggle></mat-hint>
+                        </mat-form-field>
+                    </div>
+                    <div fxFlex="none" fxFlex.xs="100" *ngIf="!showAdvancedFilter.checked" [@buttonInOut]>
+                        <div fxFlex></div>
+                        <section class="search-button">
+                            <button mat-raised-button color="accent" (click)="applyFilter()">
+                                <mat-icon>search</mat-icon> Buscar
+                            </button>
+                        </section>
+                    </div>
+                </div>
+                <mat-accordion class="advanced-filter-container">
+                    <mat-expansion-panel #advancedFilter  class="advanced-filter" [formGroup]="filterForm">
+                        <br>
+                        <div fxLayout.gt-sm="row" fxLayout="column" fxLayoutGap.gt-sm="10px">
+        
+                            <mat-form-field appearance="fill" fxFlex>
+                                <mat-label>Fecha de Ingreso (Desde): </mat-label>
+                                <input matInput [min]="minDate" [max]="maxDate" [matDatepicker]="picker1" formControlName="fecha_inicio" placeholder="Fecha de Ingreso (Desde)" readonly>
+                                <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                                <mat-datepicker #picker1></mat-datepicker>
+                            </mat-form-field>
+    
+                            <mat-form-field appearance="fill" fxFlex>
+                                <mat-label>Fecha de Ingreso (Hasta): </mat-label>
+                                <input matInput [min]="minDate" [max]="maxDate" [matDatepicker]="picker2" formControlName="fecha_fin" placeholder="Fecha de Ingreso (Hasta)" readonly>
+                                <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                                <mat-datepicker #picker2></mat-datepicker>
+                            </mat-form-field>
+    
+                        </div>
+    
+                        <div fxLayout.gt-sm="row" fxLayout="column" fxLayoutGap.gt-sm="10px">
+    
+                            <mat-form-field appearance="fill" fxFlex>
+                                <mat-label>Tipo de Edad (Años/Meses/Dias): </mat-label>
+                                <mat-select formControlName="tipo_edad">
+                                    <mat-option value="Años" >Años</mat-option>
+                                    <mat-option value="Meses">Meses</mat-option>
+                                    <mat-option value="Dias" >Días</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+    
+                            <mat-form-field  *ngIf="filterForm.get('tipo_edad').value != null" appearance="fill" fxFlex>
+                                <mat-label>Edad: </mat-label>
+                                <input matInput (keypress)="numberOnly($event)" id="edad" placeholder="Edad en {{ filterForm.get('tipo_edad').value }}, Escriba solo Números" formControlName="edad">
+                                <mat-error>Campo Requerido</mat-error>
+                            </mat-form-field>
+    
+                        </div>
+    
+                        <div fxLayout.gt-sm="row" fxLayout="column" fxLayoutGap.gt-sm="10px">
+    
+                            <mat-form-field appearance="fill" fxFlex>
+                                <mat-label>Sexo: </mat-label>
+                                <mat-select formControlName="sexo">
+                                    <mat-option value="Femenino">FEMENINO</mat-option>
+                                    <mat-option value="Masculino">MASCULINO</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+    
+                            <mat-form-field appearance="fill" fxFlex>
+                                <mat-label>Identidad: </mat-label>
+                                <mat-select formControlName="identidad">
+                                    <mat-option value="0">CONOCIDA</mat-option>
+                                    <mat-option value="1">DESCONOCIDA</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+    
+                            <mat-form-field appearance="fill" fxFlex>
+                                <mat-label>Nacionalidad: </mat-label>
+                                <mat-select formControlName="nacionalidad">
+                                    <mat-option value="0">MEXICANA</mat-option>
+                                    <mat-option value="1">EXTRANJERA</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+    
+                        </div>
+    
+                        <div fxLayout.gt-sm="row" fxLayout="column" fxLayoutGap.gt-sm="10px">
+    
+                            <mat-form-field appearance="fill" fxFlex  *ngIf="!catalogos['municipios']">
+                                <mat-label>Municipio: </mat-label>
+                                <input matInput formControlName="municipio">
+                                <mat-hint>Escribe el nombre del Municipio</mat-hint>
+                            </mat-form-field>
+        
+                            <mat-form-field appearance="fill" fxFlex *ngIf="catalogos['municipios']">
+                                <mat-label>Municipio: </mat-label>
+                                <input type="text" aria-label="municipio" matInput formControlName="municipio_id" [matAutocomplete]="municipioAutocomplete" (blur)="checkAutocompleteValue('municipio_id')">
+                                <mat-autocomplete #municipioAutocomplete="matAutocomplete" [displayWith]="getDisplayFn('nombre')" [panelWidth]="'auto'" (optionSelected)="cargarLocalidades($event)">
+                                    <mat-option *ngFor="let item of filteredCatalogs['municipios'] | async" [value]="item">
+                                        {{item.nombre}}
+                                    </mat-option>
+                                </mat-autocomplete>
+                                <mat-hint *ngIf="!filterForm.get('municipio_id').value">Selecciona un Municipio de la lista </mat-hint>
+                                <!-- <mat-hint align="end" *ngIf="pacienteForm.controls['paciente'].get('municipio_id').value">[{{pacienteForm.controls['paciente'].get('municipio_id').value.clave}}]</mat-hint> -->
+                            </mat-form-field>
+    
+                            <mat-form-field appearance="fill" fxFlex  *ngIf="!catalogos['localidades']">
+                                <mat-label>Localidad: </mat-label>
+                                <input matInput formControlName="localidad">
+                                <mat-hint>Escribe el nombre del Localidad</mat-hint>
+                            </mat-form-field>
+        
+                            <mat-form-field appearance="fill" fxFlex *ngIf="catalogos['localidades']">
+                                <mat-label>Localidad: </mat-label>
+                                <input type="text" aria-label="municipio" matInput formControlName="localidad_id" [matAutocomplete]="localidadAutocomplete" (blur)="checkAutocompleteValue('localidad_id')">
+                                <mat-autocomplete #localidadAutocomplete="matAutocomplete" [displayWith]="getDisplayFn('nombre')" [panelWidth]="'auto'">
+                                    <mat-option *ngFor="let item of filteredCatalogs['localidades'] | async" [value]="item">
+                                        {{item.nombre}}
+                                    </mat-option>
+                                </mat-autocomplete>
+                                <mat-hint *ngIf="!filterForm.get('municipio_id').value">Selecciona una Localidad de la lista </mat-hint>
+                                <!-- <mat-hint align="end" *ngIf="pacienteForm.controls['paciente'].get('municipio_id').value">[{{pacienteForm.controls['paciente'].get('municipio_id').value.clave}}]</mat-hint> -->
+                            </mat-form-field>
+                        </div>
+    
+                        <div fxLayout="row wrap">
+                            <div fxFlex></div>
+                            <div fxFlex="none">
+                                <button mat-flat-button (click)="filterForm.reset()">
+                                    Limpiar
+                                </button>
+                            </div>
+                            <div fxFlex="none">
+                                <button mat-raised-button color="accent" (click)="applyFilter()">
+                                    <mat-icon>search</mat-icon> Aplicar
+                                </button>
+                            </div>
+                        </div>
+                    </mat-expansion-panel>
+                </mat-accordion>
+                <div fxLayout="row" fxLayout.xs="column" style="padding-bottom:10px;">
+
+                    <div fxFlex>
+                        <mat-chip-list aria-label="Fish selection">
+                            <mat-chip *ngFor="let item of filterChips; let i = index" [disabled]="!item.active" [removable]="true" (removed)="removeFilterChip(item,i)" matTooltip="{{item.tooltip}}" [matTooltipPosition]="'above'">
+                                {{item.tag}}
+                                <mat-icon matChipRemove>cancel</mat-icon>
+                            </mat-chip>
+                        </mat-chip-list>
+                    </div>
+                    <!-- <button mat-raised-button color="primary" routerLink="/pacientes/nuevo"><mat-icon>add_circle</mat-icon> Agregar Paciente</button> (click)="showAddPacienteDialog()" -->
+                    &nbsp;
+                    <button mat-raised-button color="primary" (click)="openDetailDialog()" ><mat-icon>add_circle</mat-icon> Nueva Medición</button>
+
+                </div>
+                <!-- <section fxLayout="column" fxLayoutAlign="center stretch">
+                    <button mat-stroked-button (click)="toggleReportPanel()" [class.button-spinner]="isLoadingPDF" [disabled]="isLoadingPDF">
+                        <mat-icon>{{(showReportForm)?'unfold_more':'insert_drive_file'}}</mat-icon> Generar Reporte
+                    </button>
+                </section> -->
+                <div *ngIf="showReportForm || showMyStepper">
+                    <!-- <div *ngIf="showReportForm">
+                        <section fxLayout="column" fxLayoutAlign="center stretch">
+                            <button mat-stroked-button (click)="reportePacientes()" color="info"><mat-icon class="material-icons-outlined">picture_as_pdf</mat-icon> Descargar Archivo PDF</button>
+                        </section>
+                    </div> -->
+                    &nbsp;
+                    <div class="my-stepper" *ngIf="showMyStepper">
+                        <ng-container *ngFor="let step of stepperConfig.steps; let i = index">
+                            <div class="my-step" [class.my-step-active]="step.status == 2" [class.my-step-done]="step.status == 3" [class.my-step-error]="step.status == 0">
+                                <mat-icon>{{step.icon}}</mat-icon>
+                                <div class="my-step-label">
+                                    {{(step.status < 2)?step.label.standBy:((step.status == 2)?step.label.active:step.label.done)}} <mat-progress-bar *ngIf="step.status == 2" mode="indeterminate"></mat-progress-bar>
+                                    <small *ngIf="step.status == 0" class="my-step-error-message">{{step.errorMessage}}</small>
+                                </div>
+                                <mat-icon *ngIf="step.status == 3">done</mat-icon>
+                                <mat-icon *ngIf="step.status == 0">error</mat-icon>
+                            </div>
+                            <div *ngIf="(i+1) < stepperConfig.steps.length" class="my-step-separator"></div>
+                        </ng-container>
+                    </div>
+                    
+                </div>
+
+                <mat-divider [inset]="true"></mat-divider>
+
+                <div class="data-container">
+                    <div class="data-table-container">
+                        <table #dataTable mat-table [dataSource]="dataSource" class="data-table" matSort>
+                            <!-- ID Column
+                            <ng-container matColumnDef="clues">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header fxHide.xs="xs"> Unidad Medica </th>
+                                <td mat-cell *matCellDef="let row" fxHide.xs="xs"> ({{row.clues.id}}) - {{row.clues.nombre}} </td>
+                            </ng-container> -->
+                    
+                            <!-- nombre completo Column -->
+                            <ng-container matColumnDef="nombre">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header> Tipo </th>
+                                <td mat-cell *matCellDef="let row">
+                                    <b>{{ (row.esDesconocido == 0) ? row.nombre+' '+row.paterno+' '+row.materno : row.alias}}</b>
+
+                                    <div style="font-size: 8pt;">
+                                        {{(row.esDesconocido == 0) ? row.edad+' '+row.tipo_edad : row.edad_aparente+' '+'AÑOS'}}
+                                    </div>
+                                </td>
+                            </ng-container>
+
+                            <!-- procedencia column -->
+                            <ng-container matColumnDef="procedencia">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header fxHide.xs="xs"> Mes </th>
+                                <td mat-cell *matCellDef="let row" fxHide.xs="xs"> {{(row.esDesconocido == 0 && row.municipio != null) ? row.municipio.nombre : row.estado_republica != null ? row.estado_republica.nombre : 'NO IDENTIFICADO' | uppercase}} </td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="atencion">
+                                <th mat-header-cell *matHeaderCellDef >Estatus</th>
+                                <td mat-cell *matCellDef="let row; let i = index" >
+                                    <button  *ngIf="row.ultima_atencion == null  || row.tieneAtencion == 0 || row.ultima_atencion.dadodeAlta == 1" mat-stroked-button color="primary" (click)="openDialogFormAtencion(row.id)"  matTooltip="Generar Atención e Ingreso"><mat-icon>transfer_within_a_station</mat-icon></button>
+                                </td>
+                            </ng-container>
+
+                            <!-- <ng-container matColumnDef="seguimiento">
+                                <th mat-header-cell *matHeaderCellDef style="width: 115px;">Seguimento Ambulatorio</th>
+                                <td mat-cell *matCellDef="let row" >
+                                    <button  *ngIf="row.ultima_atencion != null && row.ultima_atencion.esAmbulatoria == 1 && row.ultima_atencion.dadodeAlta == 0" mat-stroked-button color="primary" (click)="openDialogFormSeguimiento(row.id)"  matTooltip="Generar Seguimiento Ambulatorio"><mat-icon>accessible_forward</mat-icon></button>
+                                </td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="alta">
+                                <th mat-header-cell *matHeaderCellDef style="width: 115px;">Alta/Egreso Ambulatorio</th>
+                                <td mat-cell *matCellDef="let row">
+                                    <button *ngIf="row.ultima_atencion != null && row.ultima_atencion.esAmbulatoria == 1 && row.ultima_atencion.dadodeAlta == 0"  mat-stroked-button color="primary" (click)="openDialogFormAlta(row.id)"  matTooltip="Generar Alta/Egreso Ambulatorio"><mat-icon>hail</mat-icon></button>
+                                </td>
+                            </ng-container> -->
+
+                            <ng-container matColumnDef="opciones" >
+                                <th mat-header-cell *matHeaderCellDef>Opciones</th>
+                                <td mat-cell *matCellDef="let row; let i = index">
+                                    <!--<button mat-stroked-button color="primary" matTooltip="Editar Trabajador" (click)="editTrabajador(i)" routerLink="/trabajadores/editar/{{row.id}}"><mat-icon>edit</mat-icon></button>&nbsp;-->
+                                    
+                                    <button mat-button mat-stroked-button [matMenuTriggerFor]="menu" *ngIf="row.estatus != 3">Opciones</button>
+                                    <mat-menu #menu="matMenu">
+                                        <button mat-menu-item color="primary" routerLink = "/ingresos/editar/{{row.id}}" matTooltip="Continuar medición"><mat-icon>edit</mat-icon>Continuar medición</button>
+                                    </mat-menu>
+                                    
+                                </td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="noResultsFound">
+                                <td class="size-search" mat-footer-cell *matFooterCellDef [attr.colspan]="displayedColumns.length">
+                                </td>
+                            </ng-container>
+
+                            <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+                            <tr mat-row [ngClass]="{'selected-item': i==selectedItemIndex}" *matRowDef="let row; let i = index; columns: displayedColumns;"></tr>
+
+                            <tr mat-footer-row *matFooterRowDef="['noResultsFound']" class="no-results-found" [ngClass]="{'hide':!(dataSource!=null && dataSource.length==0)}"></tr>
+                        </table>
+                    </div>
+                    <mat-paginator #paginator pageSize="20" [pageIndex]="currentPage" [length]="resultsLength" [pageSizeOptions]="[5, 10, 20, 50]" showFirstLastButtons (page)="pageEvent = loadPacientesData($event)"></mat-paginator>
+                </div>
+
+
+
+            </mat-card>
+        </section>
+    </div>
+</section>

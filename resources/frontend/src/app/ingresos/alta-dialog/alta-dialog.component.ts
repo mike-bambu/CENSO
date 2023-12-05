@@ -78,8 +78,6 @@ export class AltaDialogComponent implements OnInit {
 
 
   ngOnInit() {
-
-
       this.pacienteForm = this.fb.group ({
       
         paciente: this.fb.group({
@@ -231,7 +229,6 @@ export class AltaDialogComponent implements OnInit {
           
           
       }
-
 
       moment.locale('es');
       const fecha = new Date();

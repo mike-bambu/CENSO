@@ -1,0 +1,170 @@
+<!-- <div class="container mt-5">
+    <div class="card">
+        <div class="d-flex justify-content-between p-3">
+            <div class="image">
+                <img src="https://cdn-icons-png.flaticon.com/128/10655/10655670.png" width="90" alt="logo">
+            </div>
+            <div class="quiz-header">
+                <h4 >Hemorragia Post Parto (CONE Básico) {{title}}</h4>
+                <span style="font-style: italic;">{{subtitle}}</span >
+            </div>
+        </div>
+
+        <ng-container *ngIf="!isQuizCompleted">
+            <br/>
+            <mat-progress-bar mode="determinate" [value]="progress" ></mat-progress-bar>
+            <div class="question">
+                <div class="card">
+                    <h3>{{questionList[currentQuestion]?.questionText}}</h3>
+                </div>
+            </div>
+            <div class="options">
+                <ol *ngFor="let option of questionList[currentQuestion]?.options">
+                    <li (click)="answer(currentQuestion+1,option)">
+                        <div appChangeBg [isCorrect]="option.correct" class="card">
+                            {{option.text}}
+                        </div>
+                    </li>
+                </ol>
+            </div>
+
+            <div class="row" [hidden]="!isCorrectAnswer">
+                <form>
+                    <div class="form-group">
+                      <label for="exampleInputEmail1">{{questionList[currentQuestion]?.explanation}}</label>
+                      <input type={{questionList[currentQuestion]?.type}} class="form-control" id={{questionList[currentQuestion]?.textId}} placeholder={{questionList[currentQuestion]?.placeholder}}>
+                    </div>
+                  </form>
+                  <div class="question">
+                    <div class="card">
+                        <h3>{{questionList[currentQuestion]?.questionSelectText}}</h3>
+                    </div>
+                </div>
+                  <div class="options">
+                    <ol *ngFor="let option of questionList[currentQuestion]?.optionsselect">
+                        <li (click)="answer(currentQuestion+1,option)">
+                            <div appChangeBg [isCorrect]="option.correct" class="card">
+                                {{option.text}}
+                            </div>
+                        </li>
+                    </ol>
+                </div>
+            </div>
+
+            <div class="row" [hidden]="!isCorrectAnswer">
+                <form>
+                    <div class="form-group">
+                      <label for="exampleInputEmail1">{{questionList[currentQuestion]?.explanation}}</label>
+                      <input type={{questionList[currentQuestion]?.type}} class="form-control" id={{questionList[currentQuestion]?.textId}} placeholder={{questionList[currentQuestion]?.placeholder}}>
+                    </div>
+                  </form>
+            </div>
+
+
+            
+
+            <mat-divider></mat-divider>
+            <div mat-dialog-actions >
+            <span fxFlex></span>
+            <button mat-raised-button  color="primary"  (click)="nextQuestion()" (hidden)="!isCorrectAnswer"><mat-icon>save</mat-icon> Siguiente</button>
+            </div>
+        </ng-container>
+
+        <ng-container *ngIf="isQuizCompleted">
+            <div class="row d-flex justify-content-between" hidden>
+                <img style="width: 50%;" class="img-fluid col-sm-12 mx-auto" src="https://icon-library.com/images/celebration-icon-png/celebration-icon-png-7.jpg" alt="">
+                <div class="result text-center col-md-6 col-sm-12" hidden>
+                    <h3>Congratulations!! <br>You have completed the quiz. <br>Below is your result:</h3>
+                </div>
+            </div>
+        </ng-container>
+
+    </div>
+</div> -->
+
+<div>
+    <div class="form-container">
+
+        <mat-card class="card">
+            <mat-card-title class="icon-text">
+                <mat-icon>sick</mat-icon>&nbsp;Hemorragia Post Parto (CONE Básico) {{title}}
+            </mat-card-title>
+            <br/>
+            <mat-card-subtitle>
+                {{subtitle}}
+            </mat-card-subtitle>
+            <mat-card-content>
+                <ng-container *ngIf="!isQuizCompleted">
+                    <br/>
+                    <mat-progress-bar mode="determinate" [value]="progress" ></mat-progress-bar>
+                    <br/>
+                    <div class="question">
+                        <div class="card">
+                            <h3>{{questionList[currentQuestion]?.questionText}}</h3>
+                        </div>
+                    </div>
+
+                    <div class="options">
+                        <ol *ngFor="let option of questionList[currentQuestion]?.options">
+                            <li (click)="answer(currentQuestion+1,option)">
+                                <div appChangeBg [isCorrect]="option.correct" class="card">
+                                    {{option.text}}
+                                </div>
+                            </li>
+                        </ol>
+                    </div>
+
+                    <div class="row" [hidden]="!isCorrectAnswer" >
+                        <div fxLayout.gt-sm="row" fxLayout="column" fxLayoutGap.gt-sm="10px" *ngIf="!isMultiSelect">
+                            <mat-form-field fxFlex appearance="fill">
+                                <mat-label>{{questionList[currentQuestion]?.explanation}}</mat-label>
+                                <input type={{questionList[currentQuestion]?.type}} matInput formControlName="iterations_quiz">
+                                <mat-hint>{{questionList[currentQuestion]?.placeholder}}</mat-hint>
+                            </mat-form-field>
+                        </div>
+
+                        <div class="question" *ngIf="isMultiSelect">
+                            <div class="card">
+                                <h3>{{questionList[currentQuestion]?.questionSelectText}}</h3>
+                            </div>
+                        </div>
+    
+                        <div class="options" *ngIf="isMultiSelect">
+                            <ol *ngFor="let option of questionList[currentQuestion]?.optionsselect">
+                                <li (click)="answer(currentQuestion+1,option)">
+                                    <div appChangeBg [isCorrect]="option.correct" class="card">
+                                        {{option.text}}
+                                    </div>
+                                </li>
+                            </ol>
+                        </div>
+                    </div>
+                    
+                    <br/>
+                    <div class="row" [hidden]="!isInputText">
+                        <div fxLayout.gt-sm="row" fxLayout="column" fxLayoutGap.gt-sm="10px">
+                            <mat-form-field fxFlex appearance="fill">
+                                <mat-label>{{questionList[currentQuestion]?.explanation}}</mat-label>
+                                <input type={{questionList[currentQuestion]?.type}} matInput formControlName="iterations_quiz">
+                                <mat-hint>{{questionList[currentQuestion]?.placeholder}}</mat-hint>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <br/>
+
+                    <mat-divider></mat-divider>
+                    <br/>
+                    <div mat-dialog-actions *ngIf="isCorrectAnswer || isInputText">
+                    <span fxFlex></span>
+                    <button mat-raised-button  color="primary"  (click)="nextQuestion()"><mat-icon>save</mat-icon> Siguiente</button>
+                    </div>
+
+                </ng-container>
+
+
+
+            </mat-card-content>
+        </mat-card>
+
+    </div>
+</div>

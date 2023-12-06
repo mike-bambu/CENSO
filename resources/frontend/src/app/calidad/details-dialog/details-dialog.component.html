@@ -48,5 +48,5 @@
 <div mat-dialog-actions>
     <span fxFlex></span>
     <button mat-button (click)='onNoClick()'>Cancelar</button>
-    <button mat-raised-button  color="primary" [disabled]="quizPartosForm.invalid || isLoading"><mat-icon>save</mat-icon> Guardar</button>
+    <button mat-raised-button  color="primary" [disabled]="quizPartosForm.invalid || isLoading" routerLink="/calidad/questions" (click)="startQuiz()"><mat-icon>save</mat-icon> Guardar</button>
 </div>

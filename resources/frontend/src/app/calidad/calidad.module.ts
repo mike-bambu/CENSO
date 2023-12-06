@@ -9,12 +9,17 @@ import { SharedModule } from '../shared/shared.module';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { ListaComponentPartos } from './partos/lista-partos/lista-partos.component';
 import { DetailsDialogComponent } from './details-dialog/details-dialog.component';
+import { QuestionsComponent } from './questions/questions.component';
+import { ChangeBgDirective } from './change-bg.directive';
 
 @NgModule({
   declarations: [
     ListaComponentPartos,
     CalidadComponent,
-    DetailsDialogComponent
+    DetailsDialogComponent,
+    QuestionsComponent,
+    ChangeBgDirective
+    
   ],
   
   imports: [

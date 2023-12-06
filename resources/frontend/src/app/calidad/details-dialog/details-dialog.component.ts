@@ -1,4 +1,5 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -16,7 +17,8 @@ export interface FormDialogData {
   styleUrls: ['./details-dialog.component.css']
 })
 export class DetailsDialogComponent implements OnInit{
-
+ 
+  @ViewChild('name') nameKey!: ElementRef;
 
 
   constructor(
@@ -28,7 +30,7 @@ export class DetailsDialogComponent implements OnInit{
     private sharedService: SharedService,
     private route: ActivatedRoute,
     public router: Router,
-
+    private http : HttpClient,
 
     @Inject(MAT_DIALOG_DATA) public data: FormDialogData
   ) {}
@@ -67,5 +69,8 @@ export class DetailsDialogComponent implements OnInit{
     this.dialogRef.close();
   }
 
-
+  startQuiz(){
+    this.dialogRef.close();
+    localStorage.setItem("name","partos");
+  }
 }

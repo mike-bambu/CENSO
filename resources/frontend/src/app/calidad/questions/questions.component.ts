@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { QuestionService } from '../service/question.service';
+import { log } from 'console';
 
 @Component({
   selector: 'app-questions',
@@ -16,6 +17,7 @@ export class QuestionsComponent implements OnInit {
   isCorrectAnswer: boolean=false
   isInputText: boolean=true
   isMultiSelect: boolean=false
+  isCheckedType: boolean=false
   progress: string = "0";
   isQuizCompleted : boolean = false;
   interval$: any;
@@ -25,7 +27,6 @@ export class QuestionsComponent implements OnInit {
 
   ngOnInit(): void {
     this.quizType = localStorage.getItem("name")!;
-
     if(this.quizType=="partos"){
       this.getAllQuestions();
       this.title="Indicador 1"
@@ -37,22 +38,26 @@ export class QuestionsComponent implements OnInit {
     this.questionService.getQuestionJson()
       .subscribe(res => {
         this.questionList = res.questions;
+        if(localStorage.getItem('currentQuestion')){
+          this.currentQuestion = Number(localStorage.getItem("currentQuestion")!);
+          this.progress=this.currentQuestion.toString()
+          this.isInputText=this.questionList[this.currentQuestion]?.isInputText;
+          this.isMultiSelect=this.questionList[this.currentQuestion]?.isMultiSelect; 
+          this.isCheckedType=this.questionList[this.currentQuestion]?.isCheckedType; 
+          this.getProgressPercent();
+          console.log("valor de current: "+this.currentQuestion)
+          console.log("valor de checked: "+this.isCheckedType)
+          } 
       })
-
-      if(localStorage.getItem('currentQuestion')){
-        this.currentQuestion = Number(localStorage.getItem("currentQuestion")!);
-        this.progress=this.currentQuestion.toString()
-        this.isInputText=false
-        }
   }
 
   nextQuestion() {
     this.isCorrectAnswer=false
-    this.isInputText=false
     setTimeout(() => {
       this.currentQuestion++;
       this.isInputText=this.questionList[this.currentQuestion]?.isInputText;
-      localStorage.setItem("currentQuestion",this.currentQuestion.toString());
+      this.isMultiSelect=this.questionList[this.currentQuestion]?.isMultiSelect; 
+      this.isCheckedType=this.questionList[this.currentQuestion]?.isCheckedType; 
       this.getProgressPercent();
     }, 800);
     
@@ -74,6 +79,7 @@ export class QuestionsComponent implements OnInit {
       this.isCorrectAnswer=true
       this.isInputText=this.questionList[this.currentQuestion]?.isInputText; 
       this.isMultiSelect=this.questionList[this.currentQuestion]?.isMultiSelect; 
+      this.isCheckedType=this.questionList[this.currentQuestion]?.isCheckedType; 
       this.getProgressPercent();
     } else {
       this.isCorrectAnswer=false
@@ -81,10 +87,14 @@ export class QuestionsComponent implements OnInit {
         this.currentQuestion++;
         this.isInputText=this.questionList[this.currentQuestion]?.isInputText; 
         this.isMultiSelect=this.questionList[this.currentQuestion]?.isMultiSelect; 
+        this.isCheckedType=this.questionList[this.currentQuestion]?.isCheckedType; 
         this.getProgressPercent();
       }, 1000);
 
     }
+    localStorage.setItem("currentQuestion",currentQno.toString());
+    console.log("valor de currentxx: "+this.currentQuestion)
+    
   }
 
   stopCounter() {

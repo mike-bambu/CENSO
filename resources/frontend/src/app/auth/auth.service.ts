@@ -148,6 +148,8 @@ export class AuthService {
     localStorage.removeItem('clues');
     localStorage.removeItem('servicios');
     localStorage.removeItem('distrito');
+    localStorage.removeItem('name');
+    localStorage.removeItem('currentQuestion');
     this.authChange.next(false);
     this.router.navigate(['/login']);
   }

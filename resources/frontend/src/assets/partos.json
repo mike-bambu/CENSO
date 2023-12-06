@@ -3,13 +3,23 @@
         {
             "questionText": "Ingrese el número de expediente",
             "isInputText": true,
+            "isMultiSelect":false,
             "explanation": "",
             "type": "text",
             "placeholder": "Ingrese el número de expediente",
             "textId": "expedienteid"
         },
         {
-            "questionText": "¿Se registraron los centímetros de dilatación al momento en que la paciente ingresó a la sala de labor?",
+            "questionText": "Ingrese fecha de parto",
+            "isInputText": true,
+            "isMultiSelect":false,
+            "explanation": "",
+            "type": "date",
+            "placeholder": "Ingrese fecha de parto",
+            "textId": "fechapartoid"
+        },
+        {
+            "questionText": "¿En el expediente clínico se tiene registro de los centímetros de dilatación al momento en que la paciente ingresó a la sala de labor?",
             "options": [
                 {
                     "text": "Si",
@@ -23,11 +33,11 @@
             "isMultiSelect":false,
             "explanation": "Registre los centímetros de dilatación al ingreso",
             "type": "number",
-            "placeholder": "centímetros de dilatación al ingreso",
+            "placeholder": "medición en CM",
             "textId": "dilatacionId"
         },
         {
-            "questionText": "¿Se tiene registro del procentaje de borramiento del cuello uterino?",
+            "questionText": "¿En el expediente clínico se tiene registro del procentaje de borramiento del cuello uterino?",
             "options": [
                 {
                     "text": "Si",
@@ -44,7 +54,7 @@
             "textId": "uterinoId"
         },
         {
-            "questionText": "¿Se admitó a la paciente a la sala de labor con de 2-3 contraciones uterinas en 10 minutos de intensidad mayor de 30 segundos de duración?",
+            "questionText": "¿Se admitó a la paciente a la sala de labor con de 2-3 contraciones uterinas en 10 minutos con duración mayor o igual a 30 segundos de buena intensidad?",
             "options": [{
                 "text": "Si"
             },
@@ -52,10 +62,11 @@
                 "text": "No"
             }
             ],
-            "isInputText": false
+            "isInputText": false,
+            "isMultiSelect":false
         },
         {
-            "questionText": "¿Existen registros en la sección del partograma?",
+            "questionText": "¿La paciente fue monitoreada utilizando el formato oficial de partograma?",
             "options": [{
                 "text": "Si"
             },
@@ -63,10 +74,11 @@
                 "text": "No"
             }
             ],
-            "isInputText": false
+            "isInputText": false,
+            "isMultiSelect":false
         },
         {
-            "questionText": "¿Registro gráfico de la curva de alerta para terminación del parto? ",
+            "questionText": "¿Se realizó el registro gráfico de la curva de alerta para terminación del parto? ",
             "options": [{
                 "text": "Si"
             },
@@ -74,10 +86,11 @@
                 "text": "No"
             }
             ],
-            "isInputText": false
+            "isInputText": false,
+            "isMultiSelect":false
         },
         {
-            "questionText": "¿Registro gráfico de la Frecuencia cardiaca fetal?",
+            "questionText": "¿Se realizó el registro gráfico de la Frecuencia cardiaca fetal?",
             "options": [{
                 "text": "Si"
             },
@@ -85,10 +98,11 @@
                 "text": "No"
             }
             ],
-            "isInputText": false
+            "isInputText": false,
+            "isMultiSelect":false
         },
         {
-            "questionText": "¿Se registro la valoración del descenso de la cabeza fetal en el canal del parto?",
+            "questionText": "¿Se graficó la valoración del descenso de la cabeza fetal en el canal del parto?",
             "options": [{
                 "text": "Si"
             },
@@ -96,7 +110,8 @@
                 "text": "No"
             }
             ],
-            "isInputText": false
+            "isInputText": false,
+            "isMultiSelect":false
         },
         {
             "questionText": "¿Se detectó alguna alteración?",
@@ -106,10 +121,12 @@
             {
                 "text": "No"
             }
-            ]
+            ],
+            "isInputText": false,
+            "isMultiSelect":false
         },
         {
-            "questionText": "¿Existe anotada en nota médica una desición obstétrica tomada? ",
+            "questionText": "¿Existe anotada en nota médica una desición obstétrica tomada en un periodo no mayor a 30 minutos después del hallazgo? ",
             "options": [{
                 "text": "Si"
             },
@@ -117,72 +134,40 @@
                 "text": "No"
             }
             ],
-            "isInputText": false
+            "isInputText": false,
+            "isMultiSelect":false
         },
         {
-            "questionText": "¿Se aplico el procedimiento de asepsia en algún momento?",
+            "questionText": "Indique cuáles procedimientos o monitoreos se registraron en la nota de parto. Marque todas las opciones que aplique",
             "options": [{
-                "text": "Si"
+                "text": "Procedimiento de asepsia"
             },
             {
-                "text": "No"
-            }
-            ],
-            "isInputText": false
-        },
-        {
-            "questionText": "¿Se aplico el procedimiento de antisepsia en algún momento?",
-            "options": [{
-                "text": "Si"
+                "text": "Procedimiento de anti sepsia"
             },
             {
-                "text": "No"
+                "text": "Presión arterial"
+            },
+            {
+                "text": "Frecuencia cardiaca"
+            },
+            {
+                "text": "Pulso"
+            },
+            {
+                "text": "Temperatura"
+            },
+            {
+                "text": "Frecuencia cardiaca fetal"
+            },
+            {
+                "text": "Ninguno de las anteriores",
+                "correct": true
             }
             ],
-            "isInputText": false
-        },
-        {
-            "questionText": "¿Se registro  la presión arterial (PA)?",
-            "isInputText": true,
-            "explanation": "",
-            "type": "text",
-            "placeholder": "Ingrese la presión arterial",
-            "textId": "arterialId"
-            
-        },
-        {
-            "questionText": "¿Se registro  la  frecuencia cardica (FC)?",
-            "isInputText": true,
-            "explanation": "",
-            "type": "text",
-            "placeholder": "Ingrese la frecuencia cardiaca",
-            "textId": "cardiacalId"
-            
-        },
-        {
-            "questionText": "¿Se registro  el puslo?",
-            "isInputText": true,
-            "explanation": "",
-            "type": "text",
-            "placeholder": "Ingrese el pulso",
-            "textId": "pulsoId"
-            
-        },
-        {
-            "questionText": "¿Se registro la temperatura?",
-            "isInputText": true,
-            "explanation": "",
-            "type": "text",
-            "placeholder": "Ingrese la temperatura",
-            "textId": "temperaturaId"
-        },
-        {
-            "questionText": "¿Se registro la frecuencia cardiaca fetal?",
-            "isInputText": true,
-            "explanation": "",
-            "type": "text",
-            "placeholder": "Ingrese la frecuencia cardiaca fetal",
-            "textId": "frecuenciafetalId"
+            "isInputText": false,
+            "isMultiSelect":false,
+            "isCheckedType": true
         },
         {
             "questionText": "¿Se administró  Oxitocina 10 UI vía IM o IV ?",
@@ -193,10 +178,12 @@
                 "text": "No"
             }
             ],
-            "isInputText": false
+            "isInputText": false,
+            "isMultiSelect":false,
+            "isCheckedType": false
         },
         {
-            "questionText": "¿Se realizo el pinzamiento y corte del cordón umbilical ? ",
+            "questionText": "¿Se realizo el pinzamiento y corte del cordón umbilical 30 a 60 segundos después del nacimiento?",
             "options": [{
                 "text": "Si"
             },
@@ -204,62 +191,73 @@
                 "text": "No"
             }
             ],
-            "isInputText": false
+            "isInputText": false,
+            "isMultiSelect":false,
+            "isCheckedType": false
         },
         {
-            "questionText": "¿Se realizaron correctamente los cudados del cordón umbilical ?",
+            "questionText": "¿Se realizaron correctamente los cuidados del cordón umbilical?",
             "options": [{
                 "text": "Si"
             },
             {
                 "text": "No"
+            },
+            {
+                "text": "No registrado"
             }
             ],
-            "isInputText": false
+            "isInputText": false,
+            "isMultiSelect":false,
+            "isCheckedType": false
         },
         {
-            "questionText": "¿Se aplico el examen Apgar en tiempo y forma ?",
+            "questionText": "¿Se realizó valoración del Apgar al minuto?",
             "options": [{
                 "text": "Si"
             },
             {
                 "text": "No"
+            },
+            {
+                "text": "No registrado"
             }
             ],
-            "isInputText": false
+            "isInputText": false,
+            "isMultiSelect":false,
+            "isCheckedType": false
         },
         {
-            "questionText": "¿se aplico el examen Apgar al minuto?",
+            "questionText": "¿Se realizó valoración del Apgar a los 5 min?",
             "options": [{
                 "text": "Si"
             },
             {
                 "text": "No"
+            },
+            {
+                "text": "No registrado"
             }
             ],
-            "isInputText": false
+            "isInputText": false,
+            "isMultiSelect":false,
+            "isCheckedType": false
         },
         {
-            "questionText": "¿Se aplico el examen Apgar a los 5 min?  ",
+            "questionText": "¿Se realizó valoración Silverman Anderson?",
             "options": [{
                 "text": "Si"
             },
             {
                 "text": "No"
-            }
-            ],
-            "isInputText": false
-        },
-        {
-            "questionText": "¿Se aplico la valoración Silverman Anderson?",
-            "options": [{
-                "text": "Si"
             },
             {
-                "text": "No"
+                "text": "No registrado"
             }
             ],
-            "isInputText": false
+            "isInputText": false,
+            "isMultiSelect":false,
+            "isCheckedType": false
         },
         {
             "questionText": "¿Se administró  vitamina K 1 Mg vía IM ?",
@@ -268,288 +266,190 @@
             },
             {
                 "text": "No"
+            },
+            {
+                "text": "No registrado"
             }
             ],
-            "isInputText": false
+            "isInputText": false,
+            "isMultiSelect":false,
+            "isCheckedType": false
         },
         {
-            "questionText": "¿Se administró  Antibiotico local en ambos ojos ?  ",
+            "questionText": "¿Se administró  Antibiotico local en ambos ojos ?",
             "options": [{
                 "text": "Si"
             },
             {
                 "text": "No"
+            },
+            {
+                "text": "No registrado"
             }
             ],
-            "isInputText": false
+            "isInputText": false,
+            "isMultiSelect":false,
+            "isCheckedType": false
         },
         {
-            "questionText": "¿Se administró  Antibiotico local en ambos ojos ? ",
-            "options": [
-                {
-                    "text": "Si",
-                    "correct": true
-                },
-                {
-                    "text": "No"
-                }
+            "questionText": "¿Se realizó el examen fisico completo?",
+            "options": [{
+                "text": "Si"
+            },
+            {
+                "text": "No"
+            },
+            {
+                "text": "No registrado"
+            }
             ],
             "isInputText": false,
-            "explanation": "Indique el nombre del antibiotico aplicado",
-            "type": "text",
-            "placeholder": "antibiotico aplicado",
-            "textId": "antibioticoId"
+            "isMultiSelect":false,
+            "isCheckedType": false
         },
         {
-            "questionText": "¿Se realizo el examen fisico completo? ",
-            "options": [
-                {
-                    "text": "Si"
-                },
-                {
-                    "text": "No"
-                }
+            "questionText": "Indique cuáles medidas antropométricas se realizaron. Marque todas las que aplique",
+            "options": [{
+                "text": "Perímetro cefálico"
+            },
+            {
+                "text": "Medición toraxica"
+            },
+            {
+                "text": "Presión arterial"
+            },
+            {
+                "text": "Talla"
+            },
+            {
+                "text": "Peso"
+            },
+            {
+                "text": "Ninguno de las anteriores",
+                "correct": true
+            }
             ],
-            "isInputText": false
+            "isInputText": false,
+            "isMultiSelect":false,
+            "isCheckedType": true
         },
         {
-            "questionText": "¿Cuál fue del périmetro cefálico?",
-            "isInputText": true,
-            "explanation": "",
-            "type": "text",
-            "placeholder": "Ingrese el périmetro cefálico",
-            "textId": "cefalicoId"
-        },
-        {
-            "questionText": "¿Cuál fue la medición toraxica?",
-            "isInputText": true,
-            "explanation": "",
-            "type": "text",
-            "placeholder": "Ingrese la medición toraxica",
-            "textId": "totaxicaId"
-        },
-        {
-            "questionText": "¿Cuál fue su talla?",
-            "isInputText": true,
-            "explanation": "",
-            "type": "text",
-            "placeholder": "Ingrese la talla",
-            "textId": "tallaId"
-        },
-        {
-            "questionText": "¿Cuál fue su peso?",
-            "isInputText": true,
-            "explanation": "",
-            "type": "text",
-            "placeholder": "Ingrese su peso",
-            "textId": "pesoId"
-        },
-        {
-            "questionText": "¿Se realizo la valoración de la edad gestacional ?",
-            "options": [
-                {
-                    "text": "Si"
-                },
-                {
-                    "text": "No"
-                }
+            "questionText": "¿Se realizó la valoración de la edad gestacional?",
+            "options": [{
+                "text": "Si"
+            },
+            {
+                "text": "No"
+            },
+            {
+                "text": "No registrado"
+            }
             ],
-            "isInputText": false
+            "isInputText": false,
+            "isMultiSelect":false,
+            "isCheckedType": false
         },
         {
-            "questionText": "¿Se realizo la valoración de la madurez fisica y neuromuscular?",
-            "options": [
-                {
-                    "text": "Si"
-                },
-                {
-                    "text": "No"
-                }
+            "questionText": "¿Se realizó la valoración de la madurez fisica y neuromuscular?",
+            "options": [{
+                "text": "Si"
+            },
+            {
+                "text": "No"
+            },
+            {
+                "text": "No registrado"
+            }
             ],
-            "isInputText": false
+            "isInputText": false,
+            "isMultiSelect":false,
+            "isCheckedType": false
         },
         {
-            "questionText": "ingrese el padecimiento de acuerdo con el CIE10",
-            "options": [
-                {
-                    "text": "Nacido vivo, único / nacido único vivo por parto vaginal"
-                },
-                {
-                    "text": "Producto único nacido en hospital "
-                },
-                {
-                    "text": "Gemelos, nacidos en hospital  "
-                }
+            "questionText": "Seleccione el diagnóstico completo de acuerdo con el CIE-10",
+            "options": [{
+                "text": "Nacido vivo, único / nacido único vivo por parto vaginal "
+            },
+            {
+                "text": "Producto único nacido en hospital "
+            },
+            {
+                "text": "Gemelos, nacidos en hospital"
+            }
             ],
-            "isInputText": false
+            "isInputText": false,
+            "isMultiSelect":false,
+            "isCheckedType": false
         },
         {
-            "questionText": "¿Se realizo la valoración completa post parto durante la primera hora?",
-            "options": [
-                {
-                    "text": "Si"
-                },
-                {
-                    "text": "No"
-                }
+            "questionText": "Indiqué cuáles de los siguientes criterios se valoraron cada 15 minutos (4 veces) durante la primera hora después del parto. Marque todas las opciones que apliquen.",
+            "options": [{
+                "text": "Pulso"
+            },
+            {
+                "text": "Presión arterial"
+            },
+            {
+                "text": "Frecuencia cardiaca"
+            },
+            {
+                "text": "Frecuencia respiratoria"
+            },
+            {
+                "text": "Temperatura"
+            },
+            {
+                "text": "Involución uterina"
+            },
+            {
+                "text": "Llenado capilar"
+            },
+            {
+                "text": "Cuantificación de sangrado en ml."
+            },
+            {
+                "text": "Ninguno de las anteriores",
+                "correct": true
+            }
             ],
-            "isInputText": false
+            "isInputText": false,
+            "isMultiSelect":false,
+            "isCheckedType": true
         },
         {
-            "questionText": "Indique con que frecuencia se realizo la valoración en minutos",
-            "isInputText": true,
-            "explanation": "",
-            "type": "number",
-            "placeholder": "Ingrese la frecuencia",
-            "textId": "frecuenciaminutosId"
-        },
-        {
-            "questionText": "Indique el útimo pulso",
-            "isInputText": true,
-            "explanation": "",
-            "type": "text",
-            "placeholder": "Indique el útimo pulso",
-            "textId": "ultimopulsoId"
-        },
-        {
-            "questionText": "Indique la últma presión arterial",
-            "isInputText": true,
-            "explanation": "",
-            "type": "text",
-            "placeholder": "Indique la últma presión arterial",
-            "textId": "presionarterialId"
-        },
-        {
-            "questionText": "Indique la última frecuencia cardiaca",
-            "isInputText": true,
-            "explanation": "",
-            "type": "text",
-            "placeholder": "Indique la última frecuencia cardiaca",
-            "textId": "ultimafrecuenciacardiacalId"
-        },
-        {
-            "questionText": "Indique la última frecuencia respiratoria",
-            "isInputText": true,
-            "explanation": "",
-            "type": "number",
-            "placeholder": "Indique la última frecuencia respiratoria",
-            "textId": "ultimafrecuenciaresiratorialId"
-        },
-        {
-            "questionText": "Indique la última temperaruta",
-            "isInputText": true,
-            "explanation": "",
-            "type": "number",
-            "placeholder": "Indique la última temperaruta",
-            "textId": "ultimafrecuenciaresiratorialId"
-        },
-        {
-            "questionText": "Indique la última Involución uterina",
-            "isInputText": true,
-            "explanation": "",
-            "type": "number",
-            "placeholder": "Indique la última Involución uterina",
-            "textId": "ultimafrecuenciaresiratorialId"
-        },
-        {
-            "questionText": "Indique su último Llenado capilar menor de 2  segundos",
-            "isInputText": true,
-            "explanation": "",
-            "type": "number",
-            "placeholder": "Indique su último Llenado capilar menor de 2  segundos",
-            "textId": "ultimafrecuenciaresiratorialId"
-        },
-        {
-            "questionText": "Indique su última Revisión y cuantificación de sangrado en ml",
-            "isInputText": true,
-            "explanation": "",
-            "type": "number",
-            "placeholder": "Indique su última Revisión y cuantificación de sangrado en ml",
-            "textId": "ultimafrecuenciaresiratorialId"
-        },
-        {
-            "questionText": "¿Se realizo la valoración completa post parto durante la segunda hora?",
-            "options": [
-                {
-                    "text": "Si"
-                },
-                {
-                    "text": "No"
-                }
+            "questionText": "Indiqué cuáles de los siguientes criterios se valoraron cada 15 minutos (4 veces) durante la primera hora después del parto. Marque todas las opciones que apliquen.",
+            "options": [{
+                "text": "Pulso"
+            },
+            {
+                "text": "Presión arterial"
+            },
+            {
+                "text": "Frecuencia cardiaca"
+            },
+            {
+                "text": "Frecuencia respiratoria"
+            },
+            {
+                "text": "Temperatura"
+            },
+            {
+                "text": "Involución uterina"
+            },
+            {
+                "text": "Llenado capilar"
+            },
+            {
+                "text": "Cuantificación de sangrado en ml."
+            },
+            {
+                "text": "Ninguno de las anteriores",
+                "correct": true
+            }
             ],
-            "isInputText": false
-        },
-        {
-            "questionText": "Indique con que frecuencia se realizo la valoración en minutos",
-            "isInputText": true,
-            "explanation": "",
-            "type": "number",
-            "placeholder": "Indique con que frecuencia se realizo la valoración en minutos",
-            "textId": "ultimafrecuenciaresiratorialId"
-        },
-        {
-            "questionText": "Indique el útimo pulso",
-            "isInputText": true,
-            "explanation": "",
-            "type": "number",
-            "placeholder": "Indique el útimo pulso",
-            "textId": "ultimafrecuenciaresiratorialId"
-        },
-        {
-            "questionText": "Indique la últma presión arterial",
-            "isInputText": true,
-            "explanation": "",
-            "type": "number",
-            "placeholder": "Indique la últma presión arterial",
-            "textId": "ultimafrecuenciaresiratorialId"
-        },
-        {
-            "questionText": "Indique la última frecuencia cardiaca",
-            "isInputText": true,
-            "explanation": "",
-            "type": "number",
-            "placeholder": "Indique la últma presión arterial",
-            "textId": "ultimafrecuenciaresiratorialId"
-        },
-        {
-            "questionText": "Indique la última frecuencia respiratoria",
-            "isInputText": true,
-            "explanation": "",
-            "type": "number",
-            "placeholder": "Indique la última frecuencia respiratoria",
-            "textId": "ultimafrecuenciaresiratorialId"
-        },
-        {
-            "questionText": "Indique la última temperaruta",
-            "isInputText": true,
-            "explanation": "",
-            "type": "number",
-            "placeholder": "Indique la última temperaruta",
-            "textId": "ultimafrecuenciaresiratorialId"
-        },
-        {
-            "questionText": "Indique la última Involución uterina",
-            "isInputText": true,
-            "explanation": "",
-            "type": "number",
-            "placeholder": "Indique la última Involución uterina",
-            "textId": "ultimafrecuenciaresiratorialId"
-        },
-        {
-            "questionText": "Indique su último Llenado capilar menor de 2  segundos",
-            "isInputText": true,
-            "explanation": "",
-            "type": "number",
-            "placeholder": "Indique su último Llenado capilar menor de 2  segundos",
-            "textId": "ultimafrecuenciaresiratorialId"
-        },
-        {
-            "questionText": "Indique su última Revisión y cuantificación de sangrado en ml",
-            "isInputText": true,
-            "explanation": "",
-            "type": "number",
-            "placeholder": "Indique su última Revisión y cuantificación de sangrado en ml",
-            "textId": "ultimafrecuenciaresiratorialId"
+            "isInputText": false,
+            "isMultiSelect":false,
+            "isCheckedType": true
         },
         {
             "questionText": "¿La paciente recibió algún método anticonceptivo?            ",
@@ -565,6 +465,7 @@
             ],
             "isInputText": false,
             "isMultiSelect":true,
+            "isCheckedType": false,
             "questionSelectText": "Seleccione que tipo de método anticonceptivo fue aplicado  ",
             "optionsselect": [
                 {
@@ -588,76 +489,54 @@
             ]
         },
         {
-            "questionText": "¿firmo el documento de con sentimiento?",
-            "options": [
-                {
-                    "text": "Si",
-                    "correct": true
-                    
-                },
-                {
-                    "text": "No"
-                }
-            ],
-            "isInputText": false
-        },
-        {
-            "questionText": "¿se hizo la medición de la presión arterial tras haber transcurrido 24 hrs despues del parto?",
-            "isInputText": true,
-            "explanation": "",
-            "type": "number",
-            "placeholder": "Indique la presión arterial",
-            "textId": "ultimafrecuenciaresiratorialId"
-        },
-        {
-            "questionText": "¿se hizo la medición de la frecuencia cardiaca tras haber transcurrido 24 hrs despues del parto?",
-            "isInputText": true,
-            "explanation": "",
-            "type": "number",
-            "placeholder": "Indique la frecuencia cardiaca",
-            "textId": "ultimafrecuenciaresiratorialId"
-        },
-        {
-            "questionText": "¿se hizo la medición del pulso tras haber transcurrido 24 hrs despues del parto?",
-            "isInputText": true,
-            "explanation": "",
-            "type": "number",
-            "placeholder": "Indique el pulso",
-            "textId": "ultimafrecuenciaresiratorialId"
-        },
-        {
-            "questionText": "¿se hizo la medición de la temperaruta tras haber transcurrido 24 hrs despues del parto?",
-            "isInputText": true,
-            "explanation": "",
-            "type": "number",
-            "placeholder": "Indique la temperatura",
-            "textId": "ultimafrecuenciaresiratorialId"
-        },
-        {
-            "questionText": "¿se hizo la medición de Involución uterina tras haber transcurrido 24 hrs despues del parto?",
-            "isInputText": true,
-            "explanation": "",
-            "type": "number",
-            "placeholder": "Indique la involución",
-            "textId": "ultimafrecuenciaresiratorialId"
-        },
-        {
-            "questionText": "¿se hizo la medición de Revisión y cuantificación de sangrado en ml tras haber transcurrido 24 hrs despues del parto?",
-            "options": [
-                {
-                    "text": "Si",
-                    "correct": true
-                },
-                {
-                    "text": "No"
-                }
+            "questionText": "¿La paciente firmó el documento de consentimienot informado tanto si aceptó o rechazó métodos anticonceptivos?",
+            "options": [{
+                "text": "Si"
+            },
+            {
+                "text": "No"
+            }
             ],
             "isInputText": false,
-            "explanation": "Ingrese la medición de la revisión",
-            "type": "number",
-            "placeholder": "sangrado en ml",
-            "textId": "dilatacionId"
+            "isMultiSelect":false,
+            "isCheckedType": false
+        },
+        {
+            "questionText": "Indique cuáles de los siguientes criterios se valoraron al menos dos veces posterior a la segunda hora y hasta 24 horas despúes del parto. Marque todos los que apliquen.",
+            "options": [{
+                "text": "Pulso"
+            },
+            {
+                "text": "Presión arterial"
+            },
+            {
+                "text": "Frecuencia cardiaca"
+            },
+            {
+                "text": "Frecuencia respiratoria"
+            },
+            {
+                "text": "Temperatura"
+            },
+            {
+                "text": "Involución uterina"
+            },
+            {
+                "text": "Llenado capilar"
+            },
+            {
+                "text": "Cuantificación de sangrado en ml."
+            },
+            {
+                "text": "Ninguno de las anteriores",
+                "correct": true
+            }
+            ],
+            "isInputText": false,
+            "isMultiSelect":false,
+            "isCheckedType": true
         }
+
     ]
     
 }

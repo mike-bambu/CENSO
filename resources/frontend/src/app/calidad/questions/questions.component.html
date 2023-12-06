@@ -104,7 +104,7 @@
                         </div>
                     </div>
 
-                    <div class="options">
+                    <div class="options" *ngIf="!isCheckedType">
                         <ol *ngFor="let option of questionList[currentQuestion]?.options">
                             <li (click)="answer(currentQuestion+1,option)">
                                 <div appChangeBg [isCorrect]="option.correct" class="card">
@@ -113,6 +113,15 @@
                             </li>
                         </ol>
                     </div>
+
+                    <div class="options" *ngIf="isCheckedType">
+                        <ol *ngFor="let option of questionList[currentQuestion]?.options">
+                            <input type="checkbox">
+                            {{option.text}}
+                        </ol>
+                    </div>
+                    
+                    
 
                     <div class="row" [hidden]="!isCorrectAnswer" >
                         <div fxLayout.gt-sm="row" fxLayout="column" fxLayoutGap.gt-sm="10px" *ngIf="!isMultiSelect">
@@ -154,7 +163,7 @@
 
                     <mat-divider></mat-divider>
                     <br/>
-                    <div mat-dialog-actions *ngIf="isCorrectAnswer || isInputText">
+                    <div mat-dialog-actions *ngIf="isCorrectAnswer || isInputText || isCheckedType">
                     <span fxFlex></span>
                     <button mat-raised-button  color="primary"  (click)="nextQuestion()"><mat-icon>save</mat-icon> Siguiente</button>
                     </div>

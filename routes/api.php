@@ -100,6 +100,8 @@ Route::group(['middleware'=>'auth'],function($router){
     Route::post('reporte-embarazos-hospitalizados',          'API\Reportes\EmbarazosController@reporteEmbarazosEnHospitalizacion');
     Route::post('reporte-embarazos-ambulatorios',            'API\Reportes\EmbarazosController@reporteEmbarazosAmbulatorios');
 
+    //Calidad
+    Route::apiResource('calidad-web',                'API\Sistema\CalidadWebController');
     
 });
 

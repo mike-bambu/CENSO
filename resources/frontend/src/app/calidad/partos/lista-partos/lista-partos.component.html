@@ -8,7 +8,7 @@
                 <div fxLayout="row" fxLayout.xs="column">
                     <div fxFlex fxLayout="row wrap">
                         <mat-form-field fxFill appearance="outline">
-                            <mat-label>Buscar por: Nombre, Alias, N° de Expediente, Celular, Teléfono... </mat-label>
+                            <mat-label>Buscar por: N° de Expediente </mat-label>
                             <input matInput class="uppercase" [(ngModel)]="searchQuery" (keyup.escape)="cleanSearch()" (keyup.enter)="applyFilter()" placeholder="Buscar por: Nombre, Alias, N° de Expediente, Celular, Teléfono...">
                             <button matSuffix *ngIf="searchQuery" mat-icon-button (click)="cleanSearch()" [attr.aria-label]="'Clean Query'" [attr.aria-pressed]="'cleanQuery'">
                                 <mat-icon>close</mat-icon>

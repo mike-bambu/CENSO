@@ -206,24 +206,21 @@
                             <ng-container matColumnDef="nombre">
                                 <th mat-header-cell *matHeaderCellDef mat-sort-header> Tipo </th>
                                 <td mat-cell *matCellDef="let row">
-                                    <b>{{ (row.esDesconocido == 0) ? row.nombre+' '+row.paterno+' '+row.materno : row.alias}}</b>
-
-                                    <div style="font-size: 8pt;">
-                                        {{(row.esDesconocido == 0) ? row.edad+' '+row.tipo_edad : row.edad_aparente+' '+'AÑOS'}}
-                                    </div>
+                                    <b>{{row.measurement_type}}</b>
                                 </td>
                             </ng-container>
 
                             <!-- procedencia column -->
                             <ng-container matColumnDef="procedencia">
-                                <th mat-header-cell *matHeaderCellDef mat-sort-header fxHide.xs="xs"> Mes </th>
-                                <td mat-cell *matCellDef="let row" fxHide.xs="xs"> {{(row.esDesconocido == 0 && row.municipio != null) ? row.municipio.nombre : row.estado_republica != null ? row.estado_republica.nombre : 'NO IDENTIFICADO' | uppercase}} </td>
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header fxHide.xs="xs"> Fecha de inicio </th>
+                                <td mat-cell *matCellDef="let row" fxHide.xs="xs"> {{row.date_start}} </td>
                             </ng-container>
 
                             <ng-container matColumnDef="atencion">
                                 <th mat-header-cell *matHeaderCellDef >Estatus</th>
                                 <td mat-cell *matCellDef="let row; let i = index" >
-                                    <button  *ngIf="row.ultima_atencion == null  || row.tieneAtencion == 0 || row.ultima_atencion.dadodeAlta == 1" mat-stroked-button color="primary" (click)="openDialogFormAtencion(row.id)"  matTooltip="Generar Atención e Ingreso"><mat-icon>transfer_within_a_station</mat-icon></button>
+                                    <b  *ngIf="row.is_active == 1" > Activo</b>
+                                    <b  *ngIf="row.is_active == 0" > Terminado</b>
                                 </td>
                             </ng-container>
 
@@ -246,9 +243,10 @@
                                 <td mat-cell *matCellDef="let row; let i = index">
                                     <!--<button mat-stroked-button color="primary" matTooltip="Editar Trabajador" (click)="editTrabajador(i)" routerLink="/trabajadores/editar/{{row.id}}"><mat-icon>edit</mat-icon></button>&nbsp;-->
                                     
-                                    <button mat-button mat-stroked-button [matMenuTriggerFor]="menu" *ngIf="row.estatus != 3">Opciones</button>
+                                    <button mat-button mat-stroked-button [matMenuTriggerFor]="menu" *ngIf="row.is_active == 1">Opciones</button>
                                     <mat-menu #menu="matMenu">
-                                        <button mat-menu-item color="primary" routerLink = "/ingresos/editar/{{row.id}}" matTooltip="Continuar medición"><mat-icon>edit</mat-icon>Continuar medición</button>
+                                        <!-- <button mat-menu-item color="primary" routerLink = "/ingresos/editar/{{row.id}}" matTooltip="Continuar medición"><mat-icon>edit</mat-icon>Continuar medición</button> -->
+                                        <button mat-menu-item color="primary" routerLink = "/calidad/questions/{{row.id}}" matTooltip="Continuar medición"><mat-icon>edit</mat-icon>Continuar medición</button>
                                     </mat-menu>
                                     
                                 </td>

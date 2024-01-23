@@ -29,8 +29,8 @@ export class QuestionsComponent implements OnInit {
     this.quizType = localStorage.getItem("name")!;
     if(this.quizType=="partos"){
       this.getAllQuestions();
-      this.title="Indicador 1"
-      this.subtitle="% de pacientes obstétricas a las que se les confirmó el diagnóstico de hemorragia post parto en el TRIAGE de forma inmediata por la magnitud de la pérdida hemática y cuadro clínico."
+      this.title="Ingreso a sala de labor cumpliendo los criterios establecidos en la norma"
+      this.subtitle="Seleccione sólo una opción."
     }
   }
 

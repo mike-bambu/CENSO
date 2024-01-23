@@ -3,6 +3,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { SharedService } from 'src/app/shared/shared.service';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { IngresosService } from 'src/app/ingresos/ingresos.service';
+import { QuestionService } from '../../service/question.service';
 import { AtencionDialogComponent } from 'src/app/ingresos/atencion-dialog/atencion-dialog.component';
 import { AltaDialogComponent } from 'src/app/ingresos/alta-dialog/alta-dialog.component';
 import { DetailsComponentPaciente } from 'src/app/ingresos/details-paciente/details-paciente.component';
@@ -123,6 +124,7 @@ export class ListaComponentPartos implements OnInit {
   constructor(
     private sharedService: SharedService,
     private ingresosService: IngresosService,
+    private calidadService: QuestionService,
     private authService: AuthService,
     private fb: UntypedFormBuilder,
     public dialog: MatDialog,
@@ -470,18 +472,18 @@ export class ListaComponentPartos implements OnInit {
     this.sharedService.setDataToCurrentApp('searchQuery',this.searchQuery);
     this.sharedService.setDataToCurrentApp('filter',filterFormValues);
 
-    this.ingresosService.getPacientesList(params).subscribe({
+    this.calidadService.getCalidadList(params).subscribe({
       next:(response) => {
         if(response.error) {
           const errorMessage = response.error.message;
           this.sharedService.showSnackBar(errorMessage, null, 3000);
         } else {
-          if(response.data.total > 0){
-            this.dataSource = response.data.data;
-            this.fechaActual = response.fecha_actual;
+          console.log(response)
+           if(response.calidad.calidad >0){
+            this.dataSource = response.calidad.calidad;
             this.resultsLength = response.data.total;
-          }else if(response.data[0]){
-            this.dataSource = response.data;
+          }else if(response.calidad[0]){
+            this.dataSource = response.calidad;
             this.resultsLength = 1;
           }
           else{
@@ -502,12 +504,13 @@ export class ListaComponentPartos implements OnInit {
         if(errorResponse.status == 409){
           errorMessage = errorResponse.error.error;
           this.sharedService.showSnackBar(errorMessage, 'Cerrar', 5000);
-          this.router.navigate(['/atencion-pacientes']);
+          this.router.navigate(['/calidad']);
         }
 
         this.isLoading = false;
       },
       complete:() =>{}
+
     });
 
     return event;

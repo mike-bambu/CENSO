@@ -9,6 +9,7 @@ const routes: Routes = [
   { path: 'calidad', component: CalidadComponent, canActivate: [AuthGuard] },
   { path: 'calidad/vista-partos', component: ListaComponentPartos, canActivate: [AuthGuard] },
   { path: 'calidad/questions', component: QuestionsComponent, canActivate: [AuthGuard] },
+  { path: 'calidad/questions/:id',       component: QuestionsComponent, canActivate: [AuthGuard] },
 ];
 
 @NgModule({

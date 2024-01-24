@@ -26,6 +26,28 @@
 
                 </div>
                 <div fxLayout.gt-sm="row" fxLayout="column" fxLayoutGap.gt-sm="10px">
+    
+                    <mat-form-field appearance="fill" fxFlex>
+                        <mat-label>Mes de medición: </mat-label>
+                        <mat-select formControlName="month_measurement">
+                            <mat-option value="Enero">Enero</mat-option>
+                            <mat-option value="Febrero">Febrero</mat-option>
+                            <mat-option value="Marzo">Marzo</mat-option>
+                            <mat-option value="Abril">Abril</mat-option>
+                            <mat-option value="Mayo">Mayo</mat-option>
+                            <mat-option value="Junio">Junio</mat-option>
+                            <mat-option value="Julio">Julio</mat-option>
+                            <mat-option value="Agosto">Agosto</mat-option>
+                            <mat-option value="Septiembre">Septiembre</mat-option>
+                            <mat-option value="Octubre">Octubre</mat-option>
+                            <mat-option value="Noviembre">Noviembre</mat-option>
+                            <mat-option value="Diciembre">Diciembre</mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="quizPartosForm.controls['initParto'].get('iterations_quiz').hasError('required')">Este campo es obligatorio</mat-error>
+                    </mat-form-field>
+
+                </div>
+                <div fxLayout.gt-sm="row" fxLayout="column" fxLayoutGap.gt-sm="10px">
                     <mat-form-field fxFlex appearance="fill">
                         <mat-label>Número de muestra</mat-label>
                         <input type="number" matInput formControlName="iterations_quiz">
@@ -48,5 +70,5 @@
 <div mat-dialog-actions>
     <span fxFlex></span>
     <button mat-button (click)='onNoClick()'>Cancelar</button>
-    <button mat-raised-button  color="primary" [disabled]="quizPartosForm.invalid || isLoading" routerLink="/calidad/questions" (click)="startQuiz()"><mat-icon>save</mat-icon> Guardar</button>
+    <button mat-raised-button  color="primary" [disabled]="quizPartosForm.invalid || isLoading" (click)="startQuiz()"><mat-icon>save</mat-icon> Guardar</button>
 </div>

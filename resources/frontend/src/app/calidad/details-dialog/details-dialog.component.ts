@@ -43,8 +43,9 @@ export class DetailsDialogComponent implements OnInit{
   authUser: User;
   isLoading = false;
   minDate:Date;
-  fechaActual:any = '';
+  dateNow:any = '';
   fechaInicial:any = '';
+  mesActual:any = '';
   maxDate:Date;
   quizPartosForm:UntypedFormGroup;
 
@@ -53,16 +54,19 @@ export class DetailsDialogComponent implements OnInit{
     this.quizPartosForm = this.fb.group ({
       initParto: this.fb.group({  
         fecha_init_quiz:['', Validators.required],  
+        month_measurement:['', Validators.required], 
         iterations_quiz:['', Validators.required],  
       })
 
     });
     moment.locale('es');
     const fecha = new Date();
-    this.fechaActual = moment(fecha).format('YYYY-MM-D');
+    this.dateNow = moment(fecha).format('YYYY-MM-D');
+    this.mesActual = moment(fecha).format('MMMM');
     this.minDate = new Date(2023, 0, 1);
     this.maxDate = fecha;
     this.authUser = this.authService.getUserData();
+    this.quizPartosForm.controls['initParto'].get('fecha_init_quiz').patchValue(this.maxDate);
   }
 
   onNoClick(): void {
@@ -70,7 +74,11 @@ export class DetailsDialogComponent implements OnInit{
   }
 
   startQuiz(){
+    this.isLoading = true;
+    const formData = JSON.parse(JSON.stringify(this.quizPartosForm.value));
+    console.log('valor de mes: '+formData.initParto.fecha_init_quiz)
     this.dialogRef.close();
-    localStorage.setItem("name","partos");
+    localStorage.setItem("measurementType","partos");
+    localStorage.setItem("totalIterations",formData.initParto.iterations_quiz);
   }
 }

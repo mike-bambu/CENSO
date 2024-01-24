@@ -17,13 +17,16 @@ class CreateQualityMeasurements extends Migration
             $table->smallIncrements('id')->unsigned();
             $table->bigInteger('user_id')->unsigned();
             $table->string('clues_id')->nullable()->index();
-            $table->boolean('is_active')->unsigned();
+            $table->boolean('is_active')->unsigned()->default(1);
             $table->integer('total_files')->unsigned()->nullable()->index();
-            $table->integer('reviewed_files')->unsigned()->nullable()->index();
+            $table->integer('reviewed_files')->unsigned()->nullable()->default(0)->index();
             $table->string('measurement_type')->index();
             $table->date('date_start')->nullable();
             $table->date('date_finish')->nullable();
             $table->string('last_folio_file')->nullable();
+            $table->string('month_measurement')->nullable()->index();
+            $table->year('year_measurement')->nullable()->index();
+            $table->integer('current_question')->unsigned()->default(0)->index();
             $table->timestamps();
             $table->softDeletes();
         });

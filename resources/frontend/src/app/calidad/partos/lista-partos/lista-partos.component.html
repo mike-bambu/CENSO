@@ -28,108 +28,28 @@
                 <mat-accordion class="advanced-filter-container">
                     <mat-expansion-panel #advancedFilter  class="advanced-filter" [formGroup]="filterForm">
                         <br>
-                        <div fxLayout.gt-sm="row" fxLayout="column" fxLayoutGap.gt-sm="10px">
-        
-                            <mat-form-field appearance="fill" fxFlex>
-                                <mat-label>Fecha de Ingreso (Desde): </mat-label>
-                                <input matInput [min]="minDate" [max]="maxDate" [matDatepicker]="picker1" formControlName="fecha_inicio" placeholder="Fecha de Ingreso (Desde)" readonly>
-                                <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
-                                <mat-datepicker #picker1></mat-datepicker>
-                            </mat-form-field>
-    
-                            <mat-form-field appearance="fill" fxFlex>
-                                <mat-label>Fecha de Ingreso (Hasta): </mat-label>
-                                <input matInput [min]="minDate" [max]="maxDate" [matDatepicker]="picker2" formControlName="fecha_fin" placeholder="Fecha de Ingreso (Hasta)" readonly>
-                                <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
-                                <mat-datepicker #picker2></mat-datepicker>
-                            </mat-form-field>
-    
-                        </div>
+                        
     
                         <div fxLayout.gt-sm="row" fxLayout="column" fxLayoutGap.gt-sm="10px">
     
                             <mat-form-field appearance="fill" fxFlex>
-                                <mat-label>Tipo de Edad (Años/Meses/Dias): </mat-label>
-                                <mat-select formControlName="tipo_edad">
-                                    <mat-option value="Años" >Años</mat-option>
-                                    <mat-option value="Meses">Meses</mat-option>
-                                    <mat-option value="Dias" >Días</mat-option>
+                                <mat-label>Mes de medición: </mat-label>
+                                <mat-select formControlName="filter_month_measurement">
+                                    <mat-option value="Enero">Enero</mat-option>
+                                    <mat-option value="Febrero">Febrero</mat-option>
+                                    <mat-option value="Marzo">Marzo</mat-option>
+                                    <mat-option value="Abril">Abril</mat-option>
+                                    <mat-option value="Mayo">Mayo</mat-option>
+                                    <mat-option value="Junio">Junio</mat-option>
+                                    <mat-option value="Julio">Julio</mat-option>
+                                    <mat-option value="Agosto">Agosto</mat-option>
+                                    <mat-option value="Septiembre">Septiembre</mat-option>
+                                    <mat-option value="Octubre">Octubre</mat-option>
+                                    <mat-option value="Noviembre">Noviembre</mat-option>
+                                    <mat-option value="Diciembre">Diciembre</mat-option>
                                 </mat-select>
                             </mat-form-field>
     
-                            <mat-form-field  *ngIf="filterForm.get('tipo_edad').value != null" appearance="fill" fxFlex>
-                                <mat-label>Edad: </mat-label>
-                                <input matInput (keypress)="numberOnly($event)" id="edad" placeholder="Edad en {{ filterForm.get('tipo_edad').value }}, Escriba solo Números" formControlName="edad">
-                                <mat-error>Campo Requerido</mat-error>
-                            </mat-form-field>
-    
-                        </div>
-    
-                        <div fxLayout.gt-sm="row" fxLayout="column" fxLayoutGap.gt-sm="10px">
-    
-                            <mat-form-field appearance="fill" fxFlex>
-                                <mat-label>Sexo: </mat-label>
-                                <mat-select formControlName="sexo">
-                                    <mat-option value="Femenino">FEMENINO</mat-option>
-                                    <mat-option value="Masculino">MASCULINO</mat-option>
-                                </mat-select>
-                            </mat-form-field>
-    
-                            <mat-form-field appearance="fill" fxFlex>
-                                <mat-label>Identidad: </mat-label>
-                                <mat-select formControlName="identidad">
-                                    <mat-option value="0">CONOCIDA</mat-option>
-                                    <mat-option value="1">DESCONOCIDA</mat-option>
-                                </mat-select>
-                            </mat-form-field>
-    
-                            <mat-form-field appearance="fill" fxFlex>
-                                <mat-label>Nacionalidad: </mat-label>
-                                <mat-select formControlName="nacionalidad">
-                                    <mat-option value="0">MEXICANA</mat-option>
-                                    <mat-option value="1">EXTRANJERA</mat-option>
-                                </mat-select>
-                            </mat-form-field>
-    
-                        </div>
-    
-                        <div fxLayout.gt-sm="row" fxLayout="column" fxLayoutGap.gt-sm="10px">
-    
-                            <mat-form-field appearance="fill" fxFlex  *ngIf="!catalogos['municipios']">
-                                <mat-label>Municipio: </mat-label>
-                                <input matInput formControlName="municipio">
-                                <mat-hint>Escribe el nombre del Municipio</mat-hint>
-                            </mat-form-field>
-        
-                            <mat-form-field appearance="fill" fxFlex *ngIf="catalogos['municipios']">
-                                <mat-label>Municipio: </mat-label>
-                                <input type="text" aria-label="municipio" matInput formControlName="municipio_id" [matAutocomplete]="municipioAutocomplete" (blur)="checkAutocompleteValue('municipio_id')">
-                                <mat-autocomplete #municipioAutocomplete="matAutocomplete" [displayWith]="getDisplayFn('nombre')" [panelWidth]="'auto'" (optionSelected)="cargarLocalidades($event)">
-                                    <mat-option *ngFor="let item of filteredCatalogs['municipios'] | async" [value]="item">
-                                        {{item.nombre}}
-                                    </mat-option>
-                                </mat-autocomplete>
-                                <mat-hint *ngIf="!filterForm.get('municipio_id').value">Selecciona un Municipio de la lista </mat-hint>
-                                <!-- <mat-hint align="end" *ngIf="pacienteForm.controls['paciente'].get('municipio_id').value">[{{pacienteForm.controls['paciente'].get('municipio_id').value.clave}}]</mat-hint> -->
-                            </mat-form-field>
-    
-                            <mat-form-field appearance="fill" fxFlex  *ngIf="!catalogos['localidades']">
-                                <mat-label>Localidad: </mat-label>
-                                <input matInput formControlName="localidad">
-                                <mat-hint>Escribe el nombre del Localidad</mat-hint>
-                            </mat-form-field>
-        
-                            <mat-form-field appearance="fill" fxFlex *ngIf="catalogos['localidades']">
-                                <mat-label>Localidad: </mat-label>
-                                <input type="text" aria-label="municipio" matInput formControlName="localidad_id" [matAutocomplete]="localidadAutocomplete" (blur)="checkAutocompleteValue('localidad_id')">
-                                <mat-autocomplete #localidadAutocomplete="matAutocomplete" [displayWith]="getDisplayFn('nombre')" [panelWidth]="'auto'">
-                                    <mat-option *ngFor="let item of filteredCatalogs['localidades'] | async" [value]="item">
-                                        {{item.nombre}}
-                                    </mat-option>
-                                </mat-autocomplete>
-                                <mat-hint *ngIf="!filterForm.get('municipio_id').value">Selecciona una Localidad de la lista </mat-hint>
-                                <!-- <mat-hint align="end" *ngIf="pacienteForm.controls['paciente'].get('municipio_id').value">[{{pacienteForm.controls['paciente'].get('municipio_id').value.clave}}]</mat-hint> -->
-                            </mat-form-field>
                         </div>
     
                         <div fxLayout="row wrap">
@@ -203,7 +123,7 @@
                             </ng-container> -->
                     
                             <!-- nombre completo Column -->
-                            <ng-container matColumnDef="nombre">
+                            <ng-container matColumnDef="type">
                                 <th mat-header-cell *matHeaderCellDef mat-sort-header> Tipo </th>
                                 <td mat-cell *matCellDef="let row">
                                     <b>{{row.measurement_type}}</b>
@@ -211,12 +131,17 @@
                             </ng-container>
 
                             <!-- procedencia column -->
-                            <ng-container matColumnDef="procedencia">
+                            <ng-container matColumnDef="date_start">
                                 <th mat-header-cell *matHeaderCellDef mat-sort-header fxHide.xs="xs"> Fecha de inicio </th>
                                 <td mat-cell *matCellDef="let row" fxHide.xs="xs"> {{row.date_start}} </td>
                             </ng-container>
 
-                            <ng-container matColumnDef="atencion">
+                            <ng-container matColumnDef="month_measurement">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header fxHide.xs="xs"> Mes de medición </th>
+                                <td mat-cell *matCellDef="let row" fxHide.xs="xs"> {{row.month_measurement}} </td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="is_active">
                                 <th mat-header-cell *matHeaderCellDef >Estatus</th>
                                 <td mat-cell *matCellDef="let row; let i = index" >
                                     <b  *ngIf="row.is_active == 1" > Activo</b>
@@ -238,7 +163,7 @@
                                 </td>
                             </ng-container> -->
 
-                            <ng-container matColumnDef="opciones" >
+                            <ng-container matColumnDef="options" >
                                 <th mat-header-cell *matHeaderCellDef>Opciones</th>
                                 <td mat-cell *matCellDef="let row; let i = index">
                                     <!--<button mat-stroked-button color="primary" matTooltip="Editar Trabajador" (click)="editTrabajador(i)" routerLink="/trabajadores/editar/{{row.id}}"><mat-icon>edit</mat-icon></button>&nbsp;-->
@@ -263,7 +188,7 @@
                             <tr mat-footer-row *matFooterRowDef="['noResultsFound']" class="no-results-found" [ngClass]="{'hide':!(dataSource!=null && dataSource.length==0)}"></tr>
                         </table>
                     </div>
-                    <mat-paginator #paginator pageSize="20" [pageIndex]="currentPage" [length]="resultsLength" [pageSizeOptions]="[5, 10, 20, 50]" showFirstLastButtons (page)="pageEvent = loadPacientesData($event)"></mat-paginator>
+                    <mat-paginator #paginator pageSize="20" [pageIndex]="currentPage" [length]="resultsLength" [pageSizeOptions]="[5, 10, 20, 50]" showFirstLastButtons (page)="pageEvent = loadCalidadData($event)"></mat-paginator>
                 </div>
 
 

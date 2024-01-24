@@ -19,6 +19,8 @@ class CreateMeasurementQuestionsAnswers extends Migration
             $table->string('folio_file')->nullable();
             $table->string('question')->nullable();
             $table->json('answers')->nullable();
+            $table->boolean('is_measurable')->unsigned()->default(0);
+            $table->boolean('test_pass')->unsigned()->default(0);
             $table->timestamps();
             $table->softDeletes();
         });

@@ -82,7 +82,7 @@ export class ListaComponentPartos implements OnInit {
     '4':'swap_horizontal_circle' //en transferencia
   };
 
-  displayedColumns: string[] = ['nombre', 'procedencia', 'atencion', 'opciones'];
+  displayedColumns: string[] = ['type', 'date_start','month_measurement', 'is_active', 'options'];
   dataSource: any = [];
   dataSourceFilters: any = [];
 
@@ -103,7 +103,7 @@ export class ListaComponentPartos implements OnInit {
     'localidad'           : [undefined],
     'fecha_inicio'        : [undefined],
     'fecha_fin'           : [undefined],
-    'tipo_edad'           : [undefined],
+    'filter_month_measurement'           : [undefined],
     'edad'                : [undefined],
     'sexo'                : [undefined],
     'atencion'            : [undefined],
@@ -191,7 +191,7 @@ export class ListaComponentPartos implements OnInit {
 
     this.authClues = this.authService.getCluesData();
 
-    this.loadPacientesData(event);
+    this.loadCalidadData(event);
     this.loadFilterCatalogs();
     //console.log(this.filteredDiagnosticos);
 
@@ -210,7 +210,7 @@ export class ListaComponentPartos implements OnInit {
     this.selectedItemIndex = -1;
     this.paginator.pageIndex = 0;
     this.paginator.pageSize = this.pageSize;
-    this.loadPacientesData(null);
+    this.loadCalidadData(null);
 
   }
 
@@ -375,7 +375,7 @@ export class ListaComponentPartos implements OnInit {
     }
   }
 
-  public loadPacientesData(event?:PageEvent){
+  public loadCalidadData(event?:PageEvent){
 
     this.isLoading = true;
     let params:any;
@@ -471,7 +471,7 @@ export class ListaComponentPartos implements OnInit {
 
     this.sharedService.setDataToCurrentApp('searchQuery',this.searchQuery);
     this.sharedService.setDataToCurrentApp('filter',filterFormValues);
-
+    params.type='partos';
     this.calidadService.getCalidadList(params).subscribe({
       next:(response) => {
         if(response.error) {
@@ -516,11 +516,6 @@ export class ListaComponentPartos implements OnInit {
     return event;
   }
 
-
-  compareHorarioSelect(op,value){
-    return op.id == value.id;
-  }
-
   numberOnly(event): boolean {
     const charCode = (event.which) ? event.which : event.keyCode;
     if (charCode > 31 && (charCode < 48 || charCode > 57)) {
@@ -528,129 +523,6 @@ export class ListaComponentPartos implements OnInit {
     }
     return true;
 
-  }
-
-  checkAutocompleteValue(field_name) {
-    setTimeout(() => {
-      if (typeof(this.filterForm.get(field_name).value) != 'object') {
-        this.filterForm.get(field_name).reset();
-        if(field_name != 'localidad_id'){
-          this.catalogos['localidades'] = false;
-          this.actualizarValidacionesCatalogos('localidades');  
-        }
-      } 
-    }, 300);
-  }
-
-  actualizarValidacionesCatalogos(catalogo){
-    switch (catalogo) {
-      case 'municipios':
-        if(this.catalogos['municipios']){
-          this.filterForm.controls['municipio'].setValidators(null);
-          this.filterForm.controls['municipio_id'].setValidators(null);
-        }else{
-          this.filterForm.controls['municipio'].setValidators(null);
-          this.filterForm.controls['municipio_id'].setValidators(null);
-        }
-        this.filterForm.controls['municipio'].updateValueAndValidity();
-        this.filterForm.controls['municipio_id'].updateValueAndValidity();
-        break;
-      case 'localidades':
-        if(this.catalogos['localidades']){
-          this.filterForm.controls['localidad'].setValidators(null);
-          this.filterForm.controls['localidad_id'].setValidators(null);
-        }else{
-          this.filterForm.controls['localidad'].setValidators(null);
-          this.filterForm.controls['localidad_id'].setValidators(null);
-        }
-        this.filterForm.controls['localidad_id'].setValidators(null);
-
-        this.filterForm.controls['localidad'].updateValueAndValidity();
-        this.filterForm.controls['localidad_id'].updateValueAndValidity();
-        break;
-      default:
-        break;
-    }
-  }
-
-  cargarLocalidades(event){
-
-    const municipio = event.option.value;
-
-    const carga_catalogos = [
-      {nombre:'localidades',orden:'nombre',filtro_id:{campo:'municipios_id',valor:municipio.id}},
-    ];
-    this.catalogos['localidades'] = false;
-    this.filterForm.get('localidad_id').reset();
-    this.filterForm.get('localidad').reset();
-
-    this.ingresosService.obtenerCatalogos(carga_catalogos).subscribe(
-      response => {
-        if(response.data['localidades'].length > 0){
-          this.catalogos['localidades'] = response.data['localidades'];
-        }
-        
-        this.actualizarValidacionesCatalogos('localidades');
-      }
-    );
-  }
-
-  openDialogFormAtencion(id = 0){
-
-    let dialogConfig:any = {
-      maxWidth: '100%',
-      width: '95%',
-      height: '80%',
-      data:{}
-    };
-
-    if(id){
-      dialogConfig.data.id = id;
-    }
-
-    const dialogRef = this.dialog.open(AtencionDialogComponent, dialogConfig);
-
-    dialogRef.afterClosed().subscribe(valid => {
-      if(valid){
-        console.log('Aceptar');
-      }else{
-        console.log('Cancelar');
-      }
-    });
-
-  }
-
-  openDialogFormAlta(id = 0){
-
-
-    let configDialog = {};
-    if(this.mediaSize == 'xs'){
-      configDialog = {
-        maxWidth: '100vw',
-        maxHeight: '100vh',
-        height: '100%',
-        width: '100%',
-        data:{id: id, scSize:this.mediaSize}
-      };
-    }else{
-      configDialog = {
-        width: '99%',
-        maxHeight: '90vh',
-        height: '643px',
-        data:{id: id}
-      }
-    }
-
-
-    const dialogRef = this.dialog.open(AltaDialogComponent, configDialog);
-
-    dialogRef.afterClosed().subscribe(valid => {
-      if(valid){
-        console.log('Aceptar');
-      }else{
-        console.log('Cancelar');
-      }
-    });
   }
 
   openDetailDialog(){
@@ -685,332 +557,9 @@ export class ListaComponentPartos implements OnInit {
     });
   }
   
-  verPaciente(id = 0){
-
-    let dialogConfig:any = {
-      maxWidth: '100%',
-      width: '95%',
-      height: '80%',
-      data:{}
-    };
-
-    if(id){
-      dialogConfig.data.id = id;
-    }
-
-    const dialogRef = this.dialog.open(DetailsComponentPaciente, dialogConfig);
-
-    dialogRef.afterClosed().subscribe(valid => {
-      if(valid){
-        console.log('Aceptar');
-      }else{
-        console.log('Cancelar');
-      }
-    });
-
-  }
-
   removeFilterChip(item,index){
     this.filterForm.get(item.id).reset();
     this.filterChips[index].active = false;
   }
-
-
-  confirmDeletePaciente(id = ''){
-    const dialogRef = this.dialog.open(ConfirmActionDialogComponent, {
-      width: '500px',
-      data: {dialogTitle:'Eliminar Persona',dialogMessage:'¿Esta seguro de eliminar a la Persona?',btnColor:'warn',btnText:'Eliminar'}
-    });
-
-    dialogRef.afterClosed().subscribe(reponse => {
-      if(reponse){
-        this.ingresosService.deletePaciente(id).subscribe(
-          response => {
-            this.loadPacientesData(null);
-          }
-        );
-      }
-    });
-  }
-
-  toggleReportPanel(){
-    this.reportIncludeSigns = false;
-    this.reportTitle = 'Relación de Ingreso de Pacientes';
-
-    this.stepperConfig = {
-      steps:[
-        {
-          status: 1, //1:standBy, 2:active, 3:done, 0:error
-          label: { standBy: 'Cargar Datos', active: 'Cargando Datos', done: 'Datos Cargados' },
-          icon: 'settings_remote',
-          errorMessage: '',
-        },
-        {
-          status: 1, //1:standBy, 2:active, 3:done, 0:error
-          label: { standBy: 'Generar PDF', active: 'Generando PDF', done: 'PDF Generado' },
-          icon: 'settings_applications',
-          errorMessage: '',
-        },
-        {
-          status: 1, //1:standBy, 2:active, 3:done, 0:error
-          label: { standBy: 'Descargar Archivo', active: 'Descargando Archivo', done: 'Archivo Descargado' },
-          icon: 'save_alt',
-          errorMessage: '',
-        },
-      ],
-      currentIndex: 0
-    }
-
-    this.showReportForm = !this.showReportForm;
-    if(this.showReportForm){
-      this.showMyStepper = false;
-    }
-    //this.showMyStepper = !this.showMyStepper;
-  }
-
-  reportePacientes(){
-    //this.showMyStepper = true;
-    this.isLoadingPDF = true;
-    this.showMyStepper = true;
-    this.showReportForm = false;
-
-    const params:any = {};
-    let countFilter = 0;
-
-    const appStoredData = this.sharedService.getArrayDataFromCurrentApp(['searchQuery','filter']);
-    //console.log("onlyone",appStoredData);
-
-    params.reporte = 'pacientes';
-
-    if(appStoredData['searchQuery']){
-      params.query = appStoredData['searchQuery'];
-    }
-
-    for(const i in appStoredData['filter']){
-
-      if(appStoredData['filter'][i]){
-
-        if(i == 'municipio_id'){
-          params[i] = appStoredData['filter'][i].id;
-        }else if(i == 'localidad_id'){
-          params[i] = appStoredData['filter'][i].id;
-        }else if(i == 'especialidad_id'){
-          params[i] = appStoredData['filter'][i].id;
-        }
-        else if(i == 'sexo'){
-          params[i] = this.filterForm.value.sexo;
-        }else if(i == 'edad'){
-          params[i] = this.filterForm.value.edad;
-        }else if(i == 'tipo_edad'){
-          params[i] = this.filterForm.value.tipo_edad;
-        }else if(i == 'identidad'){
-          params[i] = this.filterForm.value.identidad;
-        }else if(i == 'nacionalidad'){
-          params[i] = this.filterForm.value.nacionalidad;
-        }else if(i == 'atencion'){
-          params[i] = this.filterForm.value.atencion;
-        }else if(i == 'ambulatorios'){
-          params[i] = this.filterForm.value.ambulatorios;
-        }else if (i == 'fecha_inicio') {
-          const desde = moment(this.filterForm.value.fecha_inicio).format('YYYY-MM-DD');
-          params[i] = desde;
-        }else if (i == 'fecha_fin') {
-          const hasta = moment(this.filterForm.value.fecha_fin).format('YYYY-MM-DD');
-          params[i] = hasta;
-        }
-        
-        countFilter++;
-
-      }
-
-    }
-
-    if(countFilter > 0){
-      params.active_filter = true;
-    }
-    
-    this.stepperConfig.steps[0].status = 2;
-
-    this.ingresosService.getPacientesList(params).subscribe({
-      next:(response) => {
-        if(response.error) {
-          const errorMessage = response.error.message;
-          this.stepperConfig.steps[this.stepperConfig.currentIndex].status = 0;
-          this.stepperConfig.steps[this.stepperConfig.currentIndex].errorMessage = errorMessage;
-          this.isLoading = false;
-          //this.sharedService.showSnackBar(errorMessage, null, 3000);
-        } else {
-            this.stepperConfig.steps[0].status = 3;
-            this.stepperConfig.steps[1].status = 2;
-            this.stepperConfig.currentIndex = 1;
-
-            const reportWorker = new ReportWorker();
-            reportWorker.onmessage().subscribe(
-              data => {
-                this.stepperConfig.steps[1].status = 3;
-                this.stepperConfig.steps[2].status = 2;
-                this.stepperConfig.currentIndex = 2;
-
-                // console.log("deitaa",data);
-                FileSaver.saveAs(data.data,'Ingreso de Pacientes'+' '+'('+this.fechaActual+')' );
-                reportWorker.terminate();
-
-                this.stepperConfig.steps[2].status = 3;
-                this.isLoadingPDF = false;
-                this.showMyStepper = false;
-            });
-
-            reportWorker.onerror().subscribe(
-              (data) => {
-                //this.sharedService.showSnackBar('Error: ' + data.message,null, 3000);
-                this.stepperConfig.steps[this.stepperConfig.currentIndex].status = 0;
-                this.stepperConfig.steps[this.stepperConfig.currentIndex].errorMessage = data.message;
-                this.isLoadingPDF = false;
-                //console.log(data);
-                reportWorker.terminate();
-              }
-            );
-            
-            const config = {
-              title: this.reportTitle,
-              showSigns: this.reportIncludeSigns, 
-            };
-            reportWorker.postMessage({data:{items: response.data, config:config},reporte:'/ingreso-pacientes'});
-        }
-        this.isLoading = false;
-      },
-      error:(errorResponse: HttpErrorResponse) => {
-        let errorMessage = "Ocurrió un error.";
-        if(errorResponse.status == 409){
-          errorMessage = errorResponse.error.error.message;
-        }
-        this.stepperConfig.steps[this.stepperConfig.currentIndex].status = 0;
-        this.stepperConfig.steps[this.stepperConfig.currentIndex].errorMessage = errorMessage;
-        //this.sharedService.showSnackBar(errorMessage, null, 3000);
-        this.isLoading = false;
-      },
-      complete:() =>{
-        this.isLoading = true;
-        this.sharedService.showSnackBar("¡Reporte Generado!", 'Cerrar', 3000);
-        this.isLoading = false;
-      }
-    });
-
-  }
-
-  generatePdf(data){
-
-    const reportWorker = new ReportWorker();
-    reportWorker.onmessage().subscribe(
-      data => {
-        FileSaver.saveAs(data.data,'Filtro Sanitario'+'/'+this.fechaActual);
-        reportWorker.terminate();
-
-    });
-
-    reportWorker.onerror().subscribe(
-      (data) => {
-        //this.sharedService.showSnackBar('Error: ' + data.message,null, 3000);
-        this.stepperConfig.steps[this.stepperConfig.currentIndex].status = 0;
-        this.stepperConfig.steps[this.stepperConfig.currentIndex].errorMessage = data.message;
-        this.isLoadingPDF = false;
-        //console.log(data);
-        reportWorker.terminate();
-      }
-    );
-
-    const config = {
-      title: this.reportTitle,
-      showSigns: this.reportIncludeSigns, 
-    };
-
-    reportWorker.postMessage({data:{items: data, config:config},reporte:'/paciente-valoracion'});
-
-    this.isLoading = false;
-
-  }
-
-  tarjetaInformativa (obj, index){
-
-    this.selectedItemIndex = index;
-
-      //this.showMyStepper = true;
-      this.isLoadingPDF = true;
-      this.showMyStepper = true;
-      this.showReportForm = false;
-
-      const params:any = {};
-      const countFilter = 0;
-      const fecha_reporte = new Intl.DateTimeFormat('es-ES', {year: 'numeric', month: 'numeric', day: '2-digit'}).format(new Date());
-
-      const appStoredData = this.sharedService.getArrayDataFromCurrentApp(['searchQuery','filter']);
-      
-      params.reporte = 'personal-activo';
-      if(appStoredData['searchQuery']){
-        params.query = appStoredData['searchQuery'];
-      }
-      this.stepperConfig = {
-        steps:[
-          {
-            status: 1, //1:standBy, 2:active, 3:done, 0:error
-            label: { standBy: 'Cargar Datos', active: 'Cargando Datos', done: 'Datos Cargados' },
-            icon: 'settings_remote',
-            errorMessage: '',
-          },
-          {
-            status: 1, //1:standBy, 2:active, 3:done, 0:error
-            label: { standBy: 'Generar PDF', active: 'Generando PDF', done: 'PDF Generado' },
-            icon: 'settings_applications',
-            errorMessage: '',
-          },
-          {
-            status: 1, //1:standBy, 2:active, 3:done, 0:error
-            label: { standBy: 'Descargar Archivo', active: 'Descargando Archivo', done: 'Archivo Descargado' },
-            icon: 'save_alt',
-            errorMessage: '',
-          },
-        ],
-        currentIndex: 0
-      }
-
-
-      this.stepperConfig.steps[0].status = 2;
-
-      this.stepperConfig.steps[0].status = 3;
-      this.stepperConfig.steps[1].status = 2;
-      this.stepperConfig.currentIndex = 1;
-
-      const reportWorker = new ReportWorker();
-      reportWorker.onmessage().subscribe(
-        data => {
-          this.stepperConfig.steps[1].status = 3;
-          this.stepperConfig.steps[2].status = 2;
-          this.stepperConfig.currentIndex = 2;
-
-          FileSaver.saveAs(data.data,'Tarjeta-Informativa '+'('+fecha_reporte+')');
-          reportWorker.terminate();
-
-          this.stepperConfig.steps[2].status = 3;
-          this.isLoadingPDF = false;
-          this.showMyStepper = false;
-      });
-
-      reportWorker.onerror().subscribe(
-        (data) => {
-          this.stepperConfig.steps[this.stepperConfig.currentIndex].status = 0;
-          this.stepperConfig.steps[this.stepperConfig.currentIndex].errorMessage = data.message;
-          this.isLoadingPDF = false;
-          reportWorker.terminate();
-        }
-      );
-      
-      const config = {
-        title: "TARJETA INFORMATIVA",
-        showSigns: this.reportIncludeSigns, 
-      };
-      reportWorker.postMessage({data:{items: obj, config:config, fecha_actual: this.fechaActual},reporte:'/tarjeta-informativa'});
-      this.isLoading = false;
-  }
-
 }
 

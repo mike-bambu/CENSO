@@ -22,6 +22,9 @@ class Calidad extends Model
         'measurement_type',
         'date_start',
         'date_finish',
-        'last_folio_file'
+        'last_folio_file',
+        'month_measurement',
+        'year_measurement',
+        'current_question',
     ];
 }

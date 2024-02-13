@@ -23,4 +23,12 @@ export class QuestionService {
     );
   }
 
+  createMeasurement(payload) {
+    return this.http.post<any>(this.url,payload).pipe(
+      map( (response) => {
+        return response;
+      }
+    ));
+  }
+
 }

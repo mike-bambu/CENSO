@@ -552,7 +552,7 @@ export class ListaComponentPartos implements OnInit {
       if(valid){
         console.log('Aceptar');
       }else{
-        console.log('Cancelar');
+        console.log('Cancelar mike');
       }
     });
   }

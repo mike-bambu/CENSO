@@ -26,7 +26,7 @@ export class QuestionsComponent implements OnInit {
   
 
   ngOnInit(): void {
-    this.quizType = localStorage.getItem("name")!;
+    this.quizType = localStorage.getItem("measurementType")!;
     if(this.quizType=="partos"){
       this.getAllQuestions();
       this.title="Ingreso a sala de labor cumpliendo los criterios establecidos en la norma"

@@ -151,6 +151,7 @@ export class AuthService {
     localStorage.removeItem('measurementType');
     localStorage.removeItem('currentQuestion');
     localStorage.removeItem('totalIterations');
+    localStorage.removeItem('headerID');
     this.authChange.next(false);
     this.router.navigate(['/login']);
   }

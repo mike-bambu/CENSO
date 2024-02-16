@@ -116,7 +116,7 @@
 
                     <div class="options" *ngIf="isCheckedType">
                         <ol *ngFor="let option of questionList[currentQuestion]?.options">
-                            <input type="checkbox">
+                            <input type="checkbox" value={{option.text}}>
                             {{option.text}}
                         </ol>
                     </div>
@@ -165,7 +165,7 @@
                     <br/>
                     <div mat-dialog-actions *ngIf="isCorrectAnswer || isInputText || isCheckedType">
                     <span fxFlex></span>
-                    <button mat-raised-button  color="primary"  (click)="nextQuestion()"><mat-icon>save</mat-icon> Siguiente</button>
+                    <button mat-raised-button  color="primary"  (click)="nextQuestion(currentQuestion+1)"><mat-icon>save</mat-icon> Siguiente</button>
                     </div>
 
                 </ng-container>

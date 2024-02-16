@@ -95,8 +95,9 @@ class CalidadWebController extends Controller
                 $header_quality->year_measurement = '2024';
 
                 $header_quality->save();
+                $header_result= Calidad::latest()->first();
 
-                return Response::json(array("status" => 200, "messages" => "Se agrego la información con exito", "data" => $data), 200);
+                return Response::json(array("status" => 200, "messages" => "Se agrego la información con exito", "data" => $header_result), 200);
             }
                 else
                     return response()->json(['mensaje' => 'El mes a validar ya se encuentra registradoxx'], HttpResponse::HTTP_CONFLICT);

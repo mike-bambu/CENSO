@@ -4,8 +4,12 @@
             "questionText": "Ingrese el número de expediente",
             "isInputText": true,
             "isMultiSelect":false,
+            "title":"Ingreso a sala de labor cumpliendo los criterios establecidos en la norma",
             "explanation": "",
-            "type": "text",
+            "formControl": "text",
+            "type":"text",
+            "condicionant": false,
+            "required": true,
             "placeholder": "Ingrese el número de expediente",
             "textId": "expedienteid"
         },
@@ -13,8 +17,12 @@
             "questionText": "Ingrese fecha de parto",
             "isInputText": true,
             "isMultiSelect":false,
+            "title":"Ingreso a sala de labor cumpliendo los criterios establecidos en la norma",
             "explanation": "",
-            "type": "date",
+            "formControl": "text",
+            "type":"text",
+            "condicionant": false,
+            "required": true,
             "placeholder": "Ingrese fecha de parto",
             "textId": "fechapartoid"
         },
@@ -31,8 +39,11 @@
             ],
             "isInputText": false,
             "isMultiSelect":false,
+            "title":"Ingreso a sala de labor cumpliendo los criterios establecidos en la norma",
             "explanation": "Registre los centímetros de dilatación al ingreso",
-            "type": "number",
+            "formControl": "onClick",
+            "type":"text",
+            "condicionant": true,
             "placeholder": "medición en CM",
             "textId": "dilatacionId"
         },
@@ -48,8 +59,11 @@
                 }
             ],
             "isInputText": false,
+            "title":"Ingreso a sala de labor cumpliendo los criterios establecidos en la norma",
             "explanation": "Registré el porcentaje de Borramiento del cuello uterino",
-            "type": "number",
+            "formControl": "text",
+            "type":"number",
+            "condicionant": true,
             "placeholder": "Borramiento del cuello uterino",
             "textId": "uterinoId"
         },
@@ -63,7 +77,8 @@
             }
             ],
             "isInputText": false,
-            "isMultiSelect":false
+            "isMultiSelect":false,
+            "title":"Ingreso a sala de labor cumpliendo los criterios establecidos en la norma"
         },
         {
             "questionText": "¿La paciente fue monitoreada utilizando el formato oficial de partograma?",
@@ -75,7 +90,8 @@
             }
             ],
             "isInputText": false,
-            "isMultiSelect":false
+            "isMultiSelect":false,
+            "title":"Monitoreo del trabajo de parto usando criterios seleccionados del partograma"
         },
         {
             "questionText": "¿Se realizó el registro gráfico de la curva de alerta para terminación del parto? ",
@@ -87,7 +103,8 @@
             }
             ],
             "isInputText": false,
-            "isMultiSelect":false
+            "isMultiSelect":false,
+            "title":"Monitoreo del trabajo de parto usando criterios seleccionados del partograma"
         },
         {
             "questionText": "¿Se realizó el registro gráfico de la Frecuencia cardiaca fetal?",
@@ -99,7 +116,8 @@
             }
             ],
             "isInputText": false,
-            "isMultiSelect":false
+            "isMultiSelect":false,
+            "title":"Monitoreo del trabajo de parto usando criterios seleccionados del partograma"
         },
         {
             "questionText": "¿Se graficó la valoración del descenso de la cabeza fetal en el canal del parto?",
@@ -111,7 +129,8 @@
             }
             ],
             "isInputText": false,
-            "isMultiSelect":false
+            "isMultiSelect":false,
+            "title":"Monitoreo del trabajo de parto usando criterios seleccionados del partograma"
         },
         {
             "questionText": "¿Se detectó alguna alteración?",
@@ -123,7 +142,8 @@
             }
             ],
             "isInputText": false,
-            "isMultiSelect":false
+            "isMultiSelect":false,
+            "title":"Monitoreo del trabajo de parto usando criterios seleccionados del partograma"
         },
         {
             "questionText": "¿Existe anotada en nota médica una desición obstétrica tomada en un periodo no mayor a 30 minutos después del hallazgo? ",
@@ -135,7 +155,8 @@
             }
             ],
             "isInputText": false,
-            "isMultiSelect":false
+            "isMultiSelect":false,
+            "title":"Monitoreo del trabajo de parto usando criterios seleccionados del partograma"
         },
         {
             "questionText": "Indique cuáles procedimientos o monitoreos se registraron en la nota de parto. Marque todas las opciones que aplique",
@@ -167,6 +188,7 @@
             ],
             "isInputText": false,
             "isMultiSelect":false,
+            "title":"Atención conforme del protocolo oficial",
             "isCheckedType": true
         },
         {
@@ -180,6 +202,7 @@
             ],
             "isInputText": false,
             "isMultiSelect":false,
+            "title":"Atención conforme del protocolo oficial",
             "isCheckedType": false
         },
         {
@@ -193,6 +216,7 @@
             ],
             "isInputText": false,
             "isMultiSelect":false,
+            "title":"Atención conforme del protocolo oficial",
             "isCheckedType": false
         },
         {
@@ -209,6 +233,7 @@
             ],
             "isInputText": false,
             "isMultiSelect":false,
+            "title":"Atención conforme del protocolo oficial",
             "isCheckedType": false
         },
         {
@@ -225,6 +250,7 @@
             ],
             "isInputText": false,
             "isMultiSelect":false,
+            "title":"Atención conforme del protocolo oficial",
             "isCheckedType": false
         },
         {
@@ -241,6 +267,7 @@
             ],
             "isInputText": false,
             "isMultiSelect":false,
+            "title":"Atención conforme del protocolo oficial",
             "isCheckedType": false
         },
         {
@@ -257,6 +284,7 @@
             ],
             "isInputText": false,
             "isMultiSelect":false,
+            "title":"Atención conforme del protocolo oficial",
             "isCheckedType": false
         },
         {
@@ -273,6 +301,7 @@
             ],
             "isInputText": false,
             "isMultiSelect":false,
+            "title":"manejo activo del tercer periodo del  Parto",
             "isCheckedType": false
         },
         {
@@ -289,6 +318,7 @@
             ],
             "isInputText": false,
             "isMultiSelect":false,
+            "title":"manejo activo del tercer periodo del  Parto",
             "isCheckedType": false
         },
         {
@@ -305,6 +335,7 @@
             ],
             "isInputText": false,
             "isMultiSelect":false,
+            "title":"manejo activo del tercer periodo del  Parto",
             "isCheckedType": false
         },
         {
@@ -331,6 +362,7 @@
             ],
             "isInputText": false,
             "isMultiSelect":false,
+            "title":"Atención inmediata del RN de acuerdo al protocolo",
             "isCheckedType": true
         },
         {
@@ -347,6 +379,7 @@
             ],
             "isInputText": false,
             "isMultiSelect":false,
+            "title":"Atención inmediata del RN de acuerdo al protocolo",
             "isCheckedType": false
         },
         {
@@ -363,6 +396,7 @@
             ],
             "isInputText": false,
             "isMultiSelect":false,
+            "title":"Atención inmediata del RN de acuerdo al protocolo",
             "isCheckedType": false
         },
         {
@@ -379,6 +413,7 @@
             ],
             "isInputText": false,
             "isMultiSelect":false,
+            "title":"Atención inmediata del RN de acuerdo al protocolo",
             "isCheckedType": false
         },
         {
@@ -414,6 +449,7 @@
             ],
             "isInputText": false,
             "isMultiSelect":false,
+            "title":"Atención inmediata del RN de acuerdo al protocolo",
             "isCheckedType": true
         },
         {
@@ -449,6 +485,7 @@
             ],
             "isInputText": false,
             "isMultiSelect":false,
+            "title":"valoración clínica completa según protocolo, durante la primera hora post parto",
             "isCheckedType": true
         },
         {
@@ -465,6 +502,7 @@
             ],
             "isInputText": false,
             "isMultiSelect":true,
+            "title":"anti concepción post evento obstétrico (APEO) ",
             "isCheckedType": false,
             "questionSelectText": "Seleccione que tipo de método anticonceptivo fue aplicado  ",
             "optionsselect": [
@@ -499,6 +537,7 @@
             ],
             "isInputText": false,
             "isMultiSelect":false,
+            "title":"anti concepción post evento obstétrico (APEO) ",
             "isCheckedType": false
         },
         {
@@ -534,6 +573,7 @@
             ],
             "isInputText": false,
             "isMultiSelect":false,
+            "title":"Alta y valoración clínica las 24 hrs de transcurrido el parto",
             "isCheckedType": true
         }
 

@@ -31,9 +31,7 @@ export class DetailsDialogComponent implements OnInit{
     private fb: UntypedFormBuilder,
     private snackBar: MatSnackBar,
     private sharedService: SharedService,
-    private route: ActivatedRoute,
     public router: Router,
-    private http : HttpClient,
     private calidadService: QuestionService,
 
     @Inject(MAT_DIALOG_DATA) public data: FormDialogData
@@ -53,7 +51,7 @@ export class DetailsDialogComponent implements OnInit{
   mesActual:any = '';
   maxDate:Date;
   quizPartosForm:UntypedFormGroup;
-
+  headerMeasurement: any = {};
 
   ngOnInit(): void {
     this.quizPartosForm = this.fb.group ({
@@ -96,11 +94,12 @@ export class DetailsDialogComponent implements OnInit{
   this.calidadService.createMeasurement(formData).subscribe({
     next:(response) => {
       this.dialogRef.close(true);
-      console.log(response);
+      this.headerMeasurement = response.data;
       this.isLoading = false;
       localStorage.setItem("measurementType","partos");
       localStorage.setItem("totalIterations",formData.initParto.iterations_quiz);
       localStorage.setItem("currentQuestion",'0');
+      localStorage.setItem("headerID",this.headerMeasurement['id']);
       
       this.router.navigate(['/calidad/questions']);
 

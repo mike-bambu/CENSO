@@ -20,7 +20,7 @@
             "title":"Ingreso a sala de labor cumpliendo los criterios establecidos en la norma",
             "explanation": "",
             "formControl": "text",
-            "type":"text",
+            "type":"date",
             "condicionant": false,
             "required": true,
             "placeholder": "Ingrese fecha de parto",

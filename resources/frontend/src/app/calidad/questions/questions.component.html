@@ -84,13 +84,13 @@
 
 <div>
     <div class="form-container">
-
-        <mat-card class="card">
-            <mat-card-title class="icon-text">
+        <br/>
+        <mat-card class="card" >
+            <mat-card-title class="icon-text" *ngIf="!isQuizCompleted">
                 <mat-icon>sick</mat-icon>&nbsp; {{title}}
             </mat-card-title>
             <br/>
-            <mat-card-subtitle>
+            <mat-card-subtitle *ngIf="!isQuizCompleted">
                 {{subtitle}}
             </mat-card-subtitle>
             <mat-card-content>
@@ -103,76 +103,104 @@
                             <h3>{{questionList[currentQuestion]?.questionText}}</h3>
                         </div>
                     </div>
+                    <div [formGroup]="quizAnswersForm">
+                        <div  formGroupName="initAnswers">
 
-                    <div class="options" *ngIf="!isCheckedType">
-                        <ol *ngFor="let option of questionList[currentQuestion]?.options">
-                            <li (click)="answer(currentQuestion+1,option)">
-                                <div appChangeBg [isCorrect]="option.correct" class="card">
-                                    {{option.text}}
-                                </div>
-                            </li>
-                        </ol>
-                    </div>
-
-                    <div class="options" *ngIf="isCheckedType">
-                        <ol *ngFor="let option of questionList[currentQuestion]?.options">
-                            <input type="checkbox" value={{option.text}}>
-                            {{option.text}}
-                        </ol>
-                    </div>
-                    
-                    
-
-                    <div class="row" [hidden]="!isCorrectAnswer" >
-                        <div fxLayout.gt-sm="row" fxLayout="column" fxLayoutGap.gt-sm="10px" *ngIf="!isMultiSelect">
-                            <mat-form-field fxFlex appearance="fill">
-                                <mat-label>{{questionList[currentQuestion]?.explanation}}</mat-label>
-                                <input type={{questionList[currentQuestion]?.type}} matInput formControlName="iterations_quiz">
-                                <mat-hint>{{questionList[currentQuestion]?.placeholder}}</mat-hint>
-                            </mat-form-field>
-                        </div>
-
-                        <div class="question" *ngIf="isMultiSelect">
-                            <div class="card">
-                                <h3>{{questionList[currentQuestion]?.questionSelectText}}</h3>
+                            <div class="options" *ngIf="!isCheckedType">
+                                <ol *ngFor="let option of questionList[currentQuestion]?.options">
+                                    <li (click)="answer(currentQuestion+1,option)">
+                                        <div appChangeBg [isCorrect]="option.correct" class="card">
+                                            {{option.text}}
+                                        </div>
+                                    </li>
+                                </ol>
                             </div>
-                        </div>
-    
-                        <div class="options" *ngIf="isMultiSelect">
-                            <ol *ngFor="let option of questionList[currentQuestion]?.optionsselect">
-                                <li (click)="answer(currentQuestion+1,option)">
-                                    <div appChangeBg [isCorrect]="option.correct" class="card">
-                                        {{option.text}}
+        
+                            <div class="options" *ngIf="isCheckedType">
+                                <ol *ngFor="let option of questionList[currentQuestion]?.options">
+                                    <input *ngIf="(option.text!='Ninguno de las anteriores')" (change)="checkValue($event)" type="checkbox" value={{option.text}} formControlName='checkboxControlName'>
+                                    <input *ngIf="(option.text=='Ninguno de las anteriores')" (change)="checkValue($event)" type="checkbox" value={{option.text}} >
+                                    {{option.text}}
+                                </ol>
+                            </div>
+                            
+                            
+        
+                            <div class="row" [hidden]="!isCorrectAnswer" >
+                                <div fxLayout.gt-sm="row" fxLayout="column" fxLayoutGap.gt-sm="10px" *ngIf="!isMultiSelect">
+                                    <mat-form-field fxFlex appearance="fill">
+                                        <mat-label>{{questionList[currentQuestion]?.explanation}}</mat-label>
+                                        <input type={{questionList[currentQuestion]?.type}} matInput formControlName="expedienteid">
+                                        <mat-hint>{{questionList[currentQuestion]?.placeholder}}</mat-hint>
+                                    </mat-form-field>
+                                </div>
+        
+                                <div class="question" *ngIf="isMultiSelect">
+                                    <div class="card">
+                                        <h3>{{questionList[currentQuestion]?.questionSelectText}}</h3>
                                     </div>
-                                </li>
-                            </ol>
+                                </div>
+            
+                                <div class="options" *ngIf="isMultiSelect">
+                                    <ol *ngFor="let option of questionList[currentQuestion]?.optionsselect">
+                                        <li (click)="answer(currentQuestion+1,option)">
+                                            <div appChangeBg [isCorrect]="option.correct" class="card">
+                                                {{option.text}}
+                                            </div>
+                                        </li>
+                                    </ol>
+                                </div>
+                            </div>
+                            
+                            <br/>
+                            <div class="row" [hidden]="!isInputText">
+                                <div fxLayout.gt-sm="row" fxLayout="column" fxLayoutGap.gt-sm="10px">
+                                    <mat-form-field fxFlex appearance="fill">
+                                        <mat-label>{{questionList[currentQuestion]?.explanation}}</mat-label>
+                                        <input type={{questionList[currentQuestion]?.type}} matInput formControlName="expedienteid">
+                                        <mat-hint>{{questionList[currentQuestion]?.placeholder}}</mat-hint>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <br/>
                         </div>
                     </div>
-                    
-                    <br/>
-                    <div class="row" [hidden]="!isInputText">
-                        <div fxLayout.gt-sm="row" fxLayout="column" fxLayoutGap.gt-sm="10px">
-                            <mat-form-field fxFlex appearance="fill">
-                                <mat-label>{{questionList[currentQuestion]?.explanation}}</mat-label>
-                                <input type={{questionList[currentQuestion]?.type}} matInput formControlName="iterations_quiz">
-                                <mat-hint>{{questionList[currentQuestion]?.placeholder}}</mat-hint>
-                            </mat-form-field>
-                        </div>
-                    </div>
-                    <br/>
-
                     <mat-divider></mat-divider>
                     <br/>
                     <div mat-dialog-actions *ngIf="isCorrectAnswer || isInputText || isCheckedType">
                     <span fxFlex></span>
-                    <button mat-raised-button  color="primary"  (click)="nextQuestion(currentQuestion+1)"><mat-icon>save</mat-icon> Siguiente</button>
+                    <button mat-raised-button  color="primary"   (click)="nextQuestion(currentQuestion+1)"><mat-icon>save</mat-icon> Siguiente</button>
                     </div>
 
                 </ng-container>
+                <ng-container *ngIf="isQuizCompleted">
+                    <mat-card-title class="icon-text" *ngIf="isQuizCompleted">
+                        <mat-icon>sick</mat-icon>&nbsp; Ingreso a sala de labor cumpliendo los criterios establecidos en la norma, número de expedientes {{totalIterations}}
+                    </mat-card-title>
+                    <br/>
+                    <mat-card-subtitle *ngIf="isQuizCompleted">
+                        Indicadores I.1 y I.2 y I.3 y I.4
+                    </mat-card-subtitle>
+                    <mat-card-subtitle *ngIf="isQuizCompleted">
+                        Criterio I.1.1. No cumple
+                    </mat-card-subtitle>
 
-
-
+                </ng-container>
             </mat-card-content>
+        </mat-card>
+        <br/>
+        <mat-card class="card" *ngIf="isQuizCompleted">
+            <ng-container *ngIf="isQuizCompleted">
+                <mat-card-title class="icon-text" >
+                    <mat-icon>sick</mat-icon>&nbsp; Monitoreo del trabajo de parto usando criterios seleccionados del partograma, número de expedientes {{totalIterations}}
+                </mat-card-title>
+                <br/>
+                <mat-card-subtitle *ngIf="isQuizCompleted">
+                    Criterios I.2.1 y I.2.2 Cumple
+                </mat-card-subtitle>
+
+            </ng-container>
+
         </mat-card>
 
     </div>

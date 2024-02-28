@@ -100,7 +100,7 @@ export class DetailsDialogComponent implements OnInit{
       localStorage.setItem("totalIterations",formData.initParto.iterations_quiz);
       localStorage.setItem("currentQuestion",'0');
       localStorage.setItem("headerID",this.headerMeasurement['id']);
-      
+      localStorage.setItem("totalFiles",formData.initParto.iterations_quiz);
       this.router.navigate(['/calidad/questions']);
 
 

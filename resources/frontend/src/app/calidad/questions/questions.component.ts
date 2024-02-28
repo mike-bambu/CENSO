@@ -26,7 +26,9 @@ export class QuestionsComponent implements OnInit {
   interval$: any;
   counter = 60;
   totalFiles: number=0;
+  totalIterations: number=0;
   quizAnswersForm:UntypedFormGroup;
+  btnNext: boolean = false;
   public header_id: string = "";
 
   constructor(
@@ -46,6 +48,7 @@ export class QuestionsComponent implements OnInit {
         answers:[''],
         isMeasurable:[''],
         testPass:[''],
+        checkboxControlName: ['']
       })
     });
     this.quizType = localStorage.getItem("measurementType")!;
@@ -74,6 +77,7 @@ export class QuestionsComponent implements OnInit {
 
           if(localStorage.getItem('totalIterations')){
             this.totalFiles = Number(localStorage.getItem("totalIterations")!);
+            this.totalIterations= Number(localStorage.getItem("totalFiles")!);
             console.log("valor de totalfile: "+this.totalFiles);
 
             if(this.totalFiles===0){
@@ -89,26 +93,29 @@ export class QuestionsComponent implements OnInit {
     this.isCorrectAnswer=false
     this.quizAnswersForm.controls['initAnswers'].get('headerID').patchValue(this.header_id);
     this.quizAnswersForm.controls['initAnswers'].get('question').patchValue(this.questionList[currentQno]?.questionText);
+    //this.quizAnswersForm.controls['initAnswers'].get('expedienteid').patchValue(localStorage.getItem("lastFile"));
     const formData = JSON.parse(JSON.stringify(this.quizAnswersForm.value));
-    const dateValue=this.questionList[currentQno-1]?.textId
     console.log('valor de expediente: '+formData.initAnswers.expedienteid);
     console.log('valor de pregunta: '+formData.initAnswers.question);
     console.log('valor de respuesta: '+this.questionList[currentQno-1]?.textId);
     console.log('valor de respuesta: '+this.questionList[currentQno-1]?.title);
     console.log('valor de fecha: '+this.quizAnswersForm.controls['initAnswers'].get('$dateValue'));
+   
     if(this.currentQuestion===0){
       localStorage.setItem("lastFile",formData.initAnswers.expedienteid);
     }
-    
-    setTimeout(() => {
-      this.currentQuestion++;
-      this.isInputText=this.questionList[this.currentQuestion]?.isInputText;
-      this.isMultiSelect=this.questionList[this.currentQuestion]?.isMultiSelect; 
-      this.isCheckedType=this.questionList[this.currentQuestion]?.isCheckedType; 
-      localStorage.setItem("currentQuestion",currentQno.toString());
-      this.title=this.questionList[this.currentQuestion].title
-      this.getProgressPercent();
-    }, 800);
+
+    if(currentQno < this.questionList.length){
+      setTimeout(() => {
+        this.currentQuestion++;
+        this.isInputText=this.questionList[this.currentQuestion]?.isInputText;
+        this.isMultiSelect=this.questionList[this.currentQuestion]?.isMultiSelect; 
+        this.isCheckedType=this.questionList[this.currentQuestion]?.isCheckedType; 
+        localStorage.setItem("currentQuestion",currentQno.toString());
+        this.title=this.questionList[this.currentQuestion].title
+        this.getProgressPercent();
+      }, 800);
+    }
     
     if(currentQno >= this.questionList.length){
       this.totalFiles--;
@@ -157,15 +164,17 @@ export class QuestionsComponent implements OnInit {
       this.getProgressPercent();
     } else {
       this.isCorrectAnswer=false
-      setTimeout(() => {
-        this.currentQuestion++;
-        this.isInputText=this.questionList[this.currentQuestion]?.isInputText; 
-        this.isMultiSelect=this.questionList[this.currentQuestion]?.isMultiSelect; 
-        this.isCheckedType=this.questionList[this.currentQuestion]?.isCheckedType; 
-        this.title=this.questionList[this.currentQuestion].title
-        this.getProgressPercent();
-      }, 1000);
-
+      if(currentQno < this.questionList.length){
+        setTimeout(() => {
+          this.currentQuestion++;
+          this.isInputText=this.questionList[this.currentQuestion]?.isInputText;
+          this.isMultiSelect=this.questionList[this.currentQuestion]?.isMultiSelect; 
+          this.isCheckedType=this.questionList[this.currentQuestion]?.isCheckedType; 
+          localStorage.setItem("currentQuestion",currentQno.toString());
+          this.title=this.questionList[this.currentQuestion].title
+          this.getProgressPercent();
+        }, 800);
+      }
     }
     if(!this.questionList[this.currentQuestion]?.condicionant){
       localStorage.setItem("currentQuestion",currentQno.toString());
@@ -192,5 +201,14 @@ export class QuestionsComponent implements OnInit {
     this.currentQuestion = 0;
     this.progress = "0";
   }
+
+  checkValue(event: any) {
+
+    if(event.target.value==='Ninguno de las anteriores'){
+      console.log(event.target.value)
+      this.quizAnswersForm.controls['initAnswers'].get('checkboxControlName').patchValue(!event.target.checked);
+    }
+    this.btnNext=true;
+}
 
 }

@@ -97,7 +97,7 @@ export class DetailsDialogComponent implements OnInit{
       this.headerMeasurement = response.data;
       this.isLoading = false;
       localStorage.setItem("measurementType","partos");
-      localStorage.setItem("totalIterations",formData.initParto.iterations_quiz);
+      localStorage.setItem("totalIterations","1");
       localStorage.setItem("currentQuestion",'0');
       localStorage.setItem("headerID",this.headerMeasurement['id']);
       localStorage.setItem("totalFiles",formData.initParto.iterations_quiz);

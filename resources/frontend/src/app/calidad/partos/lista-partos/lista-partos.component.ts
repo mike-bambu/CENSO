@@ -1,21 +1,16 @@
-import { Component, OnInit, ViewChild, importProvidersFrom } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 import { SharedService } from 'src/app/shared/shared.service';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { IngresosService } from 'src/app/ingresos/ingresos.service';
 import { QuestionService } from '../../service/question.service';
-import { AtencionDialogComponent } from 'src/app/ingresos/atencion-dialog/atencion-dialog.component';
-import { AltaDialogComponent } from 'src/app/ingresos/alta-dialog/alta-dialog.component';
-import { DetailsComponentPaciente } from 'src/app/ingresos/details-paciente/details-paciente.component';
 import { MatTable } from '@angular/material/table';
 import { MatExpansionPanel } from '@angular/material/expansion';
 import { MatDialog } from '@angular/material/dialog';
 import { UntypedFormBuilder } from '@angular/forms';
 import { map, startWith,  } from 'rxjs/operators';
 import { trigger, transition, animate, style } from '@angular/animations';
-import { ConfirmActionDialogComponent } from 'src/app/utils/confirm-action-dialog/confirm-action-dialog.component';
 import { Router, ActivatedRoute  } from '@angular/router';
-import { ReportWorker } from 'src/app/web-workers/report-worker';
 import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
 import { AuthService } from 'src/app/auth/auth.service';
 import { Clues } from 'src/app/auth/models/clues';
@@ -23,7 +18,6 @@ import pdfMake from 'pdfmake/build/pdfmake';
 import pdfFonts from 'pdfmake/build/vfs_fonts';
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
-import * as FileSaver from 'file-saver';
 import * as moment from 'moment';
 import { DetailsDialogComponent } from '../../details-dialog/details-dialog.component';
 

@@ -93,7 +93,7 @@ class CalidadWebController extends Controller
                 $header_quality->date_start = $date_measurement;
                 $header_quality->month_measurement = $month;
                 $header_quality->year_measurement = '2024';
-
+                $header_quality->is_active = false;
                 $header_quality->save();
                 $header_result= Calidad::latest()->first();
 

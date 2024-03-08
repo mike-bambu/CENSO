@@ -4,6 +4,10 @@ import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms
 import { Router } from '@angular/router';
 import { Console } from 'console';
 import * as moment from 'moment';
+import { MatDialog } from '@angular/material/dialog';
+import { DetailsDialogComponent } from '../details-dialog/details-dialog.component';
+import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
+import { delay } from 'rxjs';
 
 @Component({
   selector: 'app-partos-questions',
@@ -24,10 +28,14 @@ export class PartosQuestionsComponent implements OnInit{
   anticonceptivoType: boolean = false;
   isLoading = false;
   maxDate:Date;
+  mediaSize: string;
+
+
   constructor(
     private questionService: QuestionService, 
     private fb: UntypedFormBuilder,
     private calidadService: QuestionService,
+    public dialog: MatDialog,
     public router: Router) { }
   
   ngOnInit(): void {
@@ -71,19 +79,15 @@ export class PartosQuestionsComponent implements OnInit{
     moment.locale('es');
     const fecha = new Date();
     this.maxDate = fecha;
-
+    
     this.quizAnswersForm.controls['initAnswers'].get('fechaparto').patchValue(this.maxDate);
     
     this.quizType = localStorage.getItem("measurementType")!;
     this.headerId = localStorage.getItem("headerID")!;
 
-    if(localStorage.getItem('currentQuestion')){
-      this.currentQuestion = Number(localStorage.getItem("currentQuestion")!);
-      }
-
       if(localStorage.getItem('totalIterations')){
-        this.totalFiles = Number(localStorage.getItem("totalIterations")!);
-        this.totalIterations= Number(localStorage.getItem("totalFiles")!);
+        this.totalFiles = Number(localStorage.getItem("totalFiles")!);
+        this.totalIterations= Number(localStorage.getItem("totalIterations")!);
         console.log("valor de totalfile: "+this.totalFiles);
 
         if(this.totalFiles===0){
@@ -157,6 +161,58 @@ checkValueCriterios24(event: any) {
     console.log(event.target.value)
     this.quizAnswersForm.controls['initAnswers'].get('criterios24').patchValue(!event.target.checked);
   }
+}
+
+showDialog(){
+
+  let configDialog = {};
+  if(this.mediaSize == 'xs'){
+    configDialog = {
+      maxWidth: '100vw',
+      maxHeight: '100vh',
+      height: '100%',
+      width: '100%',
+      data:{ scSize:this.mediaSize}
+    };
+  }else{
+    configDialog = {
+      width: '99%',
+      maxHeight: '90vh',
+      height: '200px',
+      data:{}
+    }
+  }
+
+
+  const dialogRef = this.dialog.open(ConfirmDialogComponent, configDialog);
+
+  dialogRef.afterClosed().subscribe(valid => {
+    if(valid){
+      this.isLoading=true;
+      setTimeout(() => {
+        this.isLoading=false;
+        this.validateQuiz();
+     }, 5000);
+    }else{
+      console.log('Cancelar');
+    }
+  });
+}
+
+validateQuiz(){
+
+  if(localStorage.getItem('totalIterations')){
+  
+    if(this.totalIterations===this.totalFiles){
+      this.isQuizCompleted = true;
+    }
+    else{
+      this.totalIterations++
+      localStorage.setItem("totalIterations",this.totalIterations.toString());
+      window.location.reload();
+    }
+  }
+
 }
 
 }

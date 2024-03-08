@@ -12,6 +12,7 @@ import { DetailsDialogComponent } from './details-dialog/details-dialog.componen
 import { QuestionsComponent } from './questions/questions.component';
 import { ChangeBgDirective } from './change-bg.directive';
 import { PartosQuestionsComponent } from './partos-questions/partos-questions.component';
+import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { PartosQuestionsComponent } from './partos-questions/partos-questions.co
     DetailsDialogComponent,
     QuestionsComponent,
     ChangeBgDirective,
-    PartosQuestionsComponent
+    PartosQuestionsComponent,
+    ConfirmDialogComponent
     
   ],
   

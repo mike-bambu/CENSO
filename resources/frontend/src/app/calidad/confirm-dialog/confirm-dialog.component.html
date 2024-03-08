@@ -1,0 +1,20 @@
+<br>
+<section class="profile">
+    <div fxFill>
+        <mat-card class="card" >
+            <mat-card-title class="icon-text">
+                <mat-icon>sick</mat-icon>&nbsp; ¿Esta seguro de guardar los datos?
+            </mat-card-title>
+            <mat-card-subtitle>
+               Una vez guardada la información no podrá modificarla
+            </mat-card-subtitle>
+        </mat-card>
+    </div>  
+</section>
+
+<mat-divider></mat-divider>
+<div mat-dialog-actions>
+    <span fxFlex></span>
+    <button mat-button (click)='onNoClick()'>Cancelar</button>
+    <button mat-raised-button  color="primary" (click)="save()"><mat-icon>save</mat-icon> Guardar</button>
+</div>

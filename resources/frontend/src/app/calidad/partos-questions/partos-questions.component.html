@@ -4,7 +4,7 @@
         <br/>
         <mat-card class="card" >
             <mat-card-title class="icon-text" *ngIf="!isQuizCompleted">
-                <mat-icon>sick</mat-icon>&nbsp; Medición de la calidad para partos - Cuestionario {{currentQuestion+1}} de {{totalIterations}}
+                <mat-icon>sick</mat-icon>&nbsp; Medición de la calidad para partos - Cuestionario {{totalIterations}} de {{totalFiles}}
             </mat-card-title>
             <mat-card-subtitle *ngIf="!isQuizCompleted">
                 Lea con atención y responda el siguiente cuestionario
@@ -592,7 +592,7 @@
 
                     <div mat-dialog-actions>
                         <span fxFlex></span>
-                        <button mat-raised-button  color="primary"   [disabled]="quizAnswersForm.invalid || isLoading"><mat-icon>save</mat-icon> Guardar</button>
+                        <button mat-raised-button  color="primary"  (click)="showDialog()"><mat-icon>save</mat-icon> Guardar</button>
                         </div>
 
 

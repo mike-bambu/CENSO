@@ -1,0 +1,604 @@
+<div>
+    <div class="form-container">
+        <div class="data-loading-shade" *ngIf="isLoading"><mat-spinner></mat-spinner></div>
+        <br/>
+        <mat-card class="card" >
+            <mat-card-title class="icon-text" *ngIf="!isQuizCompleted">
+                <mat-icon>sick</mat-icon>&nbsp; Medición de la calidad para partos - Cuestionario {{currentQuestion+1}} de {{totalIterations}}
+            </mat-card-title>
+            <mat-card-subtitle *ngIf="!isQuizCompleted">
+                Lea con atención y responda el siguiente cuestionario
+                <br/>
+                <br/> <mat-progress-bar mode="determinate" [value]="progress" ></mat-progress-bar>
+                <br/>
+            </mat-card-subtitle>
+        </mat-card>
+        <br/>
+        <mat-card class="card" *ngIf="!isQuizCompleted">
+            <mat-card-content>
+                <ng-container>
+                    <div [formGroup]="quizAnswersForm">
+                        <div  formGroupName="initAnswers">
+                            <div fxLayout.gt-sm="row" fxLayout="column" fxLayoutGap.gt-sm="10px">
+                                <mat-form-field fxFlex appearance="fill">
+                                    <mat-label>Ingrese número de expediente</mat-label>
+                                    <input type="text" matInput formControlName="expedienteid">
+                                </mat-form-field>
+                            </div>
+                            <div fxLayout.gt-sm="row" fxLayout="column" fxLayoutGap.gt-sm="10px">
+                                <mat-form-field fxFlex appearance="fill">
+                                    <mat-label>Ingrese fecha de parto</mat-label>
+                                    <input type="date" matInput formControlName="fechaparto">
+                                </mat-form-field>
+                            </div>
+
+                            <div class="question">
+                                <div class="card">
+                                    <h3>¿En el expediente clínico se tiene registro de los centímetros de dilatación al momento en que la paciente ingresó a la sala de labor?</h3>
+                                </div>
+                            </div>
+                               <br/> 
+                               <div class="custom-control custom-radio">
+                                    <input id="si" type="radio" class="custom-control-input" value="dilatacionSi" name="tienedilatacion" formControlName="tienedilatacion" (change)="onChange($event)">
+                                    <label class="custom-control-label" for="male">Si</label>
+                                </div>
+
+                                <div class="custom-control custom-radio">
+                                    <input id="no" type="radio" class="custom-control-input" value="dilatacionNo" name="tienedilatacion" formControlName="tienedilatacion" (change)="onChange($event)">
+                                    <label class="custom-control-label" for="female">No</label>
+                                </div>
+                                <br/>
+                                <div fxLayout.gt-sm="row" fxLayout="column" fxLayoutGap.gt-sm="10px" *ngIf="dilatacionType">
+                                    <mat-form-field fxFlex appearance="fill">
+                                        <mat-label>Registre los centímetros de dilatación</mat-label>
+                                        <input type="number" matInput formControlName="dilatacioncentimetros">
+                                        <mat-hint>Medición en CM</mat-hint>
+                                    </mat-form-field>
+                                </div>
+                                <br/>
+                                <div class="question">
+                                    <div class="card">
+                                        <h3>¿En el expediente clínico se tiene registro del procentaje de borramiento del cuello uterino?</h3>
+                                    </div>
+                                </div>
+
+                                <div class="custom-control custom-radio">
+                                    <input id="borramientosi" type="radio" class="custom-control-input" value="borramientoSi" name="tieneborramiento" formControlName="tieneborramiento" (change)="onChange($event)">
+                                    <label class="custom-control-label" for="borramientosi">Si</label>
+                                </div>
+
+                                <div class="custom-control custom-radio">
+                                    <input id="borramientono" type="radio" class="custom-control-input" value="borramientoNo" name="tieneborramiento" formControlName="tieneborramiento" (change)="onChange($event)">
+                                    <label class="custom-control-label" for="borramientono">No</label>
+                                </div>
+                                <br/>
+                                <div fxLayout.gt-sm="row" fxLayout="column" fxLayoutGap.gt-sm="10px" *ngIf="borramientoType">
+                                    <mat-form-field fxFlex appearance="fill">
+                                        <mat-label>Registré el porcentaje de borramiento del cuello uterino</mat-label>
+                                        <input type="number" matInput formControlName="borramientoporcentaje">
+                                        <mat-hint>Medición en porcentaje</mat-hint>
+                                    </mat-form-field>
+                                </div>
+                                <br/>
+
+                                <div class="question">
+                                    <div class="card">
+                                        <h3>¿Se admitó a la paciente a la sala de labor con de 2-3 contraciones uterinas en 10 minutos con duración mayor o igual a 30 segundos de buena intensidad?</h3>
+                                    </div>
+                                </div>
+                                <br/>
+                                <div class="custom-control custom-radio">
+                                    <input id="laborcontraccionesi" type="radio" class="custom-control-input" value="Si" name="laborcontracciones" formControlName="laborcontracciones">
+                                    <label class="custom-control-label" for="laborcontraccionesi">Si</label>
+                                </div>
+
+                                <div class="custom-control custom-radio">
+                                    <input id="laborcontraccionesno" type="radio" class="custom-control-input" value="No" name="laborcontracciones" formControlName="laborcontracciones">
+                                    <label class="custom-control-label" for="laborcontraccionesno">No</label>
+                                </div>
+                                <br/>
+
+                                <div class="question">
+                                    <div class="card">
+                                        <h3>¿La paciente fue monitoreada utilizando el formato oficial de partograma?</h3>
+                                    </div>
+                                </div>
+                                <br/>
+                                <div class="custom-control custom-radio">
+                                    <input id="monitoreopartogramasi" type="radio" class="custom-control-input" value="Si" name="monitoreopartograma" formControlName="monitoreopartograma">
+                                    <label class="custom-control-label" for="monitoreopartogramasi">Si</label>
+                                </div>
+
+                                <div class="custom-control custom-radio">
+                                    <input id="monitoreopartogramano" type="radio" class="custom-control-input" value="No" name="monitoreopartograma" formControlName="monitoreopartograma">
+                                    <label class="custom-control-label" for="monitoreopartogramano">No</label>
+                                </div>
+                                <br/>
+
+                                <div class="question">
+                                    <div class="card">
+                                        <h3>¿Se realizó el registro gráfico de la curva de alerta para terminación del parto?</h3>
+                                    </div>
+                                </div>
+                                <br/>
+                                <div class="custom-control custom-radio">
+                                    <input id="registrograficosi" type="radio" class="custom-control-input" value="Si" name="registrograficono" formControlName="registrograficono">
+                                    <label class="custom-control-label" for="registrograficosi">Si</label>
+                                </div>
+
+                                <div class="custom-control custom-radio">
+                                    <input id="registrograficono" type="radio" class="custom-control-input" value="No" name="registrograficono" formControlName="registrograficono">
+                                    <label class="custom-control-label" for="registrograficono">No</label>
+                                </div>
+                                <br/>
+
+                                <div class="question">
+                                    <div class="card">
+                                        <h3>¿Se realizó el registro gráfico de la Frecuencia cardiaca fetal?</h3>
+                                    </div>
+                                </div>
+                                <br/>
+                                <div class="custom-control custom-radio">
+                                    <input id="graficofrecuenciafetalsi" type="radio" class="custom-control-input" value="Si" name="graficofrecuenciafetal" formControlName="graficofrecuenciafetal">
+                                    <label class="custom-control-label" for="graficofrecuenciafetalsi">Si</label>
+                                </div>
+
+                                <div class="custom-control custom-radio">
+                                    <input id="graficofrecuenciafetalno" type="radio" class="custom-control-input" value="No" name="graficofrecuenciafetal" formControlName="graficofrecuenciafetal">
+                                    <label class="custom-control-label" for="graficofrecuenciafetalno">No</label>
+                                </div>
+                                <br/>
+
+                                <div class="question">
+                                    <div class="card">
+                                        <h3>¿Se graficó la valoración del descenso de la cabeza fetal en el canal del parto?</h3>
+                                    </div>
+                                </div>
+                                <br/>
+                                <div class="custom-control custom-radio">
+                                    <input id="graficodescensofetalsi" type="radio" class="custom-control-input" value="Si" name="graficodescensofetal" formControlName="graficodescensofetal">
+                                    <label class="custom-control-label" for="graficodescensofetalsi">Si</label>
+                                </div>
+
+                                <div class="custom-control custom-radio">
+                                    <input id="graficodescensofetalno" type="radio" class="custom-control-input" value="No" name="graficodescensofetal" formControlName="graficodescensofetal">
+                                    <label class="custom-control-label" for="graficodescensofetalno">No</label>
+                                </div>
+                                <br/>
+
+                                <div class="question">
+                                    <div class="card">
+                                        <h3>¿Se detectó alguna alteración?</h3>
+                                    </div>
+                                </div>
+                                <br/>
+                                <div class="custom-control custom-radio">
+                                    <input id="detectoalteracionsi" type="radio" class="custom-control-input" value="Si" name="detectoalteracion" formControlName="detectoalteracion">
+                                    <label class="custom-control-label" for="detectoalteracionsi">Si</label>
+                                </div>
+
+                                <div class="custom-control custom-radio">
+                                    <input id="detectoalteracionno" type="radio" class="custom-control-input" value="No" name="detectoalteracion" formControlName="detectoalteracion">
+                                    <label class="custom-control-label" for="detectoalteracionno">No</label>
+                                </div>
+                                <br/>
+
+                                <div class="question">
+                                    <div class="card">
+                                        <h3>¿Existe anotada en nota médica una desición obstétrica tomada en un periodo no mayor a 30 minutos después del hallazgo?</h3>
+                                    </div>
+                                </div>
+                                <br/>
+                                <div class="custom-control custom-radio">
+                                    <input id="desicionobstetricahallazgosi" type="radio" class="custom-control-input" value="Si" name="desicionobstetricahallazgo" formControlName="desicionobstetricahallazgo">
+                                    <label class="custom-control-label" for="desicionobstetricahallazgosi">Si</label>
+                                </div>
+
+                                <div class="custom-control custom-radio">
+                                    <input id="desicionobstetricahallazgono" type="radio" class="custom-control-input" value="No" name="desicionobstetricahallazgo" formControlName="desicionobstetricahallazgo">
+                                    <label class="custom-control-label" for="desicionobstetricahallazgono">No</label>
+                                </div>
+                                <br/>
+
+                                <div class="question">
+                                    <div class="card">
+                                        <h3>Indique cuáles procedimientos o monitoreos se registraron en la nota de parto. Marque todas las opciones que aplique</h3>
+                                    </div>
+                                </div>
+                                <br/>
+                                <input (change)="checkValue($event)" type="checkbox" value="Procedimiento de asepsia" formControlName='checkboxControlName'> Procedimiento de asepsia
+                                <input (change)="checkValue($event)" type="checkbox" value="Procedimiento de anti sepsia" formControlName='checkboxControlName'> Procedimiento de anti sepsia
+                                <input (change)="checkValue($event)" type="checkbox" value="Presión arterial" formControlName='checkboxControlName'> Presión arterial
+                                <input (change)="checkValue($event)" type="checkbox" value="Frecuencia cardiaca" formControlName='checkboxControlName'> Frecuencia cardiaca
+                                <input (change)="checkValue($event)" type="checkbox" value="Pulso" formControlName='checkboxControlName'> Pulso
+                                <input (change)="checkValue($event)" type="checkbox" value="Temperatura" formControlName='checkboxControlName'> Temperatura <br/>
+                                <input (change)="checkValue($event)" type="checkbox" value="Frecuencia cardiaca fetal" formControlName='checkboxControlName'> Frecuencia cardiaca fetal
+                                <input (change)="checkValue($event)" type="checkbox" value="Ninguno de las anteriores" > Ninguno de las anteriores
+                                 <br/>   
+                                 <br/>
+                                <div class="question">
+                                    <div class="card">
+                                        <h3>¿Se administró Oxitocina 10 UI vía IM o IV ?</h3>
+                                    </div>
+                                </div>
+                                <br/>
+                                <div class="custom-control custom-radio">
+                                    <input id="administrooxitocinasi" type="radio" class="custom-control-input" value="Si" name="administrooxitocina" formControlName="administrooxitocina">
+                                    <label class="custom-control-label" for="administrooxitocinasi">Si</label>
+                                </div>
+
+                                <div class="custom-control custom-radio">
+                                    <input id="administrooxitocinano" type="radio" class="custom-control-input" value="No" name="administrooxitocina" formControlName="administrooxitocina">
+                                    <label class="custom-control-label" for="administrooxitocinasi">No</label>
+                                </div>
+                                <br/>
+
+                                <div class="question">
+                                    <div class="card">
+                                        <h3>¿Se realizo el pinzamiento y corte del cordón umbilical 30 a 60 segundos después del nacimiento?</h3>
+                                    </div>
+                                </div>
+                                <br/>
+                                <div class="custom-control custom-radio">
+                                    <input id="pinzamientocordonumbilicalsi" type="radio" class="custom-control-input" value="Si" name="pinzamientocordonumbilical" formControlName="pinzamientocordonumbilical">
+                                    <label class="custom-control-label" for="pinzamientocordonumbilicalsi">Si</label>
+                                </div>
+
+                                <div class="custom-control custom-radio">
+                                    <input id="pinzamientocordonumbilicalno" type="radio" class="custom-control-input" value="No" name="pinzamientocordonumbilical" formControlName="pinzamientocordonumbilical">
+                                    <label class="custom-control-label" for="pinzamientocordonumbilicalno">No</label>
+                                </div>
+                                <br/>
+
+                                <div class="question">
+                                    <div class="card">
+                                        <h3>¿Se realizaron correctamente los cuidados del cordón umbilical?</h3>
+                                    </div>
+                                </div>
+                                <br/>
+                                <div class="custom-control custom-radio">
+                                    <input id="cuidadoscordonumbilicalsi" type="radio" class="custom-control-input" value="Si" name="cuidadoscordonumbilical" formControlName="cuidadoscordonumbilical">
+                                    <label class="custom-control-label" for="cuidadoscordonumbilicalsi">Si</label>
+                                </div>
+
+                                <div class="custom-control custom-radio">
+                                    <input id="cuidadoscordonumbilicalno" type="radio" class="custom-control-input" value="No" name="cuidadoscordonumbilical" formControlName="cuidadoscordonumbilical">
+                                    <label class="custom-control-label" for="cuidadoscordonumbilicalno">No</label>
+                                </div>
+
+                                <div class="custom-control custom-radio">
+                                    <input id="cuidadoscordonumbilicalnoregistrado" type="radio" class="custom-control-input" value="No registrado" name="cuidadoscordonumbilical" formControlName="cuidadoscordonumbilical">
+                                    <label class="custom-control-label" for="cuidadoscordonumbilicalnoregistrado">No registrado</label>
+                                </div>
+                                <br/>
+
+                                <div class="question">
+                                    <div class="card">
+                                        <h3>¿Se realizó valoración del Apgar al minuto?</h3>
+                                    </div>
+                                </div>
+                                <br/>
+                                <div class="custom-control custom-radio">
+                                    <input id="valoracionapgarminutosi" type="radio" class="custom-control-input" value="Si" name="valoracionapgarminuto" formControlName="valoracionapgarminuto">
+                                    <label class="custom-control-label" for="valoracionapgarminutosi">Si</label>
+                                </div>
+
+                                <div class="custom-control custom-radio">
+                                    <input id="valoracionapgarminutono" type="radio" class="custom-control-input" value="No" name="valoracionapgarminuto" formControlName="valoracionapgarminuto">
+                                    <label class="custom-control-label" for="valoracionapgarminutono">No</label>
+                                </div>
+
+                                <div class="custom-control custom-radio">
+                                    <input id="valoracionapgarminutonoregistrado" type="radio" class="custom-control-input" value="No registrado" name="valoracionapgarminuto" formControlName="valoracionapgarminuto">
+                                    <label class="custom-control-label" for="valoracionapgarminutonoregistrado">No registrado</label>
+                                </div>
+                                <br/>
+
+                                <div class="question">
+                                    <div class="card">
+                                        <h3>¿Se realizó valoración del Apgar a los 5 min?</h3>
+                                    </div>
+                                </div>
+                                <br/>
+                                <div class="custom-control custom-radio">
+                                    <input id="valoracionapgarcincominutosi" type="radio" class="custom-control-input" value="Si" name="valoracionapgarcincominutos" formControlName="valoracionapgarcincominutos">
+                                    <label class="custom-control-label" for="valoracionapgarcincominutosi">Si</label>
+                                </div>
+
+                                <div class="custom-control custom-radio">
+                                    <input id="valoracionapgarcincominutosno" type="radio" class="custom-control-input" value="No" name="valoracionapgarcincominutos" formControlName="valoracionapgarcincominutos">
+                                    <label class="custom-control-label" for="valoracionapgarcincominutosno">No</label>
+                                </div>
+
+                                <div class="custom-control custom-radio">
+                                    <input id="valoracionapgarcincominutosnoregistrado" type="radio" class="custom-control-input" value="No registrado" name="valoracionapgarcincominutos" formControlName="valoracionapgarcincominutos">
+                                    <label class="custom-control-label" for="valoracionapgarcincominutosnoregistrado">No registrado</label>
+                                </div>
+                                <br/>
+
+                                <div class="question">
+                                    <div class="card">
+                                        <h3>¿Se realizó valoración Silverman Anderson?</h3>
+                                    </div>
+                                </div>
+                                <br/>
+                                <div class="custom-control custom-radio">
+                                    <input id="valoracionsilvermansi" type="radio" class="custom-control-input" value="Si" name="valoracionsilverman" formControlName="valoracionsilverman">
+                                    <label class="custom-control-label" for="valoracionsilvermansi">Si</label>
+                                </div>
+
+                                <div class="custom-control custom-radio">
+                                    <input id="valoracionsilvermanno" type="radio" class="custom-control-input" value="No" name="valoracionsilverman" formControlName="valoracionsilverman">
+                                    <label class="custom-control-label" for="valoracionsilvermanno">No</label>
+                                </div>
+
+                                <div class="custom-control custom-radio">
+                                    <input id="valoracionsilvermannoregistrado" type="radio" class="custom-control-input" value="No registrado" name="valoracionsilverman" formControlName="valoracionsilverman">
+                                    <label class="custom-control-label" for="valoracionsilvermannoregistrado">No registrado</label>
+                                </div>
+                                <br/>
+
+                                <div class="question">
+                                    <div class="card">
+                                        <h3>¿Se administró vitamina K 1 Mg vía IM ?</h3>
+                                    </div>
+                                </div>
+                                <br/>
+                                <div class="custom-control custom-radio">
+                                    <input id="vitaminaksi" type="radio" class="custom-control-input" value="Si" name="vitaminak" formControlName="vitaminak">
+                                    <label class="custom-control-label" for="vitaminaksi">Si</label>
+                                </div>
+
+                                <div class="custom-control custom-radio">
+                                    <input id="vitaminakno" type="radio" class="custom-control-input" value="No" name="vitaminak" formControlName="vitaminak">
+                                    <label class="custom-control-label" for="vitaminakno">No</label>
+                                </div>
+
+                                <div class="custom-control custom-radio">
+                                    <input id="vitaminaknoregistrado" type="radio" class="custom-control-input" value="No registrado" name="vitaminak" formControlName="vitaminak">
+                                    <label class="custom-control-label" for="vitaminak">No registrado</label>
+                                </div>
+                                <br/>
+
+                                <div class="question">
+                                    <div class="card">
+                                        <h3>¿Se administró Antibiotico local en ambos ojos ?</h3>
+                                    </div>
+                                </div>
+                                <br/>
+                                <div class="custom-control custom-radio">
+                                    <input id="antibioticolocalojossi" type="radio" class="custom-control-input" value="Si" name="antibioticolocalojos" formControlName="antibioticolocalojos">
+                                    <label class="custom-control-label" for="antibioticolocalojossi">Si</label>
+                                </div>
+
+                                <div class="custom-control custom-radio">
+                                    <input id="antibioticolocalojosno" type="radio" class="custom-control-input" value="No" name="antibioticolocalojos" formControlName="antibioticolocalojos">
+                                    <label class="custom-control-label" for="antibioticolocalojosno">No</label>
+                                </div>
+
+                                <div class="custom-control custom-radio">
+                                    <input id="antibioticolocalojosnoregistrado" type="radio" class="custom-control-input" value="No registrado" name="antibioticolocalojos" formControlName="antibioticolocalojos">
+                                    <label class="custom-control-label" for="antibioticolocalojosnoregistrado">No registrado</label>
+                                </div>
+                                <br/>
+
+                                <div class="question">
+                                    <div class="card">
+                                        <h3>¿Se realizó el examen fisico completo?</h3>
+                                    </div>
+                                </div>
+                                <br/>
+                                <div class="custom-control custom-radio">
+                                    <input id="examenfisicocompletosi" type="radio" class="custom-control-input" value="Si" name="examenfisicocompleto" formControlName="examenfisicocompleto">
+                                    <label class="custom-control-label" for="examenfisicocompletosi">Si</label>
+                                </div>
+
+                                <div class="custom-control custom-radio">
+                                    <input id="examenfisicocompletono" type="radio" class="custom-control-input" value="No" name="examenfisicocompleto" formControlName="examenfisicocompleto">
+                                    <label class="custom-control-label" for="examenfisicocompletono">No</label>
+                                </div>
+
+                                <div class="custom-control custom-radio">
+                                    <input id="examenfisicocompletonoregistrado" type="radio" class="custom-control-input" value="No registrado" name="examenfisicocompleto" formControlName="examenfisicocompleto">
+                                    <label class="custom-control-label" for="examenfisicocompletonoregistrado">No registrado</label>
+                                </div>
+                                <br/>
+
+                                <div class="question">
+                                    <div class="card">
+                                        <h3>Indique cuáles medidas antropométricas se realizaron. Marque todas las que aplique</h3>
+                                    </div>
+                                </div>
+                                <br/>
+                                <input (change)="checkValueAntropometricas($event)" type="checkbox" value="Perímetro cefálico" formControlName='checkboxAntropometricas'> Perímetro cefálico
+                                <input (change)="checkValueAntropometricas($event)" type="checkbox" value=" Medición toraxica" formControlName='checkboxAntropometricas'>  Medición toraxica
+                                <input (change)="checkValueAntropometricas($event)" type="checkbox" value="Presión arterial" formControlName='checkboxAntropometricas'> Presión arterial
+                                <input (change)="checkValueAntropometricas($event)" type="checkbox" value="Talla" formControlName='checkboxAntropometricas'> Talla
+                                <input (change)="checkValueAntropometricas($event)" type="checkbox" value="Peso" formControlName='checkboxAntropometricas'> Peso
+                                <input (change)="checkValueAntropometricas($event)" type="checkbox" value="Ninguno de las anteriores" > Ninguno de las anteriores
+                                 <br/>   
+                                 <br/>
+
+                                 <div class="question">
+                                    <div class="card">
+                                        <h3>¿Se realizó la valoración de la edad gestacional?</h3>
+                                    </div>
+                                </div>
+                                <br/>
+                                <div class="custom-control custom-radio">
+                                    <input id="valoracionedadgestacionalsi" type="radio" class="custom-control-input" value="Si" name="valoracionedadgestacional" formControlName="valoracionedadgestacional">
+                                    <label class="custom-control-label" for="valoracionedadgestacionalsi">Si</label>
+                                </div>
+
+                                <div class="custom-control custom-radio">
+                                    <input id="valoracionedadgestacionalno" type="radio" class="custom-control-input" value="No" name="valoracionedadgestacional" formControlName="valoracionedadgestacional">
+                                    <label class="custom-control-label" for="valoracionedadgestacionalno">No</label>
+                                </div>
+
+                                <div class="custom-control custom-radio">
+                                    <input id="valoracionedadgestacionalnoregistrado" type="radio" class="custom-control-input" value="No registrado" name="valoracionedadgestacional" formControlName="valoracionedadgestacional">
+                                    <label class="custom-control-label" for="valoracionedadgestacionalnoregistrado">No registrado</label>
+                                </div>
+                                <br/>
+
+                                <div class="question">
+                                    <div class="card">
+                                        <h3>¿Se realizó la valoración de la madurez fisica y neuromuscular?</h3>
+                                    </div>
+                                </div>
+                                <br/>
+                                <div class="custom-control custom-radio">
+                                    <input id="valoracionmadurezfisicasi" type="radio" class="custom-control-input" value="Si" name="valoracionmadurezfisica" formControlName="valoracionmadurezfisica">
+                                    <label class="custom-control-label" for="valoracionmadurezfisicasi">Si</label>
+                                </div>
+
+                                <div class="custom-control custom-radio">
+                                    <input id="valoracionmadurezfisicano" type="radio" class="custom-control-input" value="No" name="valoracionmadurezfisica" formControlName="valoracionmadurezfisica">
+                                    <label class="custom-control-label" for="valoracionmadurezfisicano">No</label>
+                                </div>
+
+                                <div class="custom-control custom-radio">
+                                    <input id="valoracionmadurezfisicanoregistrado" type="radio" class="custom-control-input" value="No registrado" name="valoracionmadurezfisica" formControlName="valoracionmadurezfisica">
+                                    <label class="custom-control-label" for="valoracionmadurezfisicanoregistrado">No registrado</label>
+                                </div>
+                                <br/>
+
+                                <div class="question">
+                                    <div class="card">
+                                        <h3>Seleccione el diagnóstico completo de acuerdo con el CIE-10</h3>
+                                    </div>
+                                </div>
+                                <br/>
+                                <div class="custom-control custom-radio">
+                                    <input id="cie101" type="radio" class="custom-control-input" value="Nacido vivo, único / nacido único vivo por parto vaginal" name="cie10" formControlName="cie10">
+                                    <label class="custom-control-label" for="cie101">Nacido vivo, único / nacido único vivo por parto vaginal</label>
+                                </div>
+
+                                <div class="custom-control custom-radio">
+                                    <input id="cie102" type="radio" class="custom-control-input" value="Producto único nacido en hospital" name="cie10" formControlName="cie10">
+                                    <label class="custom-control-label" for="cie101">Producto único nacido en hospital</label>
+                                </div>
+
+                                <div class="custom-control custom-radio">
+                                    <input id="cie103" type="radio" class="custom-control-input" value="Gemelos, nacidos en hospital" name="cie10" formControlName="cie10">
+                                    <label class="custom-control-label" for="cie103">Gemelos, nacidos en hospital</label>
+                                </div>
+                                <br/>
+
+                                <div class="question">
+                                    <div class="card">
+                                        <h3>Indiqué cuáles de los siguientes criterios se valoraron cada 15 minutos (4 veces) durante la primera hora después del parto. Marque todas las opciones que apliquen.</h3>
+                                    </div>
+                                </div>
+                                <br/>
+                                <input (change)="checkValueCriterios15($event)" type="checkbox" value="Pulso" formControlName='criterios15'> Pulso
+                                <input (change)="checkValueCriterios15($event)" type="checkbox" value="Presión arterial" formControlName='criterios15'>  Presión arterial
+                                <input (change)="checkValueCriterios15($event)" type="checkbox" value="Frecuencia cardiaca" formControlName='criterios15'> Frecuencia cardiaca
+                                <input (change)="checkValueCriterios15($event)" type="checkbox" value="Frecuencia respiratoria" formControlName='criterios15'> Frecuencia respiratoria
+                                <input (change)="checkValueCriterios15($event)" type="checkbox" value="Temperatura" formControlName='criterios15'> Temperatura
+                                <input (change)="checkValueCriterios15($event)" type="checkbox" value="Involución uterina" formControlName='criterios15'> Involución uterina
+                                <input (change)="checkValueCriterios15($event)" type="checkbox" value="Llenado capilar" formControlName='criterios15'> Llenado capilar
+                                <input (change)="checkValueCriterios15($event)" type="checkbox" value="Cuantificación de sangrado en ml." formControlName='criterios15'> Cuantificación de sangrado en ml.
+                                <input (change)="checkValueCriterios15($event)" type="checkbox" value="Ninguno de las anteriores" > Ninguno de las anteriores
+                                 <br/>   
+                                 <br/>
+
+                                 <div class="question">
+                                    <div class="card">
+                                        <h3>¿La paciente recibió algún método anticonceptivo?</h3>
+                                    </div>
+                                </div>
+                                <br/>
+                                <div class="custom-control custom-radio">
+                                    <input id="anticonceptivosi" type="radio" class="custom-control-input" value="anticonceptivoSi" name="anticonceptivo" (change)="onChange($event)">
+                                    <label class="custom-control-label" for="anticonceptivosi">Si</label>
+                                </div>
+
+                                <div class="custom-control custom-radio">
+                                    <input id="anticonceptivono" type="radio" class="custom-control-input" value="anticonceptivoNo" name="anticonceptivo" (change)="onChange($event)">
+                                    <label class="custom-control-label" for="anticonceptivono">No</label>
+                                </div>
+
+                                <br/>
+                                <div fxLayout.gt-sm="row" fxLayout="column" fxLayoutGap.gt-sm="10px" *ngIf="anticonceptivoType">
+                                    
+                                    <div class="custom-control custom-radio">
+                                        <input id="anticonceptivo1" type="radio" class="custom-control-input" value="Oclusión Tubarica Bilateral (OTB)" name="tipoanticonceptivo" formControlName="tipoanticonceptivo">
+                                        <label class="custom-control-label" for="anticonceptivo1">Oclusión Tubarica Bilateral (OTB)</label>
+                                    </div>
+    
+                                    <div class="custom-control custom-radio">
+                                        <input id="anticonceptivo2" type="radio" class="custom-control-input" value="Implante subdérmico" name="tipoanticonceptivo" formControlName="tipoanticonceptivo">
+                                        <label class="custom-control-label" for="anticonceptivo2">Implante subdérmico</label>
+                                    </div>
+    
+                                    <div class="custom-control custom-radio">
+                                        <input id="anticonceptivo3" type="radio" class="custom-control-input" value="Dispositivo intauterino (DIU) de cobre o medicado" name="tipoanticonceptivo" formControlName="tipoanticonceptivo">
+                                        <label class="custom-control-label" for="anticonceptivo3">Dispositivo intauterino (DIU) de cobre o medicado</label>
+                                    </div>
+                                    <div class="custom-control custom-radio">
+                                        <input id="anticonceptivo4" type="radio" class="custom-control-input" value="Anticonceptivos orales orales" name="tipoanticonceptivo" formControlName="tipoanticonceptivo">
+                                        <label class="custom-control-label" for="anticonceptivo4">Anticonceptivos orales orales</label>
+                                    </div>
+    
+                                    <div class="custom-control custom-radio">
+                                        <input id="anticonceptivo5" type="radio" class="custom-control-input" value="Anticonceptivos inyectable" name="tipoanticonceptivo" formControlName="tipoanticonceptivo">
+                                        <label class="custom-control-label" for="anticonceptivo5">Anticonceptivo inyectable</label>
+                                    </div>
+    
+                                    <div class="custom-control custom-radio">
+                                        <input id="anticonceptivo6" type="radio" class="custom-control-input" value="Ninguna de las anteriores" name="tipoanticonceptivo" formControlName="tipoanticonceptivo">
+                                        <label class="custom-control-label" for="anticonceptivo6">Ninguna de las anteriores</label>
+                                    </div>
+                                </div>
+                                <br/>
+
+                                <div class="question">
+                                    <div class="card">
+                                        <h3>¿La paciente firmó el documento de consentimiento informado tanto si aceptó o rechazó métodos anticonceptivos?</h3>
+                                    </div>
+                                </div>
+                                <br/>
+                                <div class="custom-control custom-radio">
+                                    <input id="firmaconsentimientosi" type="radio" class="custom-control-input" value="Si" name="firmaconsentimiento" formControlName="firmaconsentimiento">
+                                    <label class="custom-control-label" for="firmaconsentimientosi">Si</label>
+                                </div>
+
+                                <div class="custom-control custom-radio">
+                                    <input id="firmaconsentimientono" type="radio" class="custom-control-input" value="No" name="firmaconsentimiento" formControlName="firmaconsentimiento">
+                                    <label class="custom-control-label" for="firmaconsentimientono">No</label>
+                                </div>
+
+                                <div class="question">
+                                    <div class="card">
+                                        <h3>Indique cuáles de los siguientes criterios se valoraron al menos dos veces posterior a la segunda hora y hasta 24 horas despúes del parto. Marque todos los que apliquen.</h3>
+                                    </div>
+                                </div>
+                                <br/>
+                                <input (change)="checkValueCriterios24($event)" type="checkbox" value="Pulso" formControlName='criterios24'> Pulso
+                                <input (change)="checkValueCriterios24($event)" type="checkbox" value="Presión arterial" formControlName='criterios24'>  Presión arterial
+                                <input (change)="checkValueCriterios24($event)" type="checkbox" value="Frecuencia cardiaca" formControlName='criterios24'> Frecuencia cardiaca
+                                <input (change)="checkValueCriterios24($event)" type="checkbox" value="Frecuencia respiratoria" formControlName='criterios24'> Frecuencia respiratoria
+                                <input (change)="checkValueCriterios24($event)" type="checkbox" value="Temperatura" formControlName='criterios24'> Temperatura
+                                <input (change)="checkValueCriterios24($event)" type="checkbox" value="Involución uterina" formControlName='criterios24'> Involución uterina
+                                <input (change)="checkValueCriterios24($event)" type="checkbox" value="Llenado capilar" formControlName='criterios24'> Llenado capilar
+                                <input (change)="checkValueCriterios24($event)" type="checkbox" value="Cuantificación de sangrado en ml." formControlName='criterios24'> Cuantificación de sangrado en ml.
+                                <input (change)="checkValueCriterios24($event)" type="checkbox" value="Ninguno de las anteriores" > Ninguno de las anteriores
+                                 <br/>   
+                                 <br/>
+                                
+                        </div>
+                    </div>
+
+                    <div mat-dialog-actions>
+                        <span fxFlex></span>
+                        <button mat-raised-button  color="primary"   [disabled]="quizAnswersForm.invalid || isLoading"><mat-icon>save</mat-icon> Guardar</button>
+                        </div>
+
+
+                </ng-container>
+
+            </mat-card-content>
+        </mat-card>
+    </div>
+</div>

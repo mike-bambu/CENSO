@@ -4,12 +4,15 @@ import { AuthGuard } from '../auth/auth.guard';
 import { CalidadComponent } from './calidad.component';
 import { ListaComponentPartos } from './partos/lista-partos/lista-partos.component';
 import { QuestionsComponent } from './questions/questions.component';
+import { PartosQuestionsComponent } from './partos-questions/partos-questions.component';
 
 const routes: Routes = [
   { path: 'calidad', component: CalidadComponent, canActivate: [AuthGuard] },
   { path: 'calidad/vista-partos', component: ListaComponentPartos, canActivate: [AuthGuard] },
   { path: 'calidad/questions', component: QuestionsComponent, canActivate: [AuthGuard] },
   { path: 'calidad/questions/:id',       component: QuestionsComponent, canActivate: [AuthGuard] },
+  { path: 'calidad/partos-questions',       component: PartosQuestionsComponent, canActivate: [AuthGuard] },
+  { path: 'calidad/partos-questions/:id',       component: PartosQuestionsComponent, canActivate: [AuthGuard] },
 ];
 
 @NgModule({

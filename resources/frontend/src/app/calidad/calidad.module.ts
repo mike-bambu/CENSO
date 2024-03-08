@@ -11,6 +11,7 @@ import { ListaComponentPartos } from './partos/lista-partos/lista-partos.compone
 import { DetailsDialogComponent } from './details-dialog/details-dialog.component';
 import { QuestionsComponent } from './questions/questions.component';
 import { ChangeBgDirective } from './change-bg.directive';
+import { PartosQuestionsComponent } from './partos-questions/partos-questions.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { ChangeBgDirective } from './change-bg.directive';
     CalidadComponent,
     DetailsDialogComponent,
     QuestionsComponent,
-    ChangeBgDirective
+    ChangeBgDirective,
+    PartosQuestionsComponent
     
   ],
   

@@ -2,7 +2,7 @@
     <div class="form-container">
         <div class="data-loading-shade" *ngIf="isLoading"><mat-spinner></mat-spinner></div>
         <br/>
-        <mat-card class="card" >
+        <mat-card class="card" *ngIf="!isQuizCompleted">
             <mat-card-title class="icon-text" *ngIf="!isQuizCompleted">
                 <mat-icon>sick</mat-icon>&nbsp; Medición de la calidad para partos - Cuestionario {{totalIterations}} de {{totalFiles}}
             </mat-card-title>
@@ -600,5 +600,51 @@
 
             </mat-card-content>
         </mat-card>
+
+        <mat-card class="card" *ngIf="isQuizCompleted">
+            <mat-card-content>
+
+                <mat-card-title class="icon-text" *ngIf="isQuizCompleted">
+                    <mat-icon>sick</mat-icon>&nbsp; {{authClues.nombre}}
+                </mat-card-title>
+                <br/>
+                <mat-card-title class="icon-text" *ngIf="isQuizCompleted">
+                  Resumen de revisión, mes {{mesrevision}}, expedientes revisados {{totalFiles}}
+                </mat-card-title>
+                <mat-card-subtitle *ngIf="isQuizCompleted">
+                    Evaluación generada por {{authUser.name}}
+                </mat-card-subtitle>
+
+            </mat-card-content>
+        </mat-card>
+        <br/>
+        <mat-card class="card" *ngIf="isQuizCompleted">
+            <mat-card-title class="text" *ngIf="isQuizCompleted">
+                Indicadores del módulo de parto
+            </mat-card-title>
+            <ul>
+                <li>Dilatación del cuello uterino mayor a 4 cms y Borramiento del cuello uterino mayor a 50% y  Contraciones uterinas de 2-3 en 10 minutos de intensidad mayor de 30 segundos de duración. - <strong>{{resultado1}}</strong></li>
+                <li>Uso de formato oficial de partograma y registro de grafico de curva curva de alerta y Frecuencia cardiaca fetal y valoración del descenso de la cabeza fetal. - <strong>{{resultado2}}</strong></li>
+                <li>Si existe alteración existe anotación obstétrica en en nota medica. - <strong>{{resultado3}}</strong></li>
+                <li>Procedimiento de asepsia y Procedimiento de anti sepsia y Presion arterial y frecuencia cardiaca y pulso y temperatura y frecuencia cardiaca fetal. - <strong>{{resultado4}}</strong></li>
+                <li>Se administró  Oxitocina 10 UI vía IM o IV. - <strong>{{resultado5}}</strong></li>
+                <li>Se realizo el pinzamiento y corte del cordón umbilical 30 a 60 segundos después del nacimiento. - <strong>{{resultado6}}</strong></li>
+                <li>Pulso y Presión arterial y Frecuencia cardiaca y Frecuencia respiratoria y Temperatura e Involución uterina y Llenado capilar y Cuantificación de sangrado en ml. 4 veces. - <strong>{{resultado7}}</strong></li>
+                <li>Pulso y Presión arterial y Frecuencia cardiaca y Frecuencia respiratoria y Temperatura e Involución uterina y Llenado capilar y Cuantificación de sangrado en ml. 2 veces. - <strong>{{resultado8}}</strong></li>
+                <li>Al menos un método anticonceptivo seleccionado si la persona aceptó métodos anticonceptivos. - <strong>{{resultado9}}</strong></li>
+                <li>Documento firmado - <strong>{{resultado10}}</strong></li>
+                <li>Pulso y Presión arterial y Frecuencia cardiaca y Frecuencia respiratoria y Temperatura y Involución uterina y Llenado capilar y Cuantificación de sangrado en ml. - <strong>{{resultado11}}</strong></li>
+                <li>cuidados del cordón umbilical, Apgar al minuto y al los 5 minutos y valoración silverman anderson y vitamina k y antibiótico en ambos ojos y examen físico completo y todas las medidas antopométricas y valoración de edad gestacional y valoración de la madurez física y neuromuscular. - <strong>{{resultado12}}</strong></li>
+            </ul>
+
+            <div mat-dialog-actions>
+                <span fxFlex></span>
+                <button mat-raised-button  color="primary"  (click)="redirect()"><mat-icon>start</mat-icon> Terminar</button>
+                </div>
+        </mat-card>
+       
+
+
+
     </div>
 </div>

@@ -153,6 +153,7 @@ export class AuthService {
     localStorage.removeItem('totalIterations');
     localStorage.removeItem('headerID');
     localStorage.removeItem('totalFiles');
+    localStorage.removeItem('reviewMonth');
     this.authChange.next(false);
     this.router.navigate(['/login']);
   }
